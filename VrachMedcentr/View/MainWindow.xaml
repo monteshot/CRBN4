@@ -42,6 +42,7 @@
 
 
         <Grid Grid.Column="0">
+          
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.05*"/>
                 <RowDefinition Height="0.65*"/>
@@ -224,7 +225,7 @@
                         <RowDefinition/>
 
                             </Grid.RowDefinitions>
-                    <Button Command="{Binding Test}">
+                    <Button Command="{Binding Test}" Visibility="Hidden">
                         <Button.Template>
                             <ControlTemplate>
                                 <Grid x:Name="controlLayout">
@@ -237,7 +238,7 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
-                    <TextBlock Grid.Row="1" Text="{Binding TextTest}"></TextBlock>
+                    <TextBlock Grid.Row="1" Text="{Binding TextTest}" Visibility="Hidden"></TextBlock>
                             <!--<TextBlock FontSize="15" TextAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Text="Підсумковий результат:" FontWeight="Bold"/>
                             <StackPanel Grid.Row="1" Orientation="Vertical">
                                 <TextBlock FontSize="15" TextAlignment="Left" VerticalAlignment="Center" Text="Лікар:" />
@@ -278,11 +279,10 @@
                                     <DataTemplate>
                                         <Grid>
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition></ColumnDefinition>
-                                                <ColumnDefinition></ColumnDefinition>
+                                                <ColumnDefinition></ColumnDefinition>                                                
                                             </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="0" Foreground="{Binding Status}"  FontSize="18" Text="{Binding Label, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
-                                            <TextBlock Grid.Column="1" FontSize="18" Text="{Binding TimeProperties, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
+                                            <!--<TextBlock Grid.Column="1" FontSize="18" Text="{Binding TimeProperties, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>-->
 
                                 </Grid>
                                 <!--<StackPanel Margin="5" Orientation="Horizontal" HorizontalAlignment="Center">
@@ -363,8 +363,10 @@
                                 <TextBlock  Margin="10,0,0,0" FontSize="20"  Background="#8FC1E5" Foreground="White" VerticalAlignment="Center" Grid.Column="2">Час</TextBlock>
                                 <TextBlock  Margin="10,0,0,0" FontSize="20" Background="#8FC1E5" Foreground="White" VerticalAlignment="Center" Grid.Column="3">Коментар</TextBlock>
                                 <TextBlock  Margin="10,0,0,0" FontSize="20" Background="#8FC1E5" Foreground="White" VerticalAlignment="Center" Grid.Column="4">Не прийшов</TextBlock>
-                                <TextBlock  Margin="10,0,0,0" FontSize="20" Background="#8FC1E5" Foreground="White" VerticalAlignment="Center" Grid.Column="5">uID</TextBlock>
+                                <TextBlock  Margin="10,0,0,0" FontSize="20" Background="#8FC1E5" Foreground="White" VerticalAlignment="Center" Grid.Column="5">Друк</TextBlock>
+                               
                             </Grid>
+
                             <ItemsPresenter></ItemsPresenter>
                         </DockPanel>
                     </ControlTemplate>
@@ -396,7 +398,9 @@
                             <!--<TextBlock Grid.Column="4" FontSize="20" Text=" | Не прийшов: "/>-->
                             <CheckBox Grid.Column="4" FontSize="20" IsChecked="{Binding NotComing}"/>
                             <!--<TextBlock Grid.Column="5" FontSize="20" Text=" | uID: "/>-->
-                            <TextBlock Margin="10,0,0,0" Grid.Column="5" FontSize="20" Text="{Binding IDUser}"/>
+                            <!--<TextBlock Margin="10,0,0,0" Grid.Column="5" FontSize="20" Text="{Binding IDUser}"/>-->
+                            <Button Grid.Column="5" Margin="10,0,0,0" Style="{DynamicResource ButtonBlue}"  Command="{Binding ElementName=Registratyra,Path=DataContext.printTalon}" CommandParameter="{Binding}">Друк</Button>
+
 
                         </Grid>
                     </DataTemplate>

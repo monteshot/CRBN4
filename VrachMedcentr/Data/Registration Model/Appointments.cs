@@ -12,6 +12,7 @@
         public string TimeAppomination { get; set; }
         public string Comment { get; set; }
         public bool NotComing { get; set; }
+        public string NumOrder { get; set; }
 
     }
 }

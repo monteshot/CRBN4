@@ -816,8 +816,8 @@ namespace VrachMedcentr
                         Pacient = dr.GetString("rfio"),
                         TimeAppomination = dr.GetString("hours") + " : " + dr.GetString("minutes"),
                         Comment = "Коментар відсутній",// добавить коментарий при записис?
-                        NotComing = false//вытащить с базы когда добавит димас
-
+                        NotComing = false,//вытащить с базы когда добавит димас
+                        NumOrder=dr.GetString("number_order")
                     });
                 }
             }
@@ -1107,6 +1107,7 @@ namespace VrachMedcentr
 
                     temp.Add(new Times
                     {
+                        //вкинуть в класс одну из переменных
                         Time = dr.GetString("hrtime") +":"+ dr.GetString("mntime"),
                         Label = dr.GetString("hrtime") +":"+ dr.GetString("mntime"),
                         Status = result
@@ -1117,7 +1118,8 @@ namespace VrachMedcentr
             }
             cmd.Parameters.Clear();
             con.Close();
-
+            temp = temp.OrderBy(p => p.Label).ToList();
+            return temp;
 
 
             //DataTable tempData = get_ekfgq_ttfsp_dop();
@@ -1178,8 +1180,7 @@ namespace VrachMedcentr
             //    }
             //}
 
-            //temp = temp.OrderBy(p => p.Label).ToList();
-            return temp;
+
         }
         /// <summary>
         /// Function for check aveliable list of doctors shedule
@@ -1419,6 +1420,32 @@ namespace VrachMedcentr
             cmd.CommandText = "DELETE FROM enx4w_ttfsp WHERE idspec =@idSpec AND dttime=@dttime";
             cmd.Parameters.AddWithValue("@idSpec", idSpec);
             cmd.Parameters.AddWithValue("@dttime", dttime);
+            cmd.Connection = con;
+            cmd.ExecuteNonQuery();
+            con.Close();
+
+            //synhronyze.SynhronyzeTable("ekfgq_ttfsp", 2);
+        }
+        public void RemTimeInWorkDay(string idSpec, DateTime dttime, string _hrtime, string _mntime)
+        {
+
+            MySqlConnectionStringBuilder mysqlCSB;
+            mysqlCSB = new MySqlConnectionStringBuilder();
+            mysqlCSB.Server = server;
+            mysqlCSB.Database = database;
+            mysqlCSB.UserID = UserID;
+            mysqlCSB.Password = Password;
+            string Id = null;
+            MySqlConnection con = new MySqlConnection();
+            con.ConnectionString = mysqlCSB.ConnectionString;
+            MySqlCommand cmd = new MySqlCommand();
+
+            con.Open();
+            cmd.CommandText = "DELETE FROM enx4w_ttfsp WHERE idspec =@idSpec AND dttime=@dttime AND hrtime=@hrtime AND mntime=@mntime";
+            cmd.Parameters.AddWithValue("@idSpec", idSpec);
+            cmd.Parameters.AddWithValue("@dttime", dttime);
+            cmd.Parameters.AddWithValue("@hrtime", _hrtime);
+            cmd.Parameters.AddWithValue("@mntime", _mntime);
             cmd.Connection = con;
             cmd.ExecuteNonQuery();
             con.Close();
