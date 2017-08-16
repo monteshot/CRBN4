@@ -42,6 +42,7 @@
 
 
         <Grid Grid.Column="0">
+          
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.05*"/>
                 <RowDefinition Height="0.65*"/>
@@ -363,8 +364,10 @@
                                 <TextBlock  Margin="10,0,0,0" FontSize="20"  Background="#8FC1E5" Foreground="White" VerticalAlignment="Center" Grid.Column="2">Час</TextBlock>
                                 <TextBlock  Margin="10,0,0,0" FontSize="20" Background="#8FC1E5" Foreground="White" VerticalAlignment="Center" Grid.Column="3">Коментар</TextBlock>
                                 <TextBlock  Margin="10,0,0,0" FontSize="20" Background="#8FC1E5" Foreground="White" VerticalAlignment="Center" Grid.Column="4">Не прийшов</TextBlock>
-                                <TextBlock  Margin="10,0,0,0" FontSize="20" Background="#8FC1E5" Foreground="White" VerticalAlignment="Center" Grid.Column="5">uID</TextBlock>
+                                <TextBlock  Margin="10,0,0,0" FontSize="20" Background="#8FC1E5" Foreground="White" VerticalAlignment="Center" Grid.Column="5">Друк</TextBlock>
+                               
                             </Grid>
+
                             <ItemsPresenter></ItemsPresenter>
                         </DockPanel>
                     </ControlTemplate>
@@ -396,7 +399,9 @@
                             <!--<TextBlock Grid.Column="4" FontSize="20" Text=" | Не прийшов: "/>-->
                             <CheckBox Grid.Column="4" FontSize="20" IsChecked="{Binding NotComing}"/>
                             <!--<TextBlock Grid.Column="5" FontSize="20" Text=" | uID: "/>-->
-                            <TextBlock Margin="10,0,0,0" Grid.Column="5" FontSize="20" Text="{Binding IDUser}"/>
+                            <!--<TextBlock Margin="10,0,0,0" Grid.Column="5" FontSize="20" Text="{Binding IDUser}"/>-->
+                            <Button Grid.Column="5" Margin="10,0,0,0" Style="{DynamicResource ButtonBlue}"  Command="{Binding ElementName=Registratyra,Path=DataContext.printTalon}" CommandParameter="{Binding}">Друк</Button>
+
 
                         </Grid>
                     </DataTemplate>

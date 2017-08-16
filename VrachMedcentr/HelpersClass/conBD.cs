@@ -816,8 +816,8 @@ namespace VrachMedcentr
                         Pacient = dr.GetString("rfio"),
                         TimeAppomination = dr.GetString("hours") + " : " + dr.GetString("minutes"),
                         Comment = "Коментар відсутній",// добавить коментарий при записис?
-                        NotComing = false//вытащить с базы когда добавит димас
-
+                        NotComing = false,//вытащить с базы когда добавит димас
+                        NumOrder=dr.GetString("number_order")
                     });
                 }
             }

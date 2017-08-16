@@ -140,3 +140,4 @@ D:\GDrive\BIBLIOTEKA\CRBN4\VrachMedcentr\obj\Debug\VrachMedcentr.Properties.Reso
 D:\GDrive\BIBLIOTEKA\CRBN4\VrachMedcentr\obj\Debug\VrachMedcentr.csproj.GenerateResource.Cache
 D:\GDrive\BIBLIOTEKA\CRBN4\VrachMedcentr\obj\Debug\VrachMedcentr.exe
 D:\GDrive\BIBLIOTEKA\CRBN4\VrachMedcentr\obj\Debug\VrachMedcentr.pdb
+D:\GDrive\BIBLIOTEKA\CRBN4\VrachMedcentr\obj\Debug\VrachMedcentr.csproj.CoreCompileInputs.cache
