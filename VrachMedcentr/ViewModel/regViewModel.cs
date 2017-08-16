@@ -16,6 +16,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using VrachMedcentr.HelpersClass.MyHalpers;
 using WPF_Hospital;
 
@@ -105,9 +106,7 @@ namespace VrachMedcentr
         /// 
 
         private RelayCommand _printTalon;
-        PrintDialog printDialog = new PrintDialog();
-        // Canvas canvas = new Canvas();
-        FlowDocument flowDocument = new FlowDocument();
+
         public RelayCommand printTalon
         {
             get
@@ -119,24 +118,83 @@ namespace VrachMedcentr
 
                            try
                            {
+                               PrintDialog printDialog = new PrintDialog();
+                               FlowDocument flowDocument = new FlowDocument();
                                var appointments = obj as Appointments;
+
 
                                if (printDialog.ShowDialog() == true)
                                {
 
-                                  // flowDocument.Blocks.Add(p);
-                                   // flowDocument.
 
-                                   Paragraph p = new Paragraph(new Run("Талон №: " + appointments.NumOrder));
+                                   Bold TalonRunBold = new Bold();
+                                   Run TalonRun = new Run("Талон №: " + appointments.NumOrder);
+                                   // TalonRun.FontWeight
+                                   TalonRunBold.Inlines.Add(TalonRun);
+                                   Paragraph p = new Paragraph();
+                                   // p.Margin =  0;
+                                   //p.Inlines.Add(Properties.Resources.shczrl);
+                                   p.Inlines.Add(TalonRunBold);
                                    p.FontSize = 14;
-                                 //  p.TextDecorations=TextDecorations.
+
                                    flowDocument.Blocks.Add(p);
 
-                                   p = new Paragraph(new Run("\nІм'я пацієнта:" + CutName(appointments.Pacient.ToString()) + "\nІм'я лікаря:\n" + CutName(SelectedDocNames.docName)+"\nЧас прийому:\n"+appointments.TimeAppomination+"\nДата прийому:\n"+ DateDoctorAcepting.ToShortDateString()));
+                                   //System.Windows.Controls.Image image = new System.Windows.Controls.Image();
+                                   //BitmapImage bimg = new BitmapImage();
+                                   //bimg.BeginInit();
+                                   //bimg.UriSource = new Uri("shczrl.png", UriKind.Relative);
+                                   //bimg.EndInit();
+                                   //image.Source = bimg;
+                                   //flowDocument.Blocks.Add(new BlockUIContainer(image));
+
+
+
+
+
+                                   //Run TalonTextRun = new Run("\nІм'я пацієнта:\n" + CutName(appointments.Pacient.ToString()) + "\nІм'я лікаря:\n" + CutName(SelectedDocNames.docName) + "\nЧас прийому:\n" + appointments.TimeAppomination + "\nДата прийому:\n" + DateDoctorAcepting.ToShortDateString());
+
+                                   Bold Bold1 = new Bold();
+                                   Run Run1 = new Run("Ім'я пацієнта:\n");
+                                   Bold1.Inlines.Add(Run1);
+
+                                   Run Run2 = new Run(CutName(appointments.Pacient.ToString()));
+
+                                   Bold Bold3 = new Bold();
+                                   Run Run3 = new Run("\nІм'я лікаря:\n");
+                                   Bold3.Inlines.Add(Run3);
+
+                                   Run Run4 = new Run(CutName(SelectedDocNames.docName));
+
+                                   Bold Bold5 = new Bold();
+                                   Run Run5 = new Run("\nЧас прийому:\n");
+                                   Bold5.Inlines.Add(Run5);
+
+                                   Run Run6 = new Run(appointments.TimeAppomination);
+
+                                   Bold Bold7 = new Bold();
+                                   Run Run7 = new Run("\nДата прийому:\n");
+                                   Bold7.Inlines.Add(Run7);
+
+                                   Run Run8 = new Run(DateDoctorAcepting.ToShortDateString());
+
+                                   p = new Paragraph();
+                                   p.Inlines.Add(Bold1);
+                                   p.Inlines.Add(Run2);
+                                   p.Inlines.Add(Bold3);
+                                   p.Inlines.Add(Run4);
+                                   p.Inlines.Add(Bold5);
+                                   p.Inlines.Add(Run6);
+                                   p.Inlines.Add(Bold7);
+                                   p.Inlines.Add(Run8);
+                                   // p.Inlines.Add(  );
+
                                    p.FontSize = 12;
+
                                    flowDocument.Blocks.Add(p);
+
                                    flowDocument.PageHeight = printDialog.PrintableAreaHeight;
                                    flowDocument.PageWidth = printDialog.PrintableAreaWidth;
+                                   flowDocument.PagePadding = new Thickness(0);
                                    flowDocument.Blocks.Add(p);
                                    IDocumentPaginatorSource idpSource = flowDocument;
                                    printDialog.PrintDocument(idpSource.DocumentPaginator, "Талон №" + appointments.NumOrder);
@@ -163,11 +221,26 @@ namespace VrachMedcentr
             }
 
         }
+
+        //private void CutNameHelper(string DGV, out string p,out string i ,out string b)
+        //{
+
+        //}
+
         public string CutName(string DGV)
         {
             string PIBout = "";
-            string[] PIBprint;
+            string[] PIBprint = null;
             string pL, iL, bL;
+            try
+            {
+                PIBprint = DGV.Split(new char[] { ' ' });
+                if (PIBprint.Length <= 1)
+                {
+                    PIBprint = DGV.Split(new char[] { ' ' });
+                }
+            }
+            catch { }
             try
             {
                 //Encoding source = Encoding(DGV);
@@ -179,17 +252,17 @@ namespace VrachMedcentr
                 iL = "";
                 bL = "";
 
-                PIBprint = DGV.Split(new char[] { ' ' });
+                // PIBprint = DGV.Split(new char[] { ' ' });
                 if (PIBprint.Length <= 1)
                 {
                     pL = PIBprint[0];
 
                 }
-                if (PIBprint.Length < 3 && PIBprint.Length>1)
+                if (PIBprint.Length < 3 && PIBprint.Length > 1)
                 {
                     pL = PIBprint[0];
                     iL = PIBprint[1];
-                    
+
                 }
                 if (PIBprint.Length >= 3)
                 {
@@ -199,12 +272,13 @@ namespace VrachMedcentr
 
 
                 }
-                
+
 
             }
             catch (Exception)
             {
-                PIBprint = DGV.Split(new char[] { ' ' });
+
+                // PIBprint = DGV.Split(new char[] { ' ' });
 
                 pL = "";
                 iL = "";
@@ -243,20 +317,20 @@ namespace VrachMedcentr
 
             return PIBout;
         }
-        void PRD(object sender, PrintPageEventArgs e)
-        {
+        //void PRD(object sender, PrintPageEventArgs e)
+        //{
 
-            Font talonFont = new Font(FontFamily.GenericSansSerif, 14);
-            Font mainFont = new Font(FontFamily.GenericSansSerif, 12);
-            Graphics g = e.Graphics;
-            g.DrawImage(Properties.Resources.shczrl, 1, 1);
-            g.DrawString(printTalonString, mainFont, new SolidBrush(Color.Black), 0, Properties.Resources.shczrl.Height + 5);
-            g.DrawString(printData, talonFont, new SolidBrush(Color.Black), 0, Properties.Resources.shczrl.Height + 15);
-            g.Dispose();
+        //    Font talonFont = new Font(FontFamily.GenericSansSerif, 14);
+        //    Font mainFont = new Font(FontFamily.GenericSansSerif, 12);
+        //    Graphics g = e.Graphics;
+        //    g.DrawImage(Properties.Resources.shczrl, 1, 1);
+        //    g.DrawString(printTalonString, mainFont, new SolidBrush(Color.Black), 0, Properties.Resources.shczrl.Height + 5);
+        //    g.DrawString(printData, talonFont, new SolidBrush(Color.Black), 0, Properties.Resources.shczrl.Height + 15);
+        //    g.Dispose();
 
-        }
-        string printData;
-        string printTalonString;
+        //}
+        //string printData;
+        //string printTalonString;
 
         private Appointments _SSelectedUser;
         public Appointments SSelectedUser
@@ -464,7 +538,7 @@ namespace VrachMedcentr
                 {
                     //розкоментить для отладки
                     //Екзепшен возникает при выборе специализации при этом SelectedDocNames становиться равный null
-                    MessageBox.Show(e.ToString());
+                    //  MessageBox.Show(e.ToString());
                 }
             }
         }
@@ -526,13 +600,13 @@ namespace VrachMedcentr
 
 
 
-        public  void RefreshDocTimes()
+        public void RefreshDocTimes()
         {
             //await RefreshAsync();
 
             try
             {
-               
+
                 //if (con.CheckDoctorList(SelectedDocNames.docTimeId))
                 //{
                 //if (TimeHour == true)
@@ -565,15 +639,15 @@ namespace VrachMedcentr
                 //}
                 //else
                 //{
-                    if (WorkingDays.Contains(DateDoctorAcepting) == true)
-                    {
-                        DoctorTimes = con.getDocTimes(SelectedDocNames.docID, DateDoctorAcepting);
-                    }
-                    else
-                    {
-                        DoctorTimes = new List<Times>();
-                        DoctorTimes.Add(new Times { Label = "Не робочій день", Status = "Red" });
-                    }
+                if (WorkingDays.Contains(DateDoctorAcepting) == true)
+                {
+                    DoctorTimes = con.getDocTimes(SelectedDocNames.docID, DateDoctorAcepting);
+                }
+                else
+                {
+                    DoctorTimes = new List<Times>();
+                    DoctorTimes.Add(new Times { Label = "Не робочій день", Status = "Red" });
+                }
 
                 //}
 
@@ -584,7 +658,7 @@ namespace VrachMedcentr
                 //MessageBox.Show(e.ToString());
             }
         }
-               
+
 
         private RelayCommand _conf;
 
@@ -640,7 +714,7 @@ namespace VrachMedcentr
         }
 
 
-        
+
 
         string S_LastName { get; set; }
         string S_FirstName { get; set; }
@@ -693,8 +767,8 @@ namespace VrachMedcentr
             }
             else
             {
-                MessageBox.Show("Лікар не вибраний","Помилка",MessageBoxButton.OK, MessageBoxImage.Warning);
-               
+                MessageBox.Show("Лікар не вибраний", "Помилка", MessageBoxButton.OK, MessageBoxImage.Warning);
+
             }
         }
         private RelayCommand _editDays;
