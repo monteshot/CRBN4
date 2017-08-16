@@ -8,43 +8,43 @@
         xmlns:local="clr-namespace:VrachMedcentr"
          xmlns:helpers="clr-namespace:VrachMedcentr.HelpersClass.MyHalpers"
         mc:Ignorable="d"
-        Title="Редагувати робочі дні" Height="500" Background="#FFE5E5E5" Width="500" MaxHeight="500" MaxWidth="500" WindowStartupLocation="CenterScreen">
+        Title="Редагувати робочі дні" Height="500" Background="#FFE5E5E5" Width="800" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
-
-
+            <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition ></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
 
-        <Grid Grid.Row="1">
+        </Grid.ColumnDefinitions>
+        <StackPanel Margin="5,0,0,0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center"  Grid.Row="0" Grid.ColumnSpan="2">
+            <TextBlock  FontSize="20" VerticalAlignment="Bottom">Редагуання розкладу лікаря:</TextBlock>
+            <TextBlock  Margin="5,0,0,0" Text="{Binding  docSelected.docName}" FontSize="20" VerticalAlignment="Bottom" HorizontalAlignment="Center"></TextBlock>
+        </StackPanel>
 
-
-
-        </Grid>
-        <!--<Button Margin="5" Grid.Row="2" Style="{DynamicResource ButtonOrange}" Content="Зберегти зміни" Height="Auto" />-->
-        <Grid >
+        <Grid Grid.Row="1" Grid.Column="0"  Grid.ColumnSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition  Height="0.65*" />
                 <RowDefinition Height="0.15*"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.4*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Row="1" Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.4*"/>
+                    <ColumnDefinition Width="1.4*"/>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="1" Margin="5" FontSize="15"  Style="{DynamicResource ButtonBlue }" Command="{Binding checkDays}"  Content="Відмітити як робочі"  />
                 <Button Grid.Column="0" Margin="5" FontSize="15"   Style="{DynamicResource ButtonGreen }" Command="{Binding uncheckDays}" Content="Відмітити як неробочі" />
+                <Button Grid.Column="3"  UseLayoutRounding="True"  Style="{DynamicResource ButtonBlue}" Command="{Binding addTimes}"  FontSize="14" Padding="5"  Margin="5">Додати час</Button>
             </Grid>
-
-            <!--<ListBox Grid.Column="1" ItemsSource="{Binding DoctorTimes , UpdateSourceTrigger=PropertyChanged}"                  SelectedItem="{Binding SelectedTime}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Margin="5">
-                            <TextBlock Foreground="{Binding Status}"  FontSize="18" Text="{Binding Time, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>-->
+          
             <Calendar Grid.Column="0" x:Name="Cal" Style="{DynamicResource MyCalendar}"
                                    helpers:HolidayHelper.List ="{Binding WorkDays}"
                                    CalendarButtonStyle="{DynamicResource MyCalendarButtonStyle}"
@@ -54,12 +54,58 @@
                 <i:Interaction.Triggers>
                     <i:EventTrigger  EventName="SelectedDatesChanged">
                         <i:InvokeCommandAction CommandParameter="{Binding SelectedDates, ElementName=Cal}" Command="{Binding setSelectedDays }"/>
-
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Calendar>
+            <Grid Grid.Row="0" Grid.Column="1">
+                <Grid Background="LightGray">      
+
+
+
+
+                    <ListBox Grid.Row="1" x:Name="lv" SelectedItem="{Binding SelectedTime}"  ItemsSource="{Binding docTimes,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"  >
+
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                       
+                                    </Grid.ColumnDefinitions>
+                                    <!--<StackPanel Orientation="Horizontal" Grid.Column="0">
+                                        <TextBlock Padding="5" FontSize="15">В регістратурі/На сайті</TextBlock>
+                                        <CheckBox UseLayoutRounding="True" Style="{DynamicResource CheckBoxSwitcher}" Padding="5" IsChecked="{Binding PublickPrivate}"></CheckBox>
+                                    </StackPanel>-->
+                                    <StackPanel Orientation="Horizontal" Grid.Column="0">
+                                        <TextBlock Padding="5" FontSize="15" Text="Час: "/>
+                                        <xctk:TimePicker Foreground="#FF615D5D" Background="#FFEEEEEE" Padding="10,0,10,0"
+                                             Style="{DynamicResource GrayTimePickerStyle}" Format="ShortTime" TimeInterval="0:5:0" 
+                                             Text="{ Binding Time, UpdateSourceTrigger=PropertyChanged}"  ShowButtonSpinner="False"
+                                             Kind="Local" MouseWheelActiveTrigger="MouseOver" AllowSpin="True" IsManipulationEnabled="True" />
+                                    </StackPanel>
+
+                                    <Button Grid.Column="1" Margin="10,0,0,0" Style="{DynamicResource ButtonGreen}"  Command="{Binding ElementName=lv,Path=DataContext.remTimes}" CommandParameter="{Binding}">Видалити час</Button>
+
+                                </Grid>
+
+
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    
+
+                </Grid>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Closing">
+                        <i:InvokeCommandAction Command="{Binding ClosingWindow}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Grid>
 
         </Grid>
+
+        
 
     </Grid>
 </Window>

@@ -12,13 +12,129 @@ namespace VrachMedcentr
 {
     class EditDayViewModel : INotifyPropertyChanged
     {
-        public DateTime selectedDays { get; set; } = DateTime.Today;
+
+        public EditDayViewModel(DocNames Doc)
+        {
+            WorkDays = con.GetListOfWorkingDays(Convert.ToInt32(Doc.docID));
+            docSelected = Doc;
+            selectedDays = DateTime.Now;
+        }
+        private DateTime _selectedDays;
+        public DateTime selectedDays
+        {
+            get
+            {
+                return _selectedDays;
+            }
+            set
+            {
+                try
+                {
+                    _selectedDays = value;
+                    docTimes = new ObservableCollection<Times>();
+                    if (WorkDays.Contains(value) == true)
+                    {
+                        List<Times> temp = con.getDocTimes(docSelected.docID, value);
+                        foreach (var a in temp)
+                        {
+                            docTimes.Add(new Times { Time = a.Time, Label = a.Label, Status = a.Status });
+                        }
+                        //docTimes = docTimes.OrderBy(p => p.Time) as ObservableCollection<Times>;
+
+
+                    }
+                    else
+                    {
+                        docTimes = new ObservableCollection<Times>();
+                        docTimes.Add(new Times { Label = "Не робочій день", Status = "Red" });
+                    }
+
+
+
+
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.ToString());
+                }
+
+            }
+        }
         public DocNames docSelected { get; set; }
         public ObservableCollection<Times> docTimes { get; set; }
         public ObservableCollection<DateTime> WorkDays { get; set; }
-        conBD con = new conBD("shostka.mysql.ukraine.com.ua", "shostka_medcen", "shostka_medcen", "n5t7jzqv");
+        conBD con = new conBD("shostka.mysql.ukraine.com.ua", "shostka_crl", "shostka_crl", "Cpu25Pro");
         SynhronyzeClass sync = new SynhronyzeClass();
         List<DateTime> selectedDaysCal = new List<DateTime>();
+
+
+
+        public ObservableCollection<DocNames> docBool { get; set; }
+
+        public Times SelectedTime { get; set; }
+
+
+
+
+        private RelayCommand _addTimes;
+        public RelayCommand addTimes
+        {
+            get
+            {
+
+                return _addTimes ??
+                  (_addTimes = new RelayCommand(obj =>
+                  {
+
+                      docTimes.Add(new Times { Time = "12:00", Label = "12:00" });
+                      // NotifyPropertyChanged("docTimes");
+
+
+
+                  }));
+            }
+
+        }
+
+        /// <summary>
+        /// команда удаления записи в качесте obj передаеться пораметр команды с общим Binding
+        /// </summary>
+        private RelayCommand _remTimes;
+
+        public RelayCommand remTimes
+        {
+            get
+            {
+
+                return _remTimes ??
+                  (_remTimes = new RelayCommand(obj =>
+                  {
+
+                      try
+                      {
+
+                          docTimes.Remove(obj as Times);
+                          foreach (var a in tempSelected as SelectedDatesCollection)
+                          {
+                              Times temp = obj as Times;
+                              string[] parTime = temp.Time.Split(new char[] { ':' });
+                              con.RemTimeInWorkDay(docSelected.docID, a, parTime[0], parTime[1]);
+
+                          }
+
+
+                      }
+                      catch (Exception) { }
+
+
+
+                  }));
+            }
+
+        }
+
+
+
 
         private RelayCommand _setSelectedDays;
 
@@ -50,29 +166,84 @@ namespace VrachMedcentr
                   {
 
 
-
+                      string datestring = "";
+                      List<DateTime> DateWithoutWorkingDays = new List<DateTime>();
                       try
                       {
                           foreach (var a in tempSelected as SelectedDatesCollection)
                           {
-                              var currTimes = con.getDocTimes(docSelected.docID,  a);
-
-
-                              foreach (var time in currTimes)
+                              if (WorkDays.Contains(a) == true)
                               {
-                                  string[] parTime = time.Label.Split(new char[] { ':' });
-
-                                  con.addWorkDays(docSelected.docID, "0", false, true, a, parTime[0], parTime[1], "0", "0");
+                                  datestring = datestring + a.ToShortDateString()+", ";
+                              }
+                              else
+                              {
+                                  DateWithoutWorkingDays.Add(a);
                               }
                           }
+                          datestring = datestring.Remove(datestring.Length - 2);
+                          if (datestring != "")
+                          {
+                              var result = MessageBox.Show("На обрану  дату(и): " + datestring + " вже існує розклад.\nПерезаписати розклад на ці дні?", "Повідомлення", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                              if (result == MessageBoxResult.Yes)
+                              {
+                                  foreach (var a in tempSelected as SelectedDatesCollection)
+                                  {
+                                      con.remWorkDays(docSelected.docID, a);
+                                      foreach (var t in docTimes)
+                                      {
+                                          string[] parTime = t.Time.Split(new char[] { ':' });
+
+                                          con.addWorkDays(docSelected.docID, "0", false, true, a, parTime[0], parTime[1], "0", "0");
+                                      }
+                                  }
+                                  datestring = "";
+                                  DateWithoutWorkingDays = new List<DateTime>();
+                              }
+                              if (result == MessageBoxResult.No)
+                              {
+                                  foreach (var a in DateWithoutWorkingDays )
+                                  {
+
+                                      foreach (var t in docTimes)
+                                      {
+                                          string[] parTime = t.Time.Split(new char[] { ':' });
+
+                                          con.addWorkDays(docSelected.docID, "0", false, true, a, parTime[0], parTime[1], "0", "0");
+                                      }
+
+                                  }
+                                  datestring = "";
+                                  DateWithoutWorkingDays = new List<DateTime>();
+                              }
+                          }
+                          else
+                          {
+                              foreach (var a in tempSelected as SelectedDatesCollection)
+                              {
+
+                                  foreach (var t in docTimes)
+                                  {
+                                      string[] parTime = t.Time.Split(new char[] { ':' });
+
+                                      con.addWorkDays(docSelected.docID, "0", false, true, a, parTime[0], parTime[1], "0", "0");
+                                  }
+
+                              }
+                          }
+
+                          
                           WorkDays = con.GetListOfWorkingDays(Convert.ToInt32(docSelected.docID));
                       }
-                      catch (Exception) { }
+                      catch (Exception e)
+                      {
+                          MessageBox.Show(e.ToString());
+                      }
 
-                      editDays edDays = new editDays();
-                      sync.SynhronyzeTable("ekfgq_ttfsp", 2);
-               
-                edDays.Close();
+                      //editDays edDays = new editDays();
+                      // sync.SynhronyzeTable("ekfgq_ttfsp", 2);
+
+                      // edDays.Close();
 
                   }));
             }
@@ -96,23 +267,15 @@ namespace VrachMedcentr
                       {
                           foreach (var a in tempSelected as SelectedDatesCollection)
                           {
-                              var currTimes = con.getDocTimes(docSelected.docID,  a);
 
-
-                              //foreach (var time in currTimes)
-                              //{
-                              // string[] parTime = time.Time.Split(new char[] { ':' });
 
                               con.remWorkDays(docSelected.docID, a);
-                              //   }
+
                           }
                           WorkDays = con.GetListOfWorkingDays(Convert.ToInt32(docSelected.docID));
-                          sync.SynhronyzeTable("ekfgq_ttfsp", 2);
+                          // sync.SynhronyzeTable("ekfgq_ttfsp", 2);
                       }
                       catch (Exception) { }
-
-                      editDays edDays = new editDays();
-                      edDays.Close();
 
 
                   }));
