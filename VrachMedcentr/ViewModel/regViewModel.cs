@@ -493,7 +493,14 @@ namespace VrachMedcentr
             {
                 _SelectedSpecf = value;
 
-                ListOfDocNames = con.GetDoctrosNames(value.idspecf.ToString());
+                try
+                {
+                    ListOfDocNames = con.GetDoctrosNames(value.idspecf.ToString());
+                }
+                catch 
+                {
+                }
+
 
                 WorkingDays = new ObservableCollection<DateTime>();
 
@@ -709,7 +716,7 @@ namespace VrachMedcentr
                       }
                       catch (Exception e)
                       {
-                          MessageBox.Show(e.ToString());
+                        //  MessageBox.Show(e.ToString());
                           //MessageBox.Show("Перевірте правильність введення данних");
                       }
 
@@ -783,7 +790,15 @@ namespace VrachMedcentr
                 return _editDays ??
                   (_editDays = new RelayCommand(obj =>
                   {
-                      edDaysMethod();
+                      try
+                      {
+                          edDaysMethod();
+                      }
+                      catch 
+                      {
+                        
+                      }
+                      
 
                   }));
             }
