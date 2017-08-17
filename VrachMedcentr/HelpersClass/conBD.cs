@@ -67,40 +67,48 @@ namespace VrachMedcentr
 
             return Task.Run(() =>
             {
-                MySqlConnectionStringBuilder mysqlCSB;
-                mysqlCSB = new MySqlConnectionStringBuilder();
-                mysqlCSB.Server = server;
-                mysqlCSB.Database = database;
-                mysqlCSB.UserID = UserID;
-                mysqlCSB.Password = Password;
-                mysqlCSB.ConvertZeroDateTime = true;
-
-                MySqlConnection con = new MySqlConnection();
-                con.ConnectionString = mysqlCSB.ConnectionString;
-                MySqlCommand cmd = new MySqlCommand();
-
                 string a = "";
-
-
-
-
-                cmd.CommandText = "CHECKSUM TABLE " + _tablename;
-
-
-                con.Open();
-
-                cmd.Connection = con;
-                cmd.ExecuteNonQuery();
-
-                using (MySqlDataReader dr = cmd.ExecuteReader())
+                try
                 {
-                    while (dr.Read())
-                    {
-                        a = dr.GetString("Checksum");
-                    }
-                }
-                con.Close();
+                    MySqlConnectionStringBuilder mysqlCSB;
+                    mysqlCSB = new MySqlConnectionStringBuilder();
+                    mysqlCSB.Server = server;
+                    mysqlCSB.Database = database;
+                    mysqlCSB.UserID = UserID;
+                    mysqlCSB.Password = Password;
+                    mysqlCSB.ConvertZeroDateTime = true;
 
+                    MySqlConnection con = new MySqlConnection();
+                    con.ConnectionString = mysqlCSB.ConnectionString;
+                    MySqlCommand cmd = new MySqlCommand();
+
+                    
+
+
+
+
+                    cmd.CommandText = "CHECKSUM TABLE " + _tablename;
+
+
+                    con.Open();
+
+                    cmd.Connection = con;
+                    cmd.ExecuteNonQuery();
+
+                    using (MySqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            a = dr.GetString("Checksum");
+                        }
+                    }
+                    con.Close();
+
+                    return a;
+                }
+                catch
+                {
+                }
                 return a;
             });
 
@@ -1095,9 +1103,9 @@ namespace VrachMedcentr
             }
             catch (Exception e)
             {
-                InternetConnection = "З'еднання втрачено";
+                InternetConnection = "З'єднання втрачено";
             }
-            InternetConnection = "З'еднання встановлено";
+            InternetConnection = "З'єднання встановлено";
             return temp;
         }
         //int i23 = 0;
@@ -1161,11 +1169,11 @@ namespace VrachMedcentr
             catch
             {
                 //temp = GetUsers();
-                InternetConnection = "З'еднання втрачено";
+                InternetConnection = "З'єднання втрачено";
                 //Thread.Sleep(10000);
                 //return temp;
             }
-            InternetConnection = "З'еднання встановлено";
+            InternetConnection = "З'єднання встановлено";
 
             return temp;
         }
@@ -1223,10 +1231,10 @@ namespace VrachMedcentr
             }
             catch (Exception e)
             {
-                InternetConnection = "З'еднання втрачено";
+                InternetConnection = "З'єднання втрачено";
                 // MessageBox.Show(e.ToString());
             }
-            InternetConnection = "З'еднання встановлено";
+            InternetConnection = "З'єднання встановлено";
             return temp;
         }
 
@@ -1280,9 +1288,9 @@ namespace VrachMedcentr
             }
             catch
             {
-                InternetConnection = "З'еднання втрачено";
+                InternetConnection = "З'єднання втрачено";
             }
-            InternetConnection = "З'еднання встановлено";
+            InternetConnection = "З'єднання встановлено";
             return temp;
         }
 
@@ -1348,9 +1356,9 @@ namespace VrachMedcentr
             }
             catch
             {
-                InternetConnection = "З'еднання втрачено";
+                InternetConnection = "З'єднання втрачено";
             }
-            InternetConnection = "З'еднання встановлено";
+            InternetConnection = "З'єднання встановлено";
             return temp;
 
 
@@ -1458,9 +1466,9 @@ namespace VrachMedcentr
             }
             catch
             {
-                InternetConnection = "З'еднання втрачено";
+                InternetConnection = "З'єднання втрачено";
             }
-            InternetConnection = "З'еднання встановлено";
+            InternetConnection = "З'єднання встановлено";
 
             return temp;
         }
@@ -1500,9 +1508,9 @@ namespace VrachMedcentr
             }
             catch
             {
-                InternetConnection = "З'еднання втрачено";
+                InternetConnection = "З'єднання втрачено";
             }
-            InternetConnection = "З'еднання встановлено";
+            InternetConnection = "З'єднання встановлено";
 
             //synhronyze.SynhronyzeTable("enx4w_ttfsp_sprtime", 2);
 
@@ -1555,9 +1563,9 @@ namespace VrachMedcentr
             }
             catch
             {
-                InternetConnection = "З'еднання втрачено";
+                InternetConnection = "З'єднання втрачено";
             }
-            InternetConnection = "З'еднання встановлено";
+            InternetConnection = "З'єднання встановлено";
 
 
             return result;
@@ -1609,9 +1617,9 @@ namespace VrachMedcentr
             }
             catch
             {
-                InternetConnection = "З'еднання втрачено";
+                InternetConnection = "З'єднання втрачено";
             }
-            InternetConnection = "З'еднання встановлено";
+            InternetConnection = "З'єднання встановлено";
             return temp;
 
         }
@@ -1659,9 +1667,9 @@ namespace VrachMedcentr
             }
             catch
             {
-                InternetConnection = "З'еднання втрачено";
+                InternetConnection = "З'єднання втрачено";
             }
-            InternetConnection = "З'еднання встановлено";
+            InternetConnection = "З'єднання встановлено";
 
             //synhronyze.SynhronyzeTable("enx4w_ttfsp", 2);
         }
@@ -1693,9 +1701,9 @@ namespace VrachMedcentr
             }
             catch
             {
-                InternetConnection = "З'еднання втрачено";
+                InternetConnection = "З'єднання втрачено";
             }
-            InternetConnection = "З'еднання встановлено";
+            InternetConnection = "З'єднання встановлено";
 
             //synhronyze.SynhronyzeTable("ekfgq_ttfsp", 2);
         }
@@ -1727,9 +1735,9 @@ namespace VrachMedcentr
             }
             catch
             {
-                InternetConnection = "З'еднання втрачено";
+                InternetConnection = "З'єднання втрачено";
             }
-            InternetConnection = "З'еднання встановлено";
+            InternetConnection = "З'єднання встановлено";
 
             //synhronyze.SynhronyzeTable("enx4w_ttfsp", 2);
         }
@@ -1831,9 +1839,9 @@ namespace VrachMedcentr
                     }
                     catch
                     {
-                        InternetConnection = "З'еднання втрачено";
+                        InternetConnection = "З'єднання втрачено";
                     }
-                    InternetConnection = "З'еднання встановлено";
+                    InternetConnection = "З'єднання встановлено";
 
                 }
             }
@@ -1891,9 +1899,9 @@ namespace VrachMedcentr
                     }
                     catch
                     {
-                        InternetConnection = "З'еднання втрачено";
+                        InternetConnection = "З'єднання втрачено";
                     }
-                    InternetConnection = "З'еднання встановлено";
+                    InternetConnection = "З'єднання встановлено";
 
 
 
@@ -1939,9 +1947,9 @@ namespace VrachMedcentr
             }
             catch
             {
-                InternetConnection = "З'еднання втрачено";
+                InternetConnection = "З'єднання втрачено";
             }
-            InternetConnection = "З'еднання встановлено";
+            InternetConnection = "З'єднання встановлено";
 
             return i + 1;
         }
@@ -1997,9 +2005,9 @@ namespace VrachMedcentr
             }
             catch
             {
-                InternetConnection = "З'еднання втрачено";
+                InternetConnection = "З'єднання втрачено";
             }
-            InternetConnection = "З'еднання встановлено";
+            InternetConnection = "З'єднання встановлено";
             return temp;
 
 
@@ -2050,9 +2058,9 @@ namespace VrachMedcentr
                     }
                     catch
                     {
-                        InternetConnection = "З'еднання втрачено";
+                        InternetConnection = "З'єднання втрачено";
                     }
-                    InternetConnection = "З'еднання встановлено";
+                    InternetConnection = "З'єднання встановлено";
 
 
 
