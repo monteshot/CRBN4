@@ -396,7 +396,7 @@
                             <CheckBox Grid.Column="4" FontSize="20" IsChecked="{Binding NotComing}"/>
                             <!--<TextBlock Grid.Column="5" FontSize="20" Text=" | uID: "/>-->
                             <!--<TextBlock Margin="10,0,0,0" Grid.Column="5" FontSize="20" Text="{Binding IDUser}"/>-->
-                            <Button Grid.Column="5" Margin="10,0,0,0" Style="{DynamicResource ButtonBlue}"  Command="{Binding ElementName=Registratyra,Path=DataContext.printTalon}" CommandParameter="{Binding}">Друк</Button>
+                            <Button Grid.Column="5" Margin="10,0,0,0" Style="{DynamicResource ButtonGreen}"  Command="{Binding ElementName=Registratyra,Path=DataContext.printTalon}" CommandParameter="{Binding}">Друк</Button>
 
 
                         </Grid>

@@ -67,7 +67,8 @@ namespace VrachMedcentr
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.ToString());
+                   // MessageBox.Show(e.Message.ToString());
+                   
                 }
 
             }
@@ -259,10 +260,13 @@ namespace VrachMedcentr
                       }
                       catch (Exception e)
                       {
-                          MessageBox.Show(e.ToString());
+                      //    MessageBox.Show(e.ToString());
                       }
 
-                     
+                      //editDays edDays = new editDays();
+                      // sync.SynhronyzeTable("enx4w_ttfsp", 2);
+
+                      // edDays.Close();
 
                   }));
             }
