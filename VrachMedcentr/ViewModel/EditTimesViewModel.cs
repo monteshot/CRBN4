@@ -97,7 +97,7 @@ namespace VrachMedcentr
                       {
                           MessageBox.Show("Перевірте пральність введення данних");
                       }
-                      sync.SynhronyzeTable("ekfgq_ttfsp_sprtime", 2);
+                      sync.SynhronyzeTable("enx4w_ttfsp_sprtime", 2);
                       //Проверка на наличие времени
                       //if (prive != "" && prive != null)
                       //{

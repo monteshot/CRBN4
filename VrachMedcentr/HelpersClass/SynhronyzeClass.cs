@@ -38,15 +38,15 @@ namespace VrachMedcentr
             {
 
                 int a = 1;
-                await SynhronyzeTable("ekfgq_ttfsp_dop", 1);
-                await SynhronyzeTable("ekfgq_ttfsp_dop", 2);
-                await SynhronyzeTable("ekfgq_users", 1);
-                await SynhronyzeTable("ekfgq_ttfsp_sprspec", 1);
-                await SynhronyzeTable("ekfgq_ttfsp_spec", 1);               
-                await SynhronyzeTable("ekfgq_ttfsp_sprtime", 1);
-                await SynhronyzeTable("ekfgq_ttfsp_sprtime", 2);
-                await SynhronyzeTable("ekfgq_ttfsp", 1);
-                await SynhronyzeTable("ekfgq_ttfsp", 2);
+                await SynhronyzeTable("enx4w_ttfsp_dop", 1);
+                await SynhronyzeTable("enx4w_ttfsp_dop", 2);
+                await SynhronyzeTable("enx4w_users", 1);
+                await SynhronyzeTable("enx4w_ttfsp_sprspec", 1);
+                await SynhronyzeTable("enx4w_ttfsp_spec", 1);               
+                await SynhronyzeTable("enx4w_ttfsp_sprtime", 1);
+                await SynhronyzeTable("enx4w_ttfsp_sprtime", 2);
+                await SynhronyzeTable("enx4w_ttfsp", 1);
+                await SynhronyzeTable("enx4w_ttfsp", 2);
 
                 Task.WaitAll();
 
@@ -141,7 +141,7 @@ namespace VrachMedcentr
             switch (TableName)
             {
 
-                case "ekfgq_ttfsp_dop":
+                case "enx4w_ttfsp_dop":
                     if (_mod == 1)
                     {
                         //        Local = Web.AsEnumerable().Where(rw => !Local.AsEnumerable().
@@ -153,7 +153,7 @@ namespace VrachMedcentr
                             && rl.Field<string>("minutes") == rw.Field<string>("minutes")
                             && rl.Field<string>("specializations_name") == rw.Field<string>("specializations_name"))).CopyToDataTable();
                         List<DataRow> t0 = Local.AsEnumerable().ToList<DataRow>();
-                        // conLocal.insert_ekfgq_ttfsp_dop(Local);
+                        // conLocal.insert_enx4w_ttfsp_dop(Local);
                         Local.Clear();
                     }
                     if (_mod == 2)
@@ -165,11 +165,11 @@ namespace VrachMedcentr
                             && rl.Field<string>("minutes") == rw.Field<string>("minutes")
                             && rl.Field<string>("specializations_name") == rw.Field<string>("specializations_name"))).CopyToDataTable();
                         List<DataRow> t0 = Local.AsEnumerable().ToList<DataRow>();
-                        //conWeb.insert_ekfgq_ttfsp_dop(Local);
+                        //conWeb.insert_enx4w_ttfsp_dop(Local);
                         Local.Clear();
                     }
                     break;
-                case "ekfgq_ttfsp":
+                case "enx4w_ttfsp":
                     if (_mod == 1)
                     {
                         int i = 0;
@@ -183,6 +183,7 @@ namespace VrachMedcentr
                             && rl.Field<string>("hrtime") == rw.Field<string>("hrtime")
                             && rl.Field<string>("mntime") == rw.Field<string>("mntime"))).CopyToDataTable();
                         List<DataRow> t0 = Local.AsEnumerable().ToList<DataRow>();
+                        conLocal.insert_enx4w_ttfsp(Local);
                     }
                     if (_mod == 2)
                     {
@@ -195,8 +196,8 @@ namespace VrachMedcentr
                             && rl.Field<string>("mntime") == rw.Field<string>("mntime"))).CopyToDataTable();
                     }
                     break;
-                //работает косяки читай внутриinsert_ekfgq_ttfsp_sprspec
-                case "ekfgq_ttfsp_sprspec":
+                //работает косяки читай внутриinsert_enx4w_ttfsp_sprspec
+                case "enx4w_ttfsp_sprspec":
                     if (_mod == 1)
                     {
                         Local = Web.AsEnumerable().Where(rw => !Local.AsEnumerable().
@@ -205,7 +206,7 @@ namespace VrachMedcentr
                             && rl.Field<string>("desc") == rw.Field<string>("desc")
                             )).CopyToDataTable();
                         List<DataRow> t0 = Local.AsEnumerable().ToList<DataRow>();
-                        conLocal.insert_ekfgq_ttfsp_sprspec(Local);
+                        conLocal.insert_enx4w_ttfsp_sprspec(Local);
                         Local.Clear();
                     }
                     if (_mod == 2)
@@ -214,12 +215,12 @@ namespace VrachMedcentr
                             Any(rl => rl.Field<string>("id") == rw.Field<string>("id")
                             && rl.Field<string>("name") == rw.Field<string>("name")
                             && rl.Field<string>("desc") == rw.Field<string>("desc"))).CopyToDataTable();
-                        conWeb.insert_ekfgq_ttfsp_sprspec(Local);
+                        conWeb.insert_enx4w_ttfsp_sprspec(Local);
                         Local.Clear();
                     }
                     break;
                 //где запрос лебовски?
-                case "ekfgq_ttfsp_spec":
+                case "enx4w_ttfsp_spec":
                     if (_mod == 1)
                     {
                         Local = Web.AsEnumerable().Where(rw => !Local.AsEnumerable().
@@ -238,13 +239,13 @@ namespace VrachMedcentr
                         Local.Clear();
                     }
                     break;
-                case "ekfgq_ttfsp_sprtime":
+                case "enx4w_ttfsp_sprtime":
                     if (_mod == 1)
                     {
                         Local = Web.AsEnumerable().Where(rw => !Local.AsEnumerable().
                             Any(rl => rl.Field<string>("name") == rw.Field<string>("name")
                             && rl.Field<string>("timehm") == rw.Field<string>("timehm"))).CopyToDataTable();
-                        //conLocal.insert_ekfgq_ttfsp_sprtime(Local);
+                        //conLocal.insert_enx4w_ttfsp_sprtime(Local);
                         //Local.Clear();
                     }
                     if (_mod == 2)
@@ -252,11 +253,11 @@ namespace VrachMedcentr
                         Local = Local.AsEnumerable().Where(rw => !Web.AsEnumerable().
                             Any(rl => rl.Field<string>("name") == rw.Field<string>("name")
                             && rl.Field<string>("timehm") == rw.Field<string>("timehm"))).CopyToDataTable();
-                        //conWeb.insert_ekfgq_ttfsp_sprtime(Local);
+                        //conWeb.insert_enx4w_ttfsp_sprtime(Local);
                         //Local.Clear();
                     }
                     break;
-                case "ekfgq_users":
+                case "enx4w_users":
                     if (_mod == 1)
                     {
                         try
@@ -265,7 +266,7 @@ namespace VrachMedcentr
                                 Any(rl => rl.Field<string>("name") == rw.Field<string>("name")
                                 && rl.Field<string>("username") == rw.Field<string>("username"))).CopyToDataTable();
                             List<DataRow> t0 = Local.AsEnumerable().ToList<DataRow>();
-                            conLocal.insert_ekfgq_users(Local);
+                            conLocal.insert_enx4w_users(Local);
                             Local.Clear();
                         }
                         catch { }
@@ -276,7 +277,7 @@ namespace VrachMedcentr
                             Any(rl => rl.Field<string>("name") == rw.Field<string>("name")
                             && rl.Field<string>("username") == rw.Field<string>("username"))).CopyToDataTable();
                         List<DataRow> t0 = Local.AsEnumerable().ToList<DataRow>();
-                        conLocal.insert_ekfgq_users(Local);
+                        conLocal.insert_enx4w_users(Local);
                         Local.Clear();
                     }
 

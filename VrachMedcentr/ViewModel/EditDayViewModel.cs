@@ -241,7 +241,7 @@ namespace VrachMedcentr
                       }
 
                       //editDays edDays = new editDays();
-                      // sync.SynhronyzeTable("ekfgq_ttfsp", 2);
+                      // sync.SynhronyzeTable("enx4w_ttfsp", 2);
 
                       // edDays.Close();
 
@@ -273,7 +273,7 @@ namespace VrachMedcentr
 
                           }
                           WorkDays = con.GetListOfWorkingDays(Convert.ToInt32(docSelected.docID));
-                          // sync.SynhronyzeTable("ekfgq_ttfsp", 2);
+                          // sync.SynhronyzeTable("enx4w_ttfsp", 2);
                       }
                       catch (Exception) { }
 

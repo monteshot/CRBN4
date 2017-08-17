@@ -64,7 +64,7 @@ namespace VrachMedcentr
 
             Users = OneTimeUsers;
 
-
+            synhronyze.SynhronyzeTable("talon_time",1);
 
 
 
