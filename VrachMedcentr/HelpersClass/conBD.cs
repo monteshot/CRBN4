@@ -1667,6 +1667,7 @@ namespace VrachMedcentr
             InternetConnection = "З'єднання встановлено";
 
 
+
             return result;
         }
         #endregion
