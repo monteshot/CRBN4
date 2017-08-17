@@ -141,6 +141,10 @@
     <Compile Include="Data\Registration Model\DoctorsList.cs" />
     <Compile Include="Data\Registration Model\Times.cs" />
     <Compile Include="Data\Registration Model\Users.cs" />
+    <Compile Include="ViewModel\ConfirmUserViewModel.cs" />
+    <Compile Include="View\ConfirmUser.xaml.cs">
+      <DependentUpon>ConfirmUser.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\editDays.xaml.cs">
       <DependentUpon>editDays.xaml</DependentUpon>
     </Compile>
@@ -155,6 +159,10 @@
     <Compile Include="ViewModel\EditTimesViewModel.cs" />
     <Compile Include="ViewModel\regViewModel.cs" />
     <Compile Include="ViewModel\update.cs" />
+    <Page Include="View\ConfirmUser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\editDays.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

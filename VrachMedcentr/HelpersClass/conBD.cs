@@ -82,7 +82,7 @@ namespace VrachMedcentr
                     con.ConnectionString = mysqlCSB.ConnectionString;
                     MySqlCommand cmd = new MySqlCommand();
 
-                    
+
 
 
 
@@ -355,7 +355,7 @@ namespace VrachMedcentr
         public void insert_enx4w_ttfsp(DataTable DT)
         {
 
-          //  return Task.Run(async () =>
+            //  return Task.Run(async () =>
             {
                 MySqlConnectionStringBuilder mysqlCSB;
                 mysqlCSB = new MySqlConnectionStringBuilder();
@@ -412,7 +412,7 @@ namespace VrachMedcentr
                 con.Close(); // await con.CloseAsync();
 
             }
-          //  );
+            //  );
         }
 
         /// <summary>
@@ -479,8 +479,8 @@ namespace VrachMedcentr
 
                 foreach (DataRow z in DT.Rows)
                 {
-                //дороботать
-                string fg = $"(";
+                    //дороботать
+                    string fg = $"(";
                     for (int i = 1; i <= DT.Rows.Count - 1; i++)
                     {
                         if (i == DT.Rows.Count - 1)
@@ -613,8 +613,8 @@ namespace VrachMedcentr
 
                 foreach (DataRow z in DT.Rows)
                 {
-                //дороботать
-                string fg = $"(";
+                    //дороботать
+                    string fg = $"(";
                     for (int i = 1; i <= DT.Rows.Count - 1; i++)
                     {
                         if (i == DT.Rows.Count - 1)
@@ -664,8 +664,8 @@ namespace VrachMedcentr
                 StringBuilder MegaCom = null;
                 await con.OpenAsync();
                 foreach (DataRow z in DT.Rows)
-            //(name, published,desc,timehm,checked_out,checked_out_time,ordering,timeprv)
-            {
+                //(name, published,desc,timehm,checked_out,checked_out_time,ordering,timeprv)
+                {
                     MegaCom = new StringBuilder("UPDATE enx4w_ttfsp_sprtime SET " + $"name='{MySqlHelper.EscapeString(z[0].ToString())}', published='{z[2].ToString()}', desc='{z[3].ToString()}', timehm='{z[4].ToString()}', checked_out='{z[5].ToString()}', checked_out_time='{z[6].ToString()}', ordering='{z[7].ToString()}', timeprv='{z[8].ToString()}'" + " WHERE id=" + z[1].ToString());
                     cmd.CommandType = CommandType.Text;
                     cmd.CommandText = MegaCom.ToString();
@@ -673,21 +673,21 @@ namespace VrachMedcentr
 
                 }
                 await con.CloseAsync();
-            // List<string> Rw = new List<string>();
+                // List<string> Rw = new List<string>();
 
-            //foreach (DataRowCollection z in DT.Rows)
-            //{
-            //    Rw.Add(
-            //        $"('{z[0].ToString()}','{z[1].ToString()}','{z[2].ToString()}','{z[3].ToString()}','{z[4].ToString()}','{z[5].ToString()}','{z[6].ToString()}','{z[7].ToString()}','{z[8].ToString()}')");
-            //}
+                //foreach (DataRowCollection z in DT.Rows)
+                //{
+                //    Rw.Add(
+                //        $"('{z[0].ToString()}','{z[1].ToString()}','{z[2].ToString()}','{z[3].ToString()}','{z[4].ToString()}','{z[5].ToString()}','{z[6].ToString()}','{z[7].ToString()}','{z[8].ToString()}')");
+                //}
 
-            //MegaCom.Append(string.Join(",", Rw));
-            //MegaCom.Append(";");
-
-
+                //MegaCom.Append(string.Join(",", Rw));
+                //MegaCom.Append(";");
 
 
-        });
+
+
+            });
 
         }
 
@@ -746,8 +746,8 @@ namespace VrachMedcentr
                 StringBuilder MegaCom = null;
                 await con.OpenAsync();
                 foreach (DataRow z in DT.Rows)
-            //(idspec, iduser, reception, published, dttime ,hrtime,mntime,ordering ,checked_out, checked_out_time, rfio, rphone, info, ipuser, ttime, plimit,pricezap ,rmail,sms) 
-            {
+                //(idspec, iduser, reception, published, dttime ,hrtime,mntime,ordering ,checked_out, checked_out_time, rfio, rphone, info, ipuser, ttime, plimit,pricezap ,rmail,sms) 
+                {
                     MegaCom = new StringBuilder("UPDATE enx4w_ttfsp SET " + $"idspec='{z[1].ToString()}', iduser='{z[2].ToString()}',reception='{z[3].ToString()}', published='{z[4].ToString()}', dttime='{z[5].ToString()}', hrtime='{z[6].ToString()}', mntime='{z[7].ToString()}', ordering='{z[8].ToString()}', checked_out='{z[9].ToString()}', checked_out_time='{z[10].ToString()}', rfio='{z[11].ToString()}', rphone='{z[12].ToString()}', info='{z[13].ToString()}', ipuser='{z[14].ToString()}', ttime='{z[15].ToString()}', plimit='{z[16].ToString()}', pricezap='{z[17].ToString()}', rmail='{z[18].ToString()}', sms='{z[19].ToString()}'" + " WHERE id=" + z[0].ToString());
                     cmd.CommandType = CommandType.Text;
                     cmd.CommandText = MegaCom.ToString();
@@ -934,8 +934,8 @@ namespace VrachMedcentr
 
                 foreach (DataRow z in DT.Rows)
                 {
-                //дороботать
-                string fg = $"(";
+                    //дороботать
+                    string fg = $"(";
                     for (int i = 1; i <= DT.Rows.Count - 1; i++)
                     {
                         if (i == DT.Rows.Count - 1)
@@ -987,8 +987,8 @@ namespace VrachMedcentr
 
 
                 StringBuilder MegaCom = new StringBuilder("INSERT INTO enx4w_ttfsp_spec(id,idsprspec,ipsprsect, pricespec,idsprtime, name ,desc,photo, offphoto,published,ordering,checked_out,checked_out_time,specmail,idusr,adddt,addtm,number_cabinet,specphone) VALUES ");
-            //  List<string> Rw = new List<string>();
-            List<string> Rw1 = new List<string>();
+                //  List<string> Rw = new List<string>();
+                List<string> Rw1 = new List<string>();
 
                 foreach (DataRow z in DT.Rows)
                 {
@@ -1073,31 +1073,32 @@ namespace VrachMedcentr
             int i = 0;
 
             ObservableCollection<Appointments> temp = new ObservableCollection<Appointments>();
-            try { 
-            con.Open();
-            cmd.CommandText = "SELECT * FROM enx4w_ttfsp_dop WHERE id_specialist = @DocID AND date = @Date";
-            cmd.Parameters.AddWithValue("@DocID", docId);
-            cmd.Parameters.AddWithValue("@Date", TimeAppointments);
-            cmd.Connection = con;
-            cmd.ExecuteNonQuery();
-            using (MySqlDataReader dr = cmd.ExecuteReader())
+            try
             {
-                while (dr.Read())
+                con.Open();
+                cmd.CommandText = "SELECT * FROM enx4w_ttfsp_dop WHERE id_specialist = @DocID AND date = @Date";
+                cmd.Parameters.AddWithValue("@DocID", docId);
+                cmd.Parameters.AddWithValue("@Date", TimeAppointments);
+                cmd.Connection = con;
+                cmd.ExecuteNonQuery();
+                using (MySqlDataReader dr = cmd.ExecuteReader())
                 {
-                    i++;
-                    temp.Add(new Appointments
+                    while (dr.Read())
                     {
-                        NumberZP = i,
-                        IDUser = dr.GetString("iduser"),
-                        Pacient = dr.GetString("rfio"),
-                        TimeAppomination = dr.GetString("hours") + " : " + dr.GetString("minutes"),
-                        Comment = "Коментар відсутній",// добавить коментарий при записис?
-                        NotComing = false,//вытащить с базы когда добавит димас
-                        NumOrder = dr.GetString("number_order")
-                    });
+                        i++;
+                        temp.Add(new Appointments
+                        {
+                            NumberZP = i,
+                            IDUser = dr.GetString("iduser"),
+                            Pacient = dr.GetString("rfio"),
+                            TimeAppomination = dr.GetString("hours") + " : " + dr.GetString("minutes"),
+                            Comment = "Коментар відсутній",// добавить коментарий при записис?
+                            NotComing = false,//вытащить с базы когда добавит димас
+                            NumOrder = dr.GetString("number_order")
+                        });
+                    }
                 }
-            }
-            con.Close();
+                con.Close();
 
 
             }
@@ -1156,7 +1157,8 @@ namespace VrachMedcentr
                             userId = dr.GetString("id"),
                             userFIO = dr.GetString("name"),
                             userMail = dr.GetString("email"),
-                            userPhone = dr.GetString("phone")
+                            userPhone = dr.GetString("phone"),
+                            userConf = dr.GetBoolean("block")
 
                         });
 
@@ -1177,7 +1179,104 @@ namespace VrachMedcentr
 
             return temp;
         }
-        
+
+        public ObservableCollection<Users> GetUnConfirmedUsers()
+        {
+            //synhronyze.SynhronyzeTable("enx4w_users", 1);
+            ObservableCollection<Users> temp = new ObservableCollection<Users>();
+            try
+            {
+
+                MySqlConnectionStringBuilder mysqlCSB;
+                mysqlCSB = new MySqlConnectionStringBuilder();
+                mysqlCSB.Server = server;
+                mysqlCSB.Database = database;
+                mysqlCSB.UserID = UserID;
+                mysqlCSB.Password = Password;
+                mysqlCSB.ConvertZeroDateTime = true;
+
+
+                MySqlConnection con = new MySqlConnection();
+                con.ConnectionString = mysqlCSB.ConnectionString;
+                MySqlCommand cmd = new MySqlCommand();
+
+                //i23++;
+                //if (i23 <= 1)
+                //{
+
+                //    Exception a = new Exception();
+                //    throw a;
+                //}
+
+                con.Open();
+                cmd.CommandText = "SELECT * FROM enx4w_users WHERE block='1'";
+                cmd.Connection = con;
+                cmd.Prepare();
+
+                cmd.ExecuteNonQuery();
+
+
+
+                using (MySqlDataReader dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+
+                        temp.Add(new Users
+                        {
+                            userId = dr.GetString("id"),
+                            userFIO = dr.GetString("name"),
+                            userMail = dr.GetString("email"),
+                            userPhone = dr.GetString("phone"),
+                            userConf = dr.GetBoolean("block")
+
+                        });
+
+                    }
+                }
+                con.Close();
+
+
+            }
+            catch
+            {
+                //temp = GetUsers();
+                InternetConnection = "З'єднання втрачено";
+                //Thread.Sleep(10000);
+                //return temp;
+            }
+            InternetConnection = "З'єднання встановлено";
+
+            return temp;
+        }
+
+        public void ConfirmUser(string uid)
+        {
+            MySqlConnectionStringBuilder mysqlCSB;
+            mysqlCSB = new MySqlConnectionStringBuilder();
+            mysqlCSB.Server = server;
+            mysqlCSB.Database = database;
+            mysqlCSB.UserID = UserID;
+            mysqlCSB.Password = Password;
+
+            MySqlConnection con = new MySqlConnection();
+            con.ConnectionString = mysqlCSB.ConnectionString;
+            MySqlCommand cmd = new MySqlCommand();
+            try
+            {
+                con.Open();
+                cmd.CommandText = "UPDATE enx4w_users SET block='0' WHERE id = @uid";
+                cmd.Parameters.AddWithValue("@uid", uid);
+                cmd.Connection = con;
+                cmd.ExecuteNonQuery();
+                con.Clone();
+            }
+            catch { }
+
+            //Recording publick times to base
+
+        }
+
         /// <summary>
         ///  Find All Specialization  and make doctor list
         /// (Существует другой метод (с ДатаТейблом))
@@ -1323,27 +1422,27 @@ namespace VrachMedcentr
                 cmd.Parameters.AddWithValue("@docId", docId);
                 cmd.Parameters.AddWithValue("@date", date);
 
-            cmd.Connection = con;
-            cmd.ExecuteNonQuery();
-            using (MySqlDataReader dr = cmd.ExecuteReader())
-            {
-                while (dr.Read())
+                cmd.Connection = con;
+                cmd.ExecuteNonQuery();
+                using (MySqlDataReader dr = cmd.ExecuteReader())
                 {
-                    if (dr.GetInt32("iduser") == 0)
+                    while (dr.Read())
                     {
-                        result = "Green";
-                    }
-                    else
-                    {
-                        result = "Red";
-                    }
+                        if (dr.GetInt32("iduser") == 0)
+                        {
+                            result = "Green";
+                        }
+                        else
+                        {
+                            result = "Red";
+                        }
 
-                    temp.Add(new Times
-                    {
-                        //вкинуть в класс одну из переменных
-                        Time = dr.GetString("hrtime") + ":" + dr.GetString("mntime"),
-                        Label = dr.GetString("hrtime") + ":" + dr.GetString("mntime"),
-                        Status = result
+                        temp.Add(new Times
+                        {
+                            //вкинуть в класс одну из переменных
+                            Time = dr.GetString("hrtime") + ":" + dr.GetString("mntime"),
+                            Label = dr.GetString("hrtime") + ":" + dr.GetString("mntime"),
+                            Status = result
 
                         });
 
@@ -2067,8 +2166,8 @@ namespace VrachMedcentr
                 }
             }
 
-                // synhronyze.SynhronyzeTable("talon_time", 2);
-            }
+            // synhronyze.SynhronyzeTable("talon_time", 2);
+        }
 
         #endregion
 

@@ -18,6 +18,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using VrachMedcentr.HelpersClass.MyHalpers;
+using VrachMedcentr.View;
 using WPF_Hospital;
 
 namespace VrachMedcentr
@@ -52,7 +53,7 @@ namespace VrachMedcentr
         public regViewModel()
         {
             // KARTA = new CardPageOne { Name = "aaaaaaaaaa", Sername = "bbbbbbbbbbb" };
-           
+
             //CheckConnection();
             //synhronyze.SynhronyzeAll();
             synhronyze.conLocal = con;
@@ -62,7 +63,7 @@ namespace VrachMedcentr
 
             Users = OneTimeUsers;
 
-            synhronyze.SynhronyzeTable("talon_time",1);
+            synhronyze.SynhronyzeTable("talon_time", 1);
 
 
 
@@ -213,7 +214,7 @@ namespace VrachMedcentr
                                //def.Print();
                                //def.Dispose();
 
-
+                               flowDocument = null;
                            }
                            catch (Exception) { }
 
@@ -495,7 +496,7 @@ namespace VrachMedcentr
                 {
                     ListOfDocNames = con.GetDoctrosNames(value.idspecf.ToString());
                 }
-                catch 
+                catch
                 {
                 }
 
@@ -715,7 +716,7 @@ namespace VrachMedcentr
                       }
                       catch (Exception e)
                       {
-                        //  MessageBox.Show(e.ToString());
+                          //  MessageBox.Show(e.ToString());
                           //MessageBox.Show("Перевірте правильність введення данних");
                       }
 
@@ -793,17 +794,53 @@ namespace VrachMedcentr
                       {
                           edDaysMethod();
                       }
-                      catch 
+                      catch
                       {
-                        
+
                       }
-                      
+
 
                   }));
             }
         }
 
+        public void confUserMethod()
+        {
+            ConfirmUser _ConfirmUser = new ConfirmUser();
 
+
+            ConfirmUserViewModel vmConfirmUserViewModel = new ConfirmUserViewModel();
+            _ConfirmUser.DataContext = vmConfirmUserViewModel;
+
+
+
+            try { _ConfirmUser.ShowDialog(); }
+            catch { }
+
+        }
+
+        private RelayCommand _confUser;
+        public RelayCommand confUser
+        {
+            get
+            {
+                return _confUser ??
+                       (_confUser = new RelayCommand(obj =>
+                       {
+                           try
+                           {
+                               confUserMethod();
+                               
+                           }
+                           catch
+                           {
+
+                           }
+
+
+                       }));
+            }
+        }
 
 
         /// <summary>

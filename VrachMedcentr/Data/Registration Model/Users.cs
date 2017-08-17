@@ -12,5 +12,6 @@ namespace VrachMedcentr
         public string userFIO { get; set; }
         public string userMail { get; set; }
         public string userPhone { get; set; }
+        public bool userConf { get; set; }
     }
 }

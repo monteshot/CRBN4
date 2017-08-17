@@ -187,3 +187,5 @@ C:\Users\sysoe\Source\Repos\CRBN4\VrachMedcentr\obj\Debug\VrachMedcentr.Properti
 C:\Users\sysoe\Source\Repos\CRBN4\VrachMedcentr\obj\Debug\VrachMedcentr.csproj.GenerateResource.Cache
 C:\Users\sysoe\Source\Repos\CRBN4\VrachMedcentr\obj\Debug\VrachMedcentr.exe
 C:\Users\sysoe\Source\Repos\CRBN4\VrachMedcentr\obj\Debug\VrachMedcentr.pdb
+D:\GDrive\BIBLIOTEKA\CRBN4\VrachMedcentr\obj\Debug\View\ConfirmUser.g.cs
+D:\GDrive\BIBLIOTEKA\CRBN4\VrachMedcentr\obj\Debug\View\ConfirmUser.baml
