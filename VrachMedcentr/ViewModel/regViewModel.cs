@@ -648,6 +648,7 @@ namespace VrachMedcentr
                 //}
                 //else
                 //{
+                WorkingDays = con.GetListOfWorkingDays(Convert.ToInt32(_SelectedDocNames.docID));
                 if (WorkingDays.Contains(DateDoctorAcepting) == true)
                 {
                     DoctorTimes = con.getDocTimes(SelectedDocNames.docID, DateDoctorAcepting);

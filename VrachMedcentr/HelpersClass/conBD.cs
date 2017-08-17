@@ -1065,7 +1065,7 @@ namespace VrachMedcentr
             int i = 0;
 
             ObservableCollection<Appointments> temp = new ObservableCollection<Appointments>();
-
+            try { 
             con.Open();
             cmd.CommandText = "SELECT * FROM enx4w_ttfsp_dop WHERE id_specialist = @DocID AND date = @Date";
             cmd.Parameters.AddWithValue("@DocID", docId);
