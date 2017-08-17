@@ -42,7 +42,7 @@
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="1" Margin="5" FontSize="15"  Style="{DynamicResource ButtonBlue }" Command="{Binding checkDays}"  Content="Відмітити як робочі"  />
                 <Button Grid.Column="0" Margin="5" FontSize="15"   Style="{DynamicResource ButtonGreen }" Command="{Binding uncheckDays}" Content="Відмітити як неробочі" />
-                <Button Grid.Column="3"  UseLayoutRounding="True"  Style="{DynamicResource ButtonBlue}" Command="{Binding addTimes}"  FontSize="14" Padding="5"  Margin="5">Додати час</Button>
+                <Button Grid.Column="2" Grid.ColumnSpan="3"  UseLayoutRounding="True"  Style="{DynamicResource ButtonOrange}" Command="{Binding addTimes}"  FontSize="14" Padding="5"  Margin="5">Додати час</Button>
             </Grid>
           
             <Calendar Grid.Column="0" x:Name="Cal" Style="{DynamicResource MyCalendar}"
@@ -63,7 +63,7 @@
 
 
 
-                    <ListBox Grid.Row="1" x:Name="lv" SelectedItem="{Binding SelectedTime}"  ItemsSource="{Binding docTimes,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"  >
+                    <ListBox  Grid.Row="1" x:Name="lv" SelectedItem="{Binding SelectedTime}"  ItemsSource="{Binding docTimes,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"  >
 
                         <ListBox.ItemTemplate>
                             <DataTemplate>

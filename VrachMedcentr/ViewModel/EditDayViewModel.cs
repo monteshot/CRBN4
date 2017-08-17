@@ -237,7 +237,7 @@ namespace VrachMedcentr
                       }
                       catch (Exception e)
                       {
-                          MessageBox.Show(e.ToString());
+                      //    MessageBox.Show(e.ToString());
                       }
 
                       //editDays edDays = new editDays();
