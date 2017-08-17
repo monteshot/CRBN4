@@ -21,9 +21,9 @@ namespace VrachMedcentr
         conBD conWeb = new conBD();
         //conBD conLocal = new conBD("shostka.mysql.ukraine.com.ua", "shostka_medcen", "shostka_medcen", "n5t7jzqv");
         //типа "локальная" база
-        conBD conLocal = new conBD("shostka.mysql.ukraine.com.ua", "shostka_medcen", "shostka_medcen", "n5t7jzqv");
+        public conBD conLocal; /*= new conBD("shostka.mysql.ukraine.com.ua", "shostka_medcen", "shostka_medcen", "n5t7jzqv");*/
 
-      
+
 
         public bool InternetConnectionStatus { get; set; }//временное решение сделать бы визуальное оповещение
         #region Synhronyza Tables

@@ -46,16 +46,18 @@ namespace VrachMedcentr
         // conBD siteDB = new conBD("shostka.mysql.ukraine.com.ua", "shostka_odc", "shostka_odc", "Cpu1234Pro");
         //mysql\bin\mysql.exe
         // conBD con = new conBD("shostka.mysql.ukraine.com.ua", "shostka_crl", "shostka_crl", "Cpu25Pro");
-        conBD con = new conBD(@"localhost", "shostka_crl", "root", "monteshot");
-        //public SynhronyzeClass synhronyze { get; set; } = new SynhronyzeClass();
+        conBD con = new conBD(@"localhost", "shostka_crl", "root", "monteshot"); // одновременно с этим задаются свойства в Synhronyze
+        public SynhronyzeClass synhronyze { get; set; } = new SynhronyzeClass();
         #region Constructor
         //
         DataTable azaza = new DataTable();
         public regViewModel()
         {
             // KARTA = new CardPageOne { Name = "aaaaaaaaaa", Sername = "bbbbbbbbbbb" };
+
             //CheckConnection();
             //synhronyze.SynhronyzeAll();
+            synhronyze.conLocal = con;
             DateDoctorAcepting = DateTime.Today;
             ListOfSpecf = con.GetDocSpecification();
             ListOfUsers = con.GetUsers();
