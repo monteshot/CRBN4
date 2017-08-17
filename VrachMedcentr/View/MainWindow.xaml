@@ -216,7 +216,7 @@
 
 
                 </Grid.ColumnDefinitions>
-                <Grid Margin="5,0,0,0" Grid.Column="2" Grid.Row="1" DataContext ="{Binding synhronyze}" >
+                <Grid Margin="5,0,0,0" Grid.Column="2" Grid.Row="1" DataContext ="{Binding con}" >
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition/>
@@ -224,7 +224,7 @@
                         <RowDefinition/>
 
                             </Grid.RowDefinitions>
-                    <Button Command="{Binding Test}" Visibility="Hidden">
+                    <!--<Button Command="{Binding Test}" >
                         <Button.Template>
                             <ControlTemplate>
                                 <Grid x:Name="controlLayout">
@@ -232,12 +232,13 @@
                                     </Ellipse>
                                     <Label x:Name="buttonCaption" VerticalAlignment="Center"
 						       HorizontalAlignment="Center"
-							   FontWeight="Bold" FontSize="20" Content="{Binding TextTest}"></Label>
+							   FontWeight="Bold" FontSize="20" Content="{Binding InternetConnectionStatus}"></Label>
                                 </Grid>
                             </ControlTemplate>
                         </Button.Template>
-                    </Button>
-                    <TextBlock Grid.Row="1" Text="{Binding TextTest}" Visibility="Hidden"></TextBlock>
+                    </Button>-->
+                    
+                    <TextBlock Grid.Row="1" Text="{Binding InternetConnection}" ></TextBlock>
                             <!--<TextBlock FontSize="15" TextAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Text="Підсумковий результат:" FontWeight="Bold"/>
                             <StackPanel Grid.Row="1" Orientation="Vertical">
                                 <TextBlock FontSize="15" TextAlignment="Left" VerticalAlignment="Center" Text="Лікар:" />
@@ -285,15 +286,11 @@
 
                                 </Grid>
                                 <!--<StackPanel Margin="5" Orientation="Horizontal" HorizontalAlignment="Center">
-                                           
-                                            
-                                           
-
                                         </StackPanel>-->
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    <Button Margin="0,5,0,0" Grid.Row="1" UseLayoutRounding="True"  Style="{DynamicResource ButtonOrange}" Command="{Binding EditTimes}"  FontSize="14" Padding="5" Content="Редагувати розклад лікаря" />
+                    <!--<Button Margin="15,5,15,0" Grid.Row="1" UseLayoutRounding="True"  Style="{DynamicResource ButtonOrange}" Command="{Binding EditTimes}"  FontSize="14" Padding="5" Content="Редагувати розклад лікаря" />-->
 
                 </Grid>
                 <TextBlock Grid.Row="0" Grid.Column="0" FontSize="15" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="5,0,0,0"><Run Text="Дата прийому лікаря:"/></TextBlock>
@@ -320,7 +317,7 @@
 
 
 
-                <Grid Grid.Row="2" Grid.ColumnSpan="2">
+                <Grid Grid.Row="2" Grid.ColumnSpan="3">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition/>
