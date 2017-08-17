@@ -25,7 +25,7 @@ namespace VrachMedcentr
 
 
 
-        public bool InternetConnectionStatus { get; set; }//временное решение сделать бы визуальное оповещение
+        public string InternetConnectionStatus { get; set; }//временное решение сделать бы визуальное оповещение
         #region Synhronyza Tables
         public string TextTest { get; set; } = "fasgagag";
         /// <summary>
@@ -38,15 +38,13 @@ namespace VrachMedcentr
             {
 
                 int a = 1;
-                await SynhronyzeTable("enx4w_ttfsp_dop", 1);
-                await SynhronyzeTable("enx4w_ttfsp_dop", 2);
-                await SynhronyzeTable("enx4w_users", 1);
-                await SynhronyzeTable("enx4w_ttfsp_sprspec", 1);
-                await SynhronyzeTable("enx4w_ttfsp_spec", 1);               
-                await SynhronyzeTable("enx4w_ttfsp_sprtime", 1);
-                await SynhronyzeTable("enx4w_ttfsp_sprtime", 2);
-                await SynhronyzeTable("enx4w_ttfsp", 1);
-                await SynhronyzeTable("enx4w_ttfsp", 2);
+                //await SynhronyzeTable("enx4w_ttfsp_dop", 1);
+                //await SynhronyzeTable("ekfgq_ttfsp_dop", 2);
+                //await SynhronyzeTable("ekfgq_users", 1);
+                //await SynhronyzeTable("ekfgq_ttfsp_sprspec", 1);
+                //await SynhronyzeTable("ekfgq_ttfsp_spec", 1);
+               // await SynhronyzeTable("enx4w_ttfsp", 1);
+                // await SynhronyzeTable("ekfgq_ttfsp", 2);
 
                 Task.WaitAll();
 
@@ -103,7 +101,7 @@ namespace VrachMedcentr
                        //Local = conLocal.get3apTime();
                        List<DataRow> t = _Local.AsEnumerable().ToList<DataRow>();
                        List<DataRow> t1 = _Web.AsEnumerable().ToList<DataRow>();
-                       Compare(_TableName, _mod, _Local, _Web);
+                     //  Compare(_TableName, _mod, _Local, _Web);
 
 
 
@@ -112,7 +110,7 @@ namespace VrachMedcentr
                        //    DateTime temp = a.Field<MySqlDateTime>("date").GetDateTime();
                        //}
                        int i = 0;//маркер точки останова
-                       InternetConnectionStatus = true;
+                       InternetConnectionStatus = _TableName;
                    }
 
 
@@ -121,7 +119,7 @@ namespace VrachMedcentr
                else
                {
                    MessageBox.Show("Проблеми з інтернет з'єднанням");
-                   InternetConnectionStatus = false;
+                   InternetConnectionStatus = "gsdgsdg";
                }
            });
 
@@ -144,6 +142,7 @@ namespace VrachMedcentr
                 case "enx4w_ttfsp_dop":
                     if (_mod == 1)
                     {
+                       
                         //        Local = Web.AsEnumerable().Where(rw => !Local.AsEnumerable().
                         //Any(rl => rl.Field<int>("id") == rw.Field<int>("id") && rl.Field<MySqlDateTime>("date").GetDateTime() == rw.Field<MySqlDateTime>("date").GetDateTime())).CopyToDataTable();
                         Local = Web.AsEnumerable().Where(rw => !Local.AsEnumerable().

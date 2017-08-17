@@ -4,24 +4,28 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using WpfControls;
 
 namespace VrachMedcentr
 {
-    class conBD
+    class conBD : INotifyPropertyChanged
     {
+
         public string server;
         public string database;
         public string UserID;
         public string Password;
 
         private string stat;
+        public string InternetConnection { get; set; } = "gasdgas";
 
         //  MySqlConnection con = new MySqlConnection();
         static SynhronyzeClass synhronyze = new SynhronyzeClass();
@@ -1061,7 +1065,7 @@ namespace VrachMedcentr
             int i = 0;
 
             ObservableCollection<Appointments> temp = new ObservableCollection<Appointments>();
-
+            try { 
             con.Open();
             cmd.CommandText = "SELECT * FROM enx4w_ttfsp_dop WHERE id_specialist = @DocID AND date = @Date";
             cmd.Parameters.AddWithValue("@DocID", docId);
@@ -1087,9 +1091,16 @@ namespace VrachMedcentr
             }
             con.Close();
 
+
+            }
+            catch (Exception e)
+            {
+                InternetConnection = "З'еднання втрачено";
+            }
+            InternetConnection = "З'еднання встановлено";
             return temp;
         }
-
+        //int i23 = 0;
         public ObservableCollection<Users> GetUsers()
         {
             //synhronyze.SynhronyzeTable("enx4w_users", 1);
@@ -1110,7 +1121,13 @@ namespace VrachMedcentr
                 con.ConnectionString = mysqlCSB.ConnectionString;
                 MySqlCommand cmd = new MySqlCommand();
 
+                //i23++;
+                //if (i23 <= 1)
+                //{
 
+                //    Exception a = new Exception();
+                //    throw a;
+                //}
 
                 con.Open();
                 cmd.CommandText = "SELECT * FROM enx4w_users";
@@ -1143,13 +1160,16 @@ namespace VrachMedcentr
             }
             catch
             {
-                temp = GetUsers();
+                //temp = GetUsers();
+                InternetConnection = "З'еднання втрачено";
+                //Thread.Sleep(10000);
+                //return temp;
             }
+            InternetConnection = "З'еднання встановлено";
 
             return temp;
         }
-
-
+        
         /// <summary>
         ///  Find All Specialization  and make doctor list
         /// (Существует другой метод (с ДатаТейблом))
@@ -1203,8 +1223,10 @@ namespace VrachMedcentr
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.ToString());
+                InternetConnection = "З'еднання втрачено";
+                // MessageBox.Show(e.ToString());
             }
+            InternetConnection = "З'еднання встановлено";
             return temp;
         }
 
@@ -1229,104 +1251,41 @@ namespace VrachMedcentr
             con.ConnectionString = mysqlCSB.ConnectionString;
             MySqlCommand cmd = new MySqlCommand();
             ObservableCollection<DocNames> temp = new ObservableCollection<DocNames>();
-            con.Open();
-            cmd.CommandText = "SELECT * FROM enx4w_ttfsp_spec WHERE idsprspec = @IDSpecialization";//',9,'
-            cmd.Parameters.AddWithValue("@IDSpecialization", "," + specialization + ",");
-            cmd.Connection = con;
-            cmd.ExecuteNonQuery();
-            using (MySqlDataReader dr = cmd.ExecuteReader())
+
+            try
             {
-                while (dr.Read())
+                con.Open();
+                cmd.CommandText = "SELECT * FROM enx4w_ttfsp_spec WHERE idsprspec = @IDSpecialization";//',9,'
+                cmd.Parameters.AddWithValue("@IDSpecialization", "," + specialization + ",");
+                cmd.Connection = con;
+                cmd.ExecuteNonQuery();
+                using (MySqlDataReader dr = cmd.ExecuteReader())
                 {
-                    temp.Add(new DocNames
+                    while (dr.Read())
                     {
+                        temp.Add(new DocNames
+                        {
 
-                        docName = dr.GetString("name"),
-                        docID = dr.GetString("id"),
-                        // docBool = GetDocTimeTalonStatus(Convert.ToInt32(dr.GetString("id"))),
-                        docEmail = dr.GetString("specmail"),
-                        docTimeId = dr.GetString("idsprtime"),
-                        docCab = dr.GetString("number_cabinet")
+                            docName = dr.GetString("name"),
+                            docID = dr.GetString("id"),
+                            // docBool = GetDocTimeTalonStatus(Convert.ToInt32(dr.GetString("id"))),
+                            docEmail = dr.GetString("specmail"),
+                            docTimeId = dr.GetString("idsprtime"),
+                            docCab = dr.GetString("number_cabinet")
 
 
-                    });
+                        });
+                    }
                 }
             }
-            //con.Close();
-
-            ////con.Open();
-            //cmd.CommandText = "SELECT * FROM talon_time";
-            //cmd.Connection = con;
-            //cmd.ExecuteNonQuery();
-            //DataTable dt = new DataTable();
-
-            //MySqlDataReader reader = cmd.ExecuteReader();
-            //dt.Load(reader);
-
-            //con.Close();
-            //foreach (var a in temp)
-            //{
-            //    var currentdoc = dt.AsEnumerable().Single(row => row.Field<int>("doctor_id") == Convert.ToInt32(a.docID));
-
-
-            //    var param = currentdoc.Field<int>("parametr");
-            //    if (param == 0)
-            //    {
-            //        a.docBool = false;
-            //    }
-            //    else
-            //    {
-            //        a.docBool = true;
-            //    }
-
-            //}
+            catch
+            {
+                InternetConnection = "З'еднання втрачено";
+            }
+            InternetConnection = "З'еднання встановлено";
             return temp;
         }
 
-
-        //public bool GetDocTimeTalonStatus(int _docid)
-        //{
-
-        //    //очень часто вызываеться нужно подумать нужно ли
-
-        //    //synhronyze.SynhronyzeTable("talon_time", 1);
-
-        //    //synhronyze.SynhronyzeTable("talon_time", 2);
-
-        //    MySqlConnectionStringBuilder mysqlCSB;
-        //    mysqlCSB = new MySqlConnectionStringBuilder();
-        //    mysqlCSB.Server = server;
-        //    mysqlCSB.Database = database;
-        //    mysqlCSB.UserID = UserID;
-        //    mysqlCSB.Password = Password;
-
-
-        //    MySqlConnection con = new MySqlConnection();
-        //    con.ConnectionString = mysqlCSB.ConnectionString;
-        //    MySqlCommand cmd = new MySqlCommand();
-        //    bool parametr = false;
-        //    con.Open();
-        //    cmd.CommandText = "SELECT * FROM talon_time WHERE doctor_id = @IDSpecialist";//',9,'
-        //    cmd.Parameters.AddWithValue("@IDSpecialist", _docid);
-        //    cmd.Connection = con;
-        //    cmd.ExecuteNonQuery();
-        //    using (MySqlDataReader dr = cmd.ExecuteReader())
-        //    {
-        //        while (dr.Read())
-        //        {
-        //            if (dr.GetInt32("parametr") == 0)
-        //            {
-        //                parametr = false;
-        //            }
-        //            else
-        //            {
-        //                parametr = true;
-        //            }
-        //        }
-        //    }
-        //    con.Close();
-        //    return parametr;
-        //}
         #endregion
 
         #region GET DOCTORS TIMES
@@ -1349,10 +1308,12 @@ namespace VrachMedcentr
             List<Times> temp = new List<Times>();
             string result = "";
 
-            con.Open();
-            cmd.CommandText = "SELECT * FROM enx4w_ttfsp  WHERE idspec = @docId AND dttime = @date";//',9,'
-            cmd.Parameters.AddWithValue("@docId", docId);
-            cmd.Parameters.AddWithValue("@date", date);
+            try
+            {
+                con.Open();
+                cmd.CommandText = "SELECT * FROM enx4w_ttfsp  WHERE idspec = @docId AND dttime = @date";//',9,'
+                cmd.Parameters.AddWithValue("@docId", docId);
+                cmd.Parameters.AddWithValue("@date", date);
 
             cmd.Connection = con;
             cmd.ExecuteNonQuery();
@@ -1376,13 +1337,20 @@ namespace VrachMedcentr
                         Label = dr.GetString("hrtime") + ":" + dr.GetString("mntime"),
                         Status = result
 
-                    });
+                        });
 
+                    }
                 }
+                cmd.Parameters.Clear();
+                con.Close();
+                temp = temp.OrderBy(p => p.Label).ToList();
+
             }
-            cmd.Parameters.Clear();
-            con.Close();
-            temp = temp.OrderBy(p => p.Label).ToList();
+            catch
+            {
+                InternetConnection = "З'еднання втрачено";
+            }
+            InternetConnection = "З'еднання встановлено";
             return temp;
 
 
@@ -1463,29 +1431,36 @@ namespace VrachMedcentr
             mysqlCSB.Password = Password;
             // string getDocTime = null;
 
-            bool temp;
+            bool temp = false;
             MySqlConnection con = new MySqlConnection();
             con.ConnectionString = mysqlCSB.ConnectionString;
             MySqlCommand cmd = new MySqlCommand();
 
 
-
-            con.Open();
-            cmd.CommandText = "SELECT EXISTS (SELECT * FROM enx4w_ttfsp_sprtime WHERE id = @docId)";//',9,'
-            cmd.Parameters.AddWithValue("@docId", _doctimeid);
-            cmd.Connection = con;
-            cmd.ExecuteNonQuery();
-            var i = cmd.ExecuteScalar();
-            if (Convert.ToInt32(i) == 1)
+            try
             {
-                temp = true;
-            }
-            else
-            {
-                temp = false;
-            }
+                con.Open();
+                cmd.CommandText = "SELECT EXISTS (SELECT * FROM enx4w_ttfsp_sprtime WHERE id = @docId)";//',9,'
+                cmd.Parameters.AddWithValue("@docId", _doctimeid);
+                cmd.Connection = con;
+                cmd.ExecuteNonQuery();
+                var i = cmd.ExecuteScalar();
+                if (Convert.ToInt32(i) == 1)
+                {
+                    temp = true;
+                }
+                else
+                {
+                    temp = false;
+                }
 
-            con.Close();
+                con.Close();
+            }
+            catch
+            {
+                InternetConnection = "З'еднання втрачено";
+            }
+            InternetConnection = "З'еднання встановлено";
 
             return temp;
         }
@@ -1505,20 +1480,29 @@ namespace VrachMedcentr
             con.ConnectionString = mysqlCSB.ConnectionString;
             MySqlCommand cmd = new MySqlCommand();
 
+            try
+            {
 
-            con.Open();
-            //Recording publick times to base
-            cmd.CommandText = "UPDATE enx4w_ttfsp_sprtime SET timehm=@publickTime WHERE id = @docId";//',9,'
-            cmd.Parameters.AddWithValue("@publickTime", publickTime);
-            cmd.Parameters.AddWithValue("@docId", DocID);
-            cmd.Connection = con;
-            cmd.ExecuteNonQuery();
 
-            //Recording  private times to base
-            cmd.CommandText = "UPDATE enx4w_ttfsp_sprtime SET timeprv=@privaTetime WHERE id = @docId";//',9,'
-            cmd.Parameters.AddWithValue("@privaTetime", privaTetime);
-            cmd.Connection = con;
-            cmd.ExecuteNonQuery();
+                con.Open();
+                //Recording publick times to base
+                cmd.CommandText = "UPDATE enx4w_ttfsp_sprtime SET timehm=@publickTime WHERE id = @docId";//',9,'
+                cmd.Parameters.AddWithValue("@publickTime", publickTime);
+                cmd.Parameters.AddWithValue("@docId", DocID);
+                cmd.Connection = con;
+                cmd.ExecuteNonQuery();
+
+                //Recording  private times to base
+                cmd.CommandText = "UPDATE enx4w_ttfsp_sprtime SET timeprv=@privaTetime WHERE id = @docId";//',9,'
+                cmd.Parameters.AddWithValue("@privaTetime", privaTetime);
+                cmd.Connection = con;
+                cmd.ExecuteNonQuery();
+            }
+            catch
+            {
+                InternetConnection = "З'еднання втрачено";
+            }
+            InternetConnection = "З'еднання встановлено";
 
             //synhronyze.SynhronyzeTable("enx4w_ttfsp_sprtime", 2);
 
@@ -1546,26 +1530,34 @@ namespace VrachMedcentr
             con.ConnectionString = mysqlCSB.ConnectionString;
             MySqlCommand cmd = new MySqlCommand();
             // List<Times> temp = new List<Times>();
-            con.Open();
-            cmd.CommandText = "SELECT * FROM enx4w_ttfsp_dop WHERE id_specialist = @docId AND date=@dateDB AND hours=@Hours AND minutes=@Mins";//',9,'
-            cmd.Parameters.AddWithValue("@docId", docId);
-            cmd.Parameters.AddWithValue("@dateDB", date);
-            cmd.Parameters.AddWithValue("@Hours", parTime[0]);
-            cmd.Parameters.AddWithValue("@Mins", parTime[1]);
-            cmd.Connection = con;
-            cmd.ExecuteNonQuery();
-
-            using (MySqlDataReader dr = cmd.ExecuteReader())
+            try
             {
-                //while (dr.Read())
-                //{
+                con.Open();
+                cmd.CommandText = "SELECT * FROM enx4w_ttfsp_dop WHERE id_specialist = @docId AND date=@dateDB AND hours=@Hours AND minutes=@Mins";//',9,'
+                cmd.Parameters.AddWithValue("@docId", docId);
+                cmd.Parameters.AddWithValue("@dateDB", date);
+                cmd.Parameters.AddWithValue("@Hours", parTime[0]);
+                cmd.Parameters.AddWithValue("@Mins", parTime[1]);
+                cmd.Connection = con;
+                cmd.ExecuteNonQuery();
 
-                if (dr.HasRows == true) { result = "Red"; }
-                if (dr.HasRows == false) { result = "Green"; }
-                // a = dr.GetString("rfio");
-                //  }
+                using (MySqlDataReader dr = cmd.ExecuteReader())
+                {
+                    //while (dr.Read())
+                    //{
+
+                    if (dr.HasRows == true) { result = "Red"; }
+                    if (dr.HasRows == false) { result = "Green"; }
+                    // a = dr.GetString("rfio");
+                    //  }
+                }
+                con.Close();
             }
-            con.Close();
+            catch
+            {
+                InternetConnection = "З'еднання втрачено";
+            }
+            InternetConnection = "З'еднання встановлено";
 
 
             return result;
@@ -1593,35 +1585,35 @@ namespace VrachMedcentr
 
             ObservableCollection<DateTime> temp = new ObservableCollection<DateTime>();
 
-            con.Open();
-            cmd.CommandText = "SELECT dttime FROM enx4w_ttfsp WHERE idspec = @DocID";
-            cmd.Parameters.AddWithValue("@DocID", _docId);
-
-            cmd.Connection = con;
-            cmd.ExecuteNonQuery();
-            using (MySqlDataReader dr = cmd.ExecuteReader())
+            try
             {
-                while (dr.Read())
+                con.Open();
+                cmd.CommandText = "SELECT dttime FROM enx4w_ttfsp WHERE idspec = @DocID";
+                cmd.Parameters.AddWithValue("@DocID", _docId);
+
+                cmd.Connection = con;
+                cmd.ExecuteNonQuery();
+                using (MySqlDataReader dr = cmd.ExecuteReader())
                 {
-                    i++;
-                    temp.Add(dr.GetDateTime("dttime"));
+                    while (dr.Read())
+                    {
+                        i++;
+                        temp.Add(dr.GetDateTime("dttime"));
 
 
 
 
+                    }
                 }
+                con.Close();
             }
-            con.Close();
-            //DataTable a = get_enx4w_ttfsp();
-
-            //List<DataRow> t0 = a.AsEnumerable().Where(row=>row.Field<int>("idspec")==Convert.ToInt32(_docId)).ToList();
-
-            //foreach( var c in t0)
-            //{
-            //    //temp.Add(c.Field<MySqlDateTime>("dttime").GetDateTime());
-            //}
-
+            catch
+            {
+                InternetConnection = "З'еднання втрачено";
+            }
+            InternetConnection = "З'еднання встановлено";
             return temp;
+
         }
 
         public static long ConvertToUnixTime(DateTime datetime)
@@ -1644,24 +1636,32 @@ namespace VrachMedcentr
             con.ConnectionString = mysqlCSB.ConnectionString;
             MySqlCommand cmd = new MySqlCommand();
 
-            con.Open();
-            cmd.CommandText = "INSERT INTO enx4w_ttfsp(id, idspec,iduser,reception, published, dttime,hrtime,mntime,ordering,checked_out,ttime)" +
-                " VALUES(@ID,@idSpec,@idUser,@reception,@published,@dttime,@hrtime,@mntime,@ordering,@checked_out,@ttime)";
-            var ttime = ConvertToUnixTime(dttime);
-            cmd.Parameters.AddWithValue("@ID", Id);
-            cmd.Parameters.AddWithValue("@idSpec", idSpec);
-            cmd.Parameters.AddWithValue("@idUser", idUser);
-            cmd.Parameters.AddWithValue("@reception", recetion);
-            cmd.Parameters.AddWithValue("@published", published);
-            cmd.Parameters.AddWithValue("@dttime", dttime);
-            cmd.Parameters.AddWithValue("@hrtime", hrtime);
-            cmd.Parameters.AddWithValue("@mntime", mntime);
-            cmd.Parameters.AddWithValue("@ordering", ordering);
-            cmd.Parameters.AddWithValue("@checked_out", checked_out);
-            cmd.Parameters.AddWithValue("@ttime", ttime);
-            cmd.Connection = con;
-            cmd.ExecuteNonQuery();
-            con.Close();
+            try
+            {
+                con.Open();
+                cmd.CommandText = "INSERT INTO enx4w_ttfsp(id, idspec,iduser,reception, published, dttime,hrtime,mntime,ordering,checked_out,ttime)" +
+                    " VALUES(@ID,@idSpec,@idUser,@reception,@published,@dttime,@hrtime,@mntime,@ordering,@checked_out,@ttime)";
+                var ttime = ConvertToUnixTime(dttime);
+                cmd.Parameters.AddWithValue("@ID", Id);
+                cmd.Parameters.AddWithValue("@idSpec", idSpec);
+                cmd.Parameters.AddWithValue("@idUser", idUser);
+                cmd.Parameters.AddWithValue("@reception", recetion);
+                cmd.Parameters.AddWithValue("@published", published);
+                cmd.Parameters.AddWithValue("@dttime", dttime);
+                cmd.Parameters.AddWithValue("@hrtime", hrtime);
+                cmd.Parameters.AddWithValue("@mntime", mntime);
+                cmd.Parameters.AddWithValue("@ordering", ordering);
+                cmd.Parameters.AddWithValue("@checked_out", checked_out);
+                cmd.Parameters.AddWithValue("@ttime", ttime);
+                cmd.Connection = con;
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+            catch
+            {
+                InternetConnection = "З'еднання втрачено";
+            }
+            InternetConnection = "З'еднання встановлено";
 
             //synhronyze.SynhronyzeTable("enx4w_ttfsp", 2);
         }
@@ -1680,15 +1680,24 @@ namespace VrachMedcentr
             con.ConnectionString = mysqlCSB.ConnectionString;
             MySqlCommand cmd = new MySqlCommand();
 
-            con.Open();
-            cmd.CommandText = "DELETE FROM enx4w_ttfsp WHERE idspec =@idSpec AND dttime=@dttime";
-            cmd.Parameters.AddWithValue("@idSpec", idSpec);
-            cmd.Parameters.AddWithValue("@dttime", dttime);
-            cmd.Connection = con;
-            cmd.ExecuteNonQuery();
-            con.Close();
+            try
+            {
+                con.Open();
+                cmd.CommandText = "DELETE FROM enx4w_ttfsp WHERE idspec =@idSpec AND dttime=@dttime";
+                cmd.Parameters.AddWithValue("@idSpec", idSpec);
+                cmd.Parameters.AddWithValue("@dttime", dttime);
+                cmd.Connection = con;
+                cmd.ExecuteNonQuery();
+                con.Close();
 
-            //synhronyze.SynhronyzeTable("enx4w_ttfsp", 2);
+            }
+            catch
+            {
+                InternetConnection = "З'еднання втрачено";
+            }
+            InternetConnection = "З'еднання встановлено";
+
+            //synhronyze.SynhronyzeTable("ekfgq_ttfsp", 2);
         }
         public void RemTimeInWorkDay(string idSpec, DateTime dttime, string _hrtime, string _mntime)
         {
@@ -1704,15 +1713,23 @@ namespace VrachMedcentr
             con.ConnectionString = mysqlCSB.ConnectionString;
             MySqlCommand cmd = new MySqlCommand();
 
-            con.Open();
-            cmd.CommandText = "DELETE FROM enx4w_ttfsp WHERE idspec =@idSpec AND dttime=@dttime AND hrtime=@hrtime AND mntime=@mntime";
-            cmd.Parameters.AddWithValue("@idSpec", idSpec);
-            cmd.Parameters.AddWithValue("@dttime", dttime);
-            cmd.Parameters.AddWithValue("@hrtime", _hrtime);
-            cmd.Parameters.AddWithValue("@mntime", _mntime);
-            cmd.Connection = con;
-            cmd.ExecuteNonQuery();
-            con.Close();
+            try
+            {
+                con.Open();
+                cmd.CommandText = "DELETE FROM enx4w_ttfsp WHERE idspec =@idSpec AND dttime=@dttime AND hrtime=@hrtime AND mntime=@mntime";
+                cmd.Parameters.AddWithValue("@idSpec", idSpec);
+                cmd.Parameters.AddWithValue("@dttime", dttime);
+                cmd.Parameters.AddWithValue("@hrtime", _hrtime);
+                cmd.Parameters.AddWithValue("@mntime", _mntime);
+                cmd.Connection = con;
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+            catch
+            {
+                InternetConnection = "З'еднання втрачено";
+            }
+            InternetConnection = "З'еднання встановлено";
 
             //synhronyze.SynhronyzeTable("enx4w_ttfsp", 2);
         }
@@ -1774,43 +1791,49 @@ namespace VrachMedcentr
                 {
                     cmd.Connection = con;
 
-                    con.Open();
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.Text;
+                        cmd.CommandText =
+                        "INSERT INTO enx4w_ttfsp_dop(iduser, id_specialist, ordering, rfio, rphone, info, ipuser, rmail, number_order, cdate, date, hours, minutes, office_name, specializations_name, specialist_name, specialist_email, order_password, office_address, number_cabinet) " +
+                        "VALUES(@iduser, @id_specialist, @ordering, @rfio, @rphone, @info, @ipuser, @rmail, @number_order, @cdate, @date, @hours, @minutes, @office_name, @specializations_name, @specialist_name, @specialist_email, @order_password, @office_address, @number_cabinet)";
 
+                        #region Command Parametrs
 
-                    cmd.CommandType = CommandType.Text;
-                    cmd.CommandText =
-                    "INSERT INTO enx4w_ttfsp_dop(iduser, id_specialist, ordering, rfio, rphone, info, ipuser, rmail, number_order, cdate, date, hours, minutes, office_name, specializations_name, specialist_name, specialist_email, order_password, office_address, number_cabinet) " +
-                    "VALUES(@iduser, @id_specialist, @ordering, @rfio, @rphone, @info, @ipuser, @rmail, @number_order, @cdate, @date, @hours, @minutes, @office_name, @specializations_name, @specialist_name, @specialist_email, @order_password, @office_address, @number_cabinet)";
+                        cmd.Parameters.AddWithValue("@iduser", _iduser);
+                        cmd.Parameters.AddWithValue("@id_specialist", _id_specialist);
+                        cmd.Parameters.AddWithValue("@ordering", _ordering);
+                        cmd.Parameters.AddWithValue("@rfio", _rfio);
+                        cmd.Parameters.AddWithValue("@rphone", _rphone);
+                        cmd.Parameters.AddWithValue("@info", _info);
+                        cmd.Parameters.AddWithValue("@ipuser", _ipuser);
+                        cmd.Parameters.AddWithValue("@rmail", _rmail);
+                        cmd.Parameters.AddWithValue("@number_order", _number_order);
+                        cmd.Parameters.AddWithValue("@cdate", _cdate);
+                        cmd.Parameters.AddWithValue("@date", _date);
+                        cmd.Parameters.AddWithValue("@hours", _hours);
+                        cmd.Parameters.AddWithValue("@minutes", _minutes);
+                        cmd.Parameters.AddWithValue("@office_name", _office_name);
+                        cmd.Parameters.AddWithValue("@specializations_name", _specializations_name);
+                        cmd.Parameters.AddWithValue("@specialist_name", _specialist_name);
+                        cmd.Parameters.AddWithValue("@specialist_email", _specialist_email);
+                        cmd.Parameters.AddWithValue("@order_password", _order_password);
+                        cmd.Parameters.AddWithValue("@office_address", _office_address);
+                        cmd.Parameters.AddWithValue("@number_cabinet", _number_cabinet);
 
-                    #region Command Parametrs
+                        #endregion
 
-                    cmd.Parameters.AddWithValue("@iduser", _iduser);
-                    cmd.Parameters.AddWithValue("@id_specialist", _id_specialist);
-                    cmd.Parameters.AddWithValue("@ordering", _ordering);
-                    cmd.Parameters.AddWithValue("@rfio", _rfio);
-                    cmd.Parameters.AddWithValue("@rphone", _rphone);
-                    cmd.Parameters.AddWithValue("@info", _info);
-                    cmd.Parameters.AddWithValue("@ipuser", _ipuser);
-                    cmd.Parameters.AddWithValue("@rmail", _rmail);
-                    cmd.Parameters.AddWithValue("@number_order", _number_order);
-                    cmd.Parameters.AddWithValue("@cdate", _cdate);
-                    cmd.Parameters.AddWithValue("@date", _date);
-                    cmd.Parameters.AddWithValue("@hours", _hours);
-                    cmd.Parameters.AddWithValue("@minutes", _minutes);
-                    cmd.Parameters.AddWithValue("@office_name", _office_name);
-                    cmd.Parameters.AddWithValue("@specializations_name", _specializations_name);
-                    cmd.Parameters.AddWithValue("@specialist_name", _specialist_name);
-                    cmd.Parameters.AddWithValue("@specialist_email", _specialist_email);
-                    cmd.Parameters.AddWithValue("@order_password", _order_password);
-                    cmd.Parameters.AddWithValue("@office_address", _office_address);
-                    cmd.Parameters.AddWithValue("@number_cabinet", _number_cabinet);
+                        cmd.ExecuteNonQuery();
+                        cmd.Parameters.Clear();
 
-                    #endregion
-
-                    cmd.ExecuteNonQuery();
-                    cmd.Parameters.Clear();
-
-                    con.Close();
+                        con.Close();
+                    }
+                    catch
+                    {
+                        InternetConnection = "З'еднання втрачено";
+                    }
+                    InternetConnection = "З'еднання встановлено";
 
                 }
             }
@@ -1841,30 +1864,36 @@ namespace VrachMedcentr
                 {
                     cmd.Connection = con;
 
-                    con.Open();
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.Text;
+                        cmd.CommandText = "UPDATE enx4w_ttfsp SET iduser=@iduser, reception='1', rfio=@rfio, rphone=@rphone, info=@info, ipuser=@ipuser, rmail=@rmail" +
+                            " WHERE idspec=@idspec AND dttime=@dttime AND hrtime=@hrtime AND mntime=@mntime";
 
+                        #region Command Parametrs
 
-                    cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "UPDATE enx4w_ttfsp SET iduser=@iduser, reception='1', rfio=@rfio, rphone=@rphone, info=@info, ipuser=@ipuser, rmail=@rmail" +
-                        " WHERE idspec=@idspec AND dttime=@dttime AND hrtime=@hrtime AND mntime=@mntime";
+                        cmd.Parameters.AddWithValue("@iduser", _iduser);
+                        cmd.Parameters.AddWithValue("@rfio", _rfio);
+                        cmd.Parameters.AddWithValue("@rphone", _rphone);
+                        cmd.Parameters.AddWithValue("@info", _info);
+                        cmd.Parameters.AddWithValue("@ipuser", _ipuser);
+                        cmd.Parameters.AddWithValue("@rmail", _rmail);
+                        cmd.Parameters.AddWithValue("@idspec", _idspec);
+                        cmd.Parameters.AddWithValue("@dttime", _dttime);
+                        cmd.Parameters.AddWithValue("@hrtime", _hours);
+                        cmd.Parameters.AddWithValue("@mntime", _minutes);
 
-                    #region Command Parametrs
+                        #endregion
 
-                    cmd.Parameters.AddWithValue("@iduser", _iduser);
-                    cmd.Parameters.AddWithValue("@rfio", _rfio);
-                    cmd.Parameters.AddWithValue("@rphone", _rphone);
-                    cmd.Parameters.AddWithValue("@info", _info);
-                    cmd.Parameters.AddWithValue("@ipuser", _ipuser);
-                    cmd.Parameters.AddWithValue("@rmail", _rmail);
-                    cmd.Parameters.AddWithValue("@idspec", _idspec);
-                    cmd.Parameters.AddWithValue("@dttime", _dttime);
-                    cmd.Parameters.AddWithValue("@hrtime", _hours);
-                    cmd.Parameters.AddWithValue("@mntime", _minutes);
-
-                    #endregion
-
-                    cmd.ExecuteNonQuery();
-                    cmd.Parameters.Clear();
+                        cmd.ExecuteNonQuery();
+                        cmd.Parameters.Clear();
+                    }
+                    catch
+                    {
+                        InternetConnection = "З'еднання втрачено";
+                    }
+                    InternetConnection = "З'еднання встановлено";
 
 
 
@@ -1893,18 +1922,26 @@ namespace VrachMedcentr
 
             int i = 0;
 
-            con.Open();
-            cmd.CommandText = "SELECT ordering FROM enx4w_ttfsp_dop WHERE ordering = (SELECT MAX(ordering) FROM  enx4w_ttfsp_dop )";
-            cmd.Connection = con;
-            cmd.ExecuteNonQuery();
-            using (MySqlDataReader dr = cmd.ExecuteReader())
+            try
             {
-                while (dr.Read())
+                con.Open();
+                cmd.CommandText = "SELECT ordering FROM enx4w_ttfsp_dop WHERE ordering = (SELECT MAX(ordering) FROM  enx4w_ttfsp_dop )";
+                cmd.Connection = con;
+                cmd.ExecuteNonQuery();
+                using (MySqlDataReader dr = cmd.ExecuteReader())
                 {
-                    i = Convert.ToInt32(dr.GetString("ordering"));
+                    while (dr.Read())
+                    {
+                        i = Convert.ToInt32(dr.GetString("ordering"));
+                    }
                 }
+                con.Close();
             }
-            con.Close();
+            catch
+            {
+                InternetConnection = "З'еднання втрачено";
+            }
+            InternetConnection = "З'еднання встановлено";
 
             return i + 1;
         }
@@ -1929,33 +1966,40 @@ namespace VrachMedcentr
 
             string temp = null;
             con.Close();
-            con.Open();
-            cmd.CommandText = "SELECT number_order FROM enx4w_ttfsp_dop ORDER BY id DESC LIMIT @ILimit";
-            cmd.Parameters.AddWithValue("@ILimit", _ILimit);
-            cmd.Connection = con;
-            cmd.ExecuteNonQuery();
-            using (MySqlDataReader dr = cmd.ExecuteReader())
+            try
             {
-                while (dr.Read())
+                con.Open();
+                cmd.CommandText = "SELECT number_order FROM enx4w_ttfsp_dop ORDER BY id DESC LIMIT @ILimit";
+                cmd.Parameters.AddWithValue("@ILimit", _ILimit);
+                cmd.Connection = con;
+                cmd.ExecuteNonQuery();
+                using (MySqlDataReader dr = cmd.ExecuteReader())
                 {
+                    while (dr.Read())
+                    {
 
-                    temp = dr.GetString("number_order");
+                        temp = dr.GetString("number_order");
+                    }
+                }
+
+                con.Close();
+                //проверка если номер порядка пустой возьми на одну запись больше
+                if (temp == "")
+                {
+                    _ILimit = _ILimit + 1;
+
+                    temp = GetNumberOrder();
+                }
+                else
+                {
+                    _ILimit = 1;
                 }
             }
-
-            con.Close();
-            //проверка если номер порядка пустой возьми на одну запись больше
-            if (temp == "")
+            catch
             {
-                _ILimit = _ILimit + 1;
-
-                temp = GetNumberOrder();
+                InternetConnection = "З'еднання втрачено";
             }
-            else
-            {
-                _ILimit = 1;
-            }
-
+            InternetConnection = "З'еднання встановлено";
             return temp;
 
 
@@ -1983,34 +2027,50 @@ namespace VrachMedcentr
                 {
                     cmd.Connection = con;
 
-                    con.Open();
+                    try
+                    {
+                        con.Open();
 
 
-                    cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "UPDATE talon_time SET parametr=@parametr" +
-                        " WHERE doctor_id=@doctor_id ";
+                        cmd.CommandType = CommandType.Text;
+                        cmd.CommandText = "UPDATE talon_time SET parametr=@parametr" +
+                            " WHERE doctor_id=@doctor_id ";
 
-                    #region Command Parametrs
+                        #region Command Parametrs
 
 
-                    cmd.Parameters.AddWithValue("@parametr", _parametr);
-                    cmd.Parameters.AddWithValue("@doctor_id", _docid);
+                        cmd.Parameters.AddWithValue("@parametr", _parametr);
+                        cmd.Parameters.AddWithValue("@doctor_id", _docid);
 
-                    #endregion
+                        #endregion
 
-                    cmd.ExecuteNonQuery();
-                    cmd.Parameters.Clear();
+                        cmd.ExecuteNonQuery();
+                        cmd.Parameters.Clear();
+                        con.Close();
+                    }
+                    catch
+                    {
+                        InternetConnection = "З'еднання втрачено";
+                    }
+                    InternetConnection = "З'еднання встановлено";
 
 
 
                 }
             }
 
-            // synhronyze.SynhronyzeTable("talon_time", 2);
-        }
+                // synhronyze.SynhronyzeTable("talon_time", 2);
+            }
 
         #endregion
 
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            var handler = this.PropertyChanged;
+            if (handler != null)
+                handler(this, new PropertyChangedEventArgs(propertyName));
+        }
 
 
 

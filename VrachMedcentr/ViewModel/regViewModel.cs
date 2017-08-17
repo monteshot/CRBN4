@@ -43,10 +43,8 @@ namespace VrachMedcentr
 
         #endregion
 
-        // conBD siteDB = new conBD("shostka.mysql.ukraine.com.ua", "shostka_odc", "shostka_odc", "Cpu1234Pro");
-        //mysql\bin\mysql.exe
-        // conBD con = new conBD("shostka.mysql.ukraine.com.ua", "shostka_crl", "shostka_crl", "Cpu25Pro");
-        conBD con = new conBD(@"localhost", "shostka_crl", "root", "monteshot"); // одновременно с этим задаются свойства в Synhronyze
+        //  conBD con = new conBD(@"localhost", "shostka_crl", "root", "monteshot"); // одновременно с этим задаются свойства в Synhronyze
+        public conBD con { get; set; } = new conBD("shostka.mysql.ukraine.com.ua", "shostka_crl", "shostka_crl", "Cpu25Pro");
         public SynhronyzeClass synhronyze { get; set; } = new SynhronyzeClass();
         #region Constructor
         //
@@ -54,7 +52,7 @@ namespace VrachMedcentr
         public regViewModel()
         {
             // KARTA = new CardPageOne { Name = "aaaaaaaaaa", Sername = "bbbbbbbbbbb" };
-
+           
             //CheckConnection();
             //synhronyze.SynhronyzeAll();
             synhronyze.conLocal = con;
@@ -388,7 +386,7 @@ namespace VrachMedcentr
                     comboboxtext = value;
                     //ComboBoxDropDown = true;
                     //IsTextSearchEnabled = false;
-                    var FiltredUsers = from Users in OneTimeUsers where Users.Contains(value) select Users;
+                    var FiltredUsers = from Users in OneTimeUsers where Users.Contains(value) || Users.Contains(value.ToUpper()) || Users.Contains(value.ToLower()) select Users;
                     ObservableCollection<string> temps = new ObservableCollection<string>();
                     foreach (var a in FiltredUsers)
                     {
@@ -549,7 +547,7 @@ namespace VrachMedcentr
                 {
                     //розкоментить для отладки
                     //Екзепшен возникает при выборе специализации при этом SelectedDocNames становиться равный null
-                    //  MessageBox.Show(e.ToString());
+                    //MessageBox.Show(e.ToString());
                 }
             }
         }
@@ -650,6 +648,7 @@ namespace VrachMedcentr
                 //}
                 //else
                 //{
+                WorkingDays = con.GetListOfWorkingDays(Convert.ToInt32(_SelectedDocNames.docID));
                 if (WorkingDays.Contains(DateDoctorAcepting) == true)
                 {
                     DoctorTimes = con.getDocTimes(SelectedDocNames.docID, DateDoctorAcepting);

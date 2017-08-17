@@ -24,6 +24,7 @@ namespace VrachMedcentr
         public string docEmail { get; set; }
         public string docTimeId { get; set; }
         public string docCab { get; set; }
+        
 
     }
 

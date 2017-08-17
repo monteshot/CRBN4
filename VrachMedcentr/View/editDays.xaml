@@ -49,7 +49,8 @@
                                    helpers:HolidayHelper.List ="{Binding WorkDays}"
                                    CalendarButtonStyle="{DynamicResource MyCalendarButtonStyle}"
                                    CalendarDayButtonStyle="{DynamicResource MyCalendarDayButtonStyle}"
-                                   CalendarItemStyle="{DynamicResource MyCalendarItem}" SelectedDate="{Binding selectedDays , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DisplayDate="{Binding selectedDays,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  SelectionMode="MultipleRange">
+                                   CalendarItemStyle="{DynamicResource MyCalendarItem}" SelectedDate="{Binding selectedDays , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      DisplayDate="{Binding selectedDays,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"   SelectionMode="MultipleRange">
 
                 <i:Interaction.Triggers>
                     <i:EventTrigger  EventName="SelectedDatesChanged">
@@ -77,15 +78,16 @@
                                         <TextBlock Padding="5" FontSize="15">В регістратурі/На сайті</TextBlock>
                                         <CheckBox UseLayoutRounding="True" Style="{DynamicResource CheckBoxSwitcher}" Padding="5" IsChecked="{Binding PublickPrivate}"></CheckBox>
                                     </StackPanel>-->
-                                    <StackPanel Orientation="Horizontal" Grid.Column="0">
-                                        <TextBlock Padding="5" FontSize="15" Text="Час: "/>
+                                    <StackPanel HorizontalAlignment="Center"  Orientation="Horizontal" Grid.Column="0">
+                                        <TextBlock Margin="30,0,0,0" Padding="5" FontSize="15" Text="Час: "/>
                                         <xctk:TimePicker Foreground="#FF615D5D" Background="#FFEEEEEE" Padding="10,0,10,0"
-                                             Style="{DynamicResource GrayTimePickerStyle}" Format="ShortTime" TimeInterval="0:5:0" 
+                                             Style="{DynamicResource GrayTimePickerStyle}" Format="Custom" TimeInterval="0:5:0" 
                                              Text="{ Binding Time, UpdateSourceTrigger=PropertyChanged}"  ShowButtonSpinner="False"
-                                             Kind="Local" MouseWheelActiveTrigger="MouseOver" AllowSpin="True" IsManipulationEnabled="True" />
+                                             Kind="Local" MouseWheelActiveTrigger="MouseOver" AllowSpin="True" IsManipulationEnabled="True" FormatString="hh:mm" />
+                                       
                                     </StackPanel>
+                                    <Button  Grid.Column="1" Margin="30,0,0,0" Style="{DynamicResource ButtonGreen}"  Command="{Binding ElementName=lv,Path=DataContext.remTimes}" CommandParameter="{Binding}">Видалити час</Button>
 
-                                    <Button Grid.Column="1" Margin="10,0,0,0" Style="{DynamicResource ButtonGreen}"  Command="{Binding ElementName=lv,Path=DataContext.remTimes}" CommandParameter="{Binding}">Видалити час</Button>
 
                                 </Grid>
 

@@ -12,13 +12,25 @@ namespace VrachMedcentr
 {
     class EditDayViewModel : INotifyPropertyChanged
     {
-
+        SelectedDatesCollection tempSelected = new SelectedDatesCollection(new Calendar());
+        #region Constructor
         public EditDayViewModel(DocNames Doc)
         {
             WorkDays = con.GetListOfWorkingDays(Convert.ToInt32(Doc.docID));
             docSelected = Doc;
             selectedDays = DateTime.Now;
+            tempSelected.Add(DateTime.Now);
         }
+        #endregion
+
+        #region Helpers object
+        conBD con = new conBD("shostka.mysql.ukraine.com.ua", "shostka_crl", "shostka_crl", "Cpu25Pro");
+        SynhronyzeClass sync = new SynhronyzeClass();
+        #endregion
+
+        #region Publick Variables
+
+        List<DateTime> selectedDaysCal = new List<DateTime>();
         private DateTime _selectedDays;
         public DateTime selectedDays
         {
@@ -46,7 +58,7 @@ namespace VrachMedcentr
                     else
                     {
                         docTimes = new ObservableCollection<Times>();
-                        docTimes.Add(new Times { Label = "Не робочій день", Status = "Red" });
+                        //docTimes.Add(new Times { Label = "Не робочій день", Status = "Red" });
                     }
 
 
@@ -64,9 +76,8 @@ namespace VrachMedcentr
         public DocNames docSelected { get; set; }
         public ObservableCollection<Times> docTimes { get; set; }
         public ObservableCollection<DateTime> WorkDays { get; set; }
-        conBD con = new conBD("shostka.mysql.ukraine.com.ua", "shostka_crl", "shostka_crl", "Cpu25Pro");
-        SynhronyzeClass sync = new SynhronyzeClass();
-        List<DateTime> selectedDaysCal = new List<DateTime>();
+
+
 
 
 
@@ -74,9 +85,10 @@ namespace VrachMedcentr
 
         public Times SelectedTime { get; set; }
 
+        #endregion
 
 
-
+        #region Commands
         private RelayCommand _addTimes;
         public RelayCommand addTimes
         {
@@ -147,13 +159,14 @@ namespace VrachMedcentr
                 return _setSelectedDays ??
                   (_setSelectedDays = new RelayCommand(obj =>
                   {
+                      //tempSelected.Clear();
                       tempSelected = obj as SelectedDatesCollection;
 
                   }));
             }
 
         }
-        SelectedDatesCollection tempSelected;
+       
 
         private RelayCommand _checkDays;
 
@@ -171,18 +184,26 @@ namespace VrachMedcentr
                       List<DateTime> DateWithoutWorkingDays = new List<DateTime>();
                       try
                       {
-                          foreach (var a in tempSelected as SelectedDatesCollection)
+                          //создаем стирнг из дат которіе пересекаються с робочими днями, не робочие дни добавляем в отдельный лист
+                          foreach (var a in tempSelected )
                           {
                               if (WorkDays.Contains(a) == true)
                               {
-                                  datestring = datestring + a.ToShortDateString()+", ";
+                                  datestring = datestring + a.ToShortDateString() + ", ";
                               }
                               else
                               {
                                   DateWithoutWorkingDays.Add(a);
                               }
                           }
-                          datestring = datestring.Remove(datestring.Length - 2);
+
+                          if (datestring != "")
+                          {
+                              datestring = datestring.Remove(datestring.Length - 2);
+                          }
+                          
+
+                          //если среди выбраных дней есть робочие выводим сообщение с опрос пользователя о дальнейших действиях
                           if (datestring != "")
                           {
                               var result = MessageBox.Show("На обрану  дату(и): " + datestring + " вже існує розклад.\nПерезаписати розклад на ці дні?", "Повідомлення", MessageBoxButton.YesNo, MessageBoxImage.Question);
@@ -203,7 +224,7 @@ namespace VrachMedcentr
                               }
                               if (result == MessageBoxResult.No)
                               {
-                                  foreach (var a in DateWithoutWorkingDays )
+                                  foreach (var a in DateWithoutWorkingDays)
                                   {
 
                                       foreach (var t in docTimes)
@@ -218,6 +239,7 @@ namespace VrachMedcentr
                                   DateWithoutWorkingDays = new List<DateTime>();
                               }
                           }
+                          //если нет просто публикуем росписание
                           else
                           {
                               foreach (var a in tempSelected as SelectedDatesCollection)
@@ -233,7 +255,7 @@ namespace VrachMedcentr
                               }
                           }
 
-                          
+
                           WorkDays = con.GetListOfWorkingDays(Convert.ToInt32(docSelected.docID));
                       }
                       catch (Exception e)
@@ -274,7 +296,8 @@ namespace VrachMedcentr
 
                           }
                           WorkDays = con.GetListOfWorkingDays(Convert.ToInt32(docSelected.docID));
-                          // sync.SynhronyzeTable("enx4w_ttfsp", 2);
+                          docTimes = new ObservableCollection<Times>();
+                          // sync.SynhronyzeTable("ekfgq_ttfsp", 2);
                       }
                       catch (Exception) { }
 
@@ -283,6 +306,9 @@ namespace VrachMedcentr
             }
 
         }
+        #endregion
+
+        #region Interface
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
         {
@@ -291,4 +317,5 @@ namespace VrachMedcentr
                 handler(this, new PropertyChangedEventArgs(propertyName));
         }
     }
+    #endregion
 }
