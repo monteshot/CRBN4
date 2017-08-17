@@ -43,8 +43,8 @@ namespace VrachMedcentr
         #endregion
         conBD siteDB = new conBD("shostka.mysql.ukraine.com.ua", "shostka_odc", "shostka_odc", "Cpu1234Pro");
 
-        conBD con = new conBD("shostka.mysql.ukraine.com.ua", "shostka_crl", "shostka_crl", "Cpu25Pro");
-        //public SynhronyzeClass synhronyze { get; set; } = new SynhronyzeClass();
+        public conBD con { get; set; } = new conBD("shostka.mysql.ukraine.com.ua", "shostka_crl", "shostka_crl", "Cpu25Pro");
+        public SynhronyzeClass synhronyze { get; set; } = new SynhronyzeClass();
         #region Constructor
         //
         DataTable azaza = new DataTable();
@@ -310,7 +310,7 @@ namespace VrachMedcentr
                     comboboxtext = value;
                     //ComboBoxDropDown = true;
                     //IsTextSearchEnabled = false;
-                    var FiltredUsers = from Users in OneTimeUsers where Users.Contains(value) select Users;
+                    var FiltredUsers = from Users in OneTimeUsers where Users.Contains(value) || Users.Contains(value.ToUpper()) || Users.Contains(value.ToLower()) select Users;
                     ObservableCollection<string> temps = new ObservableCollection<string>();
                     foreach (var a in FiltredUsers)
                     {
@@ -464,7 +464,7 @@ namespace VrachMedcentr
                 {
                     //розкоментить для отладки
                     //Екзепшен возникает при выборе специализации при этом SelectedDocNames становиться равный null
-                    MessageBox.Show(e.ToString());
+                    //MessageBox.Show(e.ToString());
                 }
             }
         }
