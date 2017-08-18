@@ -1945,9 +1945,10 @@ namespace VrachMedcentr
 
                         con.Close();
                     }
-                    catch
+                    catch(Exception e)
                     {
                         InternetConnection = "З'єднання втрачено";
+                       // MessageBox.Show(e.ToString());
                     }
                    
 

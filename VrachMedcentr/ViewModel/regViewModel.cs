@@ -403,7 +403,14 @@ namespace VrachMedcentr
                     Users = temps;
                     if (!Users.Contains(value))
                     {
-                        SelectedUser = new Users { userFIO = value, userId = "007", userMail = "registratura@coworking.com", userPhone = "8-800-555-35-35" };
+                        //if (value.Length > 0)
+                        //{
+                            SelectedUser = new Users { userFIO = value, userId = "007", userMail = "registratura@coworking.com", userPhone = "8-800-555-35-35" };
+                        //}
+                        //else
+                        //{
+                        //    SelectedUser = new Users { userFIO = "Регістратура", userId = "007", userMail = "registratura@coworking.com", userPhone = "8-800-555-35-35" };
+                        //}
                     }
 
 
@@ -413,6 +420,7 @@ namespace VrachMedcentr
                     comboboxtext = value;
                     //ComboBoxDropDown = false;
                     // IsTextSearchEnabled = false;
+                    SelectedUser = new Users { userFIO = "Регістратура", userId = "007", userMail = "registratura@coworking.com", userPhone = "8-800-555-35-35" };
                     Users = OneTimeUsers;
                 }
             }
@@ -689,6 +697,13 @@ namespace VrachMedcentr
                   {
                       try
                       {
+
+                          if (SelectedUser == null)
+                          {
+                             
+                                  SelectedUser = new Users { userFIO = "Регыстратура", userId = "007", userMail = "registratura@coworking.com", userPhone = "8-800-555-35-35" };
+                             
+                          }
                           string mess = "Ви дійсно хочете записати на прийом пацієнта " + SelectedUser.userFIO + " до лікаря " + SelectedDocNames.docName;
                           string capt = "Запис на прийом до лікаря " + SelectedDocNames.docName;
 
@@ -703,12 +718,14 @@ namespace VrachMedcentr
 
                                   string temp1 = ComboboxText;
                                   string[] temp = SelectedTime.Time.Split(new char[] { ':' });
+                                  
 
                                   con.INsertTheApointment(SelectedUser.userId, Convert.ToInt32(SelectedDocNames.docID), SelectedUser.userFIO, SelectedUser.userPhone, SelectedUser.userMail,
                                       SelectedSpecf.specf, SelectedDocNames.docName, SelectedDocNames.docEmail, DateDoctorAcepting, temp[0], temp[1], SelectedDocNames.docCab);
                                   Appointments = con.GetAppointments(SelectedDocNames.docID, DateDoctorAcepting);
                                   DoctorTimes = con.getDocTimes(SelectedDocNames.docID, DateDoctorAcepting);
                                   OneTimeDoctorTimes = DoctorTimes;
+                                  SelectedUser = new Users();
 
 
                               }
@@ -723,8 +740,8 @@ namespace VrachMedcentr
                       }
                       catch (Exception e)
                       {
-                          //  MessageBox.Show(e.ToString());
-                          //MessageBox.Show("Перевірте правильність введення данних");
+                            MessageBox.Show(e.ToString());
+                          MessageBox.Show("Перевірте правильність введення данних");
                       }
 
                   }));
