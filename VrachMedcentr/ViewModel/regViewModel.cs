@@ -85,7 +85,7 @@ namespace VrachMedcentr
             }
             else
             {
-                MessageBox.Show("Проблеми з інтернет з'єднанням.\nСпробуйте будьласка пізніше.");
+                MessageBox.Show("Проблеми з інтернет з'єднанням.\nСпробуйте будь-ласка пізніше.");
             }
 
         }
@@ -437,16 +437,25 @@ namespace VrachMedcentr
             }
             set
             {
-                selectedFIO = value;
-                comboboxtext = value;
-                //Возможно нужна проверка на полное совпадение если таково бредусмотрено базой
-                foreach (var a in ListOfUsers)
+                if (value != "")
                 {
-                    if (a.userFIO == value)
+                    selectedFIO = value;
+                    comboboxtext = value;
+                    //Возможно нужна проверка на полное совпадение если таково бредусмотрено базой
+                    foreach (var a in ListOfUsers)
                     {
-                        SelectedUser = a;
+                        if (a.userFIO == value)
+                        {
+                            SelectedUser = a;
+                        }
                     }
                 }
+                else
+                {
+                    SelectedUser = new Users { userFIO = "Регістратура", userId = "007", userMail = "registratura@coworking.com", userPhone = "8-800-555-35-35" };
+
+                }
+              
 
 
 
@@ -701,7 +710,7 @@ namespace VrachMedcentr
                           if (SelectedUser == null)
                           {
                              
-                                  SelectedUser = new Users { userFIO = "Регыстратура", userId = "007", userMail = "registratura@coworking.com", userPhone = "8-800-555-35-35" };
+                                  SelectedUser = new Users { userFIO = "Регістратура", userId = "007", userMail = "registratura@coworking.com", userPhone = "8-800-555-35-35" };
                              
                           }
                           string mess = "Ви дійсно хочете записати на прийом пацієнта " + SelectedUser.userFIO + " до лікаря " + SelectedDocNames.docName;
@@ -741,7 +750,7 @@ namespace VrachMedcentr
                       catch (Exception e)
                       {
                          //   MessageBox.Show(e.ToString());
-                          MessageBox.Show("Перевірте правильність введення данних");
+                          MessageBox.Show("Перевірте правильність введення данних:\nВибране ПІБ пацієнта\nВибрані дата та час прийому", "Неправильні дані",MessageBoxButton.OK,MessageBoxImage.Hand);
                       }
 
                   }));

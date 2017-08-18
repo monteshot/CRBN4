@@ -316,7 +316,7 @@ namespace VrachMedcentr
             IPStatus status = IPStatus.Unknown;
             try
             {
-                status = new Ping().Send("shostka.mysql.ukraine.com.ua").Status;
+                status = new Ping().Send("google.com.ua").Status;
             }
             catch { }
 
