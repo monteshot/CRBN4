@@ -238,7 +238,7 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>-->
-                    <Button Margin="15,5,15,0" Padding="5" Grid.Row="0" UseLayoutRounding="True"  Style="{DynamicResource ButtonGreen}" Command="{Binding ElementName=Registratyra,Path=DataContext.confUser}" CommandParameter="{Binding}"  FontSize="14"  Content="Підтвердження користувачів"  />
+                    <Button Visibility="Hidden" Margin="15,5,15,0" Padding="5" Grid.Row="0" UseLayoutRounding="True"  Style="{DynamicResource ButtonGreen}" Command="{Binding ElementName=Registratyra,Path=DataContext.confUser}" CommandParameter="{Binding}"  FontSize="14"  Content="Підтвердження користувачів"  />
 
                     <TextBlock Grid.Row="3" FontSize="15" VerticalAlignment="Center" TextAlignment="Center" Text="{Binding InternetConnection}" ></TextBlock>
                             <!--<TextBlock FontSize="15" TextAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Text="Підсумковий результат:" FontWeight="Bold"/>
@@ -293,6 +293,8 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                     <!--<Button Margin="15,5,15,0" Grid.Row="1" UseLayoutRounding="True"  Style="{DynamicResource ButtonOrange}" Command="{Binding EditTimes}"  FontSize="14" Padding="5" Content="Редагувати розклад лікаря" />-->
+                    <Button Grid.Row="1" Margin="15,5,15,0" Padding="5"  UseLayoutRounding="True"  Style="{DynamicResource ButtonGreen}" Command="{Binding ElementName=Registratyra,Path=DataContext.confUser}" CommandParameter="{Binding}"  FontSize="14"  Content="Підтвердження користувачів"  />
+
 
                 </Grid>
                 <TextBlock Grid.Row="0" Grid.Column="0" FontSize="15" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="5,0,0,0"><Run Text="Дата прийому лікаря:"/></TextBlock>
@@ -352,8 +354,7 @@
                                     <ColumnDefinition Width="0.1*"></ColumnDefinition>
                                     <ColumnDefinition Width="0.7*"></ColumnDefinition>
                                     <ColumnDefinition Width="0.15*"></ColumnDefinition>
-                                    <ColumnDefinition Width="0.3*"></ColumnDefinition>
-                                    <ColumnDefinition Width="0.22*"></ColumnDefinition>
+                                    <ColumnDefinition Width="0.3*"></ColumnDefinition>                                    
                                     <ColumnDefinition Width="0.1*"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Margin="10,0,0,0" FontSize="20" Background="#8FC1E5" Foreground="White" VerticalAlignment="Center" Grid.Column="0">№</TextBlock>
@@ -380,8 +381,7 @@
                                 <ColumnDefinition Width="0.1*"></ColumnDefinition>
                                 <ColumnDefinition Width="0.7*"></ColumnDefinition>
                                 <ColumnDefinition Width="0.15*"></ColumnDefinition>
-                                <ColumnDefinition Width="0.32*"></ColumnDefinition>
-                                <ColumnDefinition Width="0.22*"></ColumnDefinition>
+                                <ColumnDefinition Width="0.3*"></ColumnDefinition>
                                 <ColumnDefinition Width="0.1*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
 
@@ -394,7 +394,7 @@
                             <!--<TextBlock Grid.Column="3" FontSize="20" Text=" | Коментар: "/>-->
                             <TextBlock Margin="10,0,0,0" Grid.Column="3" FontSize="20" Text="{Binding Comment}"/>
                             <!--<TextBlock Grid.Column="4" FontSize="20" Text=" | Не прийшов: "/>-->
-                            <CheckBox Grid.Column="4" FontSize="20" IsChecked="{Binding NotComing}"/>
+                            <!--<CheckBox Grid.Column="4" FontSize="20" IsChecked="{Binding NotComing}"/>-->
                             <!--<TextBlock Grid.Column="5" FontSize="20" Text=" | uID: "/>-->
                             <!--<TextBlock Margin="10,0,0,0" Grid.Column="5" FontSize="20" Text="{Binding IDUser}"/>-->
                             <Button Grid.Column="5" Margin="10,0,0,0" Style="{DynamicResource ButtonGreen}"  Command="{Binding ElementName=Registratyra,Path=DataContext.printTalon}" CommandParameter="{Binding}">Друк</Button>

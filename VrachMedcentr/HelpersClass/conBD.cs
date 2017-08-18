@@ -25,7 +25,7 @@ namespace VrachMedcentr
         public string Password;
 
         private string stat;
-        public string InternetConnection { get; set; } = "gasdgas";
+        public string InternetConnection { get; set; } = "З'єднання втрачено";
 
         //  MySqlConnection con = new MySqlConnection();
         static SynhronyzeClass synhronyze = new SynhronyzeClass();
@@ -1057,7 +1057,7 @@ namespace VrachMedcentr
         public ObservableCollection<Appointments> GetAppointments(string docId, DateTime TimeAppointments)
         {
             //synhronyze.SynhronyzeTable("enx4w_ttfsp_dop", 1);
-
+            InternetConnection = "З'єднання встановлено";
             MySqlConnectionStringBuilder mysqlCSB;
             mysqlCSB = new MySqlConnectionStringBuilder();
             mysqlCSB.Server = server;
@@ -1106,7 +1106,7 @@ namespace VrachMedcentr
             {
                 InternetConnection = "З'єднання втрачено";
             }
-            InternetConnection = "З'єднання встановлено";
+            
             return temp;
         }
         //int i23 = 0;
@@ -1116,7 +1116,7 @@ namespace VrachMedcentr
             ObservableCollection<Users> temp = new ObservableCollection<Users>();
             try
             {
-
+                InternetConnection = "З'єднання встановлено";
                 MySqlConnectionStringBuilder mysqlCSB;
                 mysqlCSB = new MySqlConnectionStringBuilder();
                 mysqlCSB.Server = server;
@@ -1139,7 +1139,7 @@ namespace VrachMedcentr
                 //}
 
                 con.Open();
-                cmd.CommandText = "SELECT * FROM enx4w_users";
+                cmd.CommandText = "SELECT * FROM enx4w_users WHERE block=0";
                 cmd.Connection = con;
                 cmd.Prepare();
 
@@ -1175,7 +1175,7 @@ namespace VrachMedcentr
                 //Thread.Sleep(10000);
                 //return temp;
             }
-            InternetConnection = "З'єднання встановлено";
+           
 
             return temp;
         }
@@ -1186,7 +1186,7 @@ namespace VrachMedcentr
             ObservableCollection<Users> temp = new ObservableCollection<Users>();
             try
             {
-
+                InternetConnection = "З'єднання встановлено";
                 MySqlConnectionStringBuilder mysqlCSB;
                 mysqlCSB = new MySqlConnectionStringBuilder();
                 mysqlCSB.Server = server;
@@ -1245,7 +1245,7 @@ namespace VrachMedcentr
                 //Thread.Sleep(10000);
                 //return temp;
             }
-            InternetConnection = "З'єднання встановлено";
+           
 
             return temp;
         }
@@ -1286,7 +1286,7 @@ namespace VrachMedcentr
         {
 
             //synhronyze.SynhronyzeTable("enx4w_ttfsp_sprspec", 1);
-
+            InternetConnection = "З'єднання встановлено";
             MySqlConnectionStringBuilder mysqlCSB;
             mysqlCSB = new MySqlConnectionStringBuilder();
             mysqlCSB.Server = server;
@@ -1333,7 +1333,7 @@ namespace VrachMedcentr
                 InternetConnection = "З'єднання втрачено";
                 // MessageBox.Show(e.ToString());
             }
-            InternetConnection = "З'єднання встановлено";
+           
             return temp;
         }
 
@@ -1345,7 +1345,7 @@ namespace VrachMedcentr
         public ObservableCollection<DocNames> GetDoctrosNames(string specialization)
         {
             //synhronyze.SynhronyzeTable("enx4w_ttfsp_spec", 1);
-
+            InternetConnection = "З'єднання встановлено";
             MySqlConnectionStringBuilder mysqlCSB;
             mysqlCSB = new MySqlConnectionStringBuilder();
             mysqlCSB.Server = server;
@@ -1389,7 +1389,7 @@ namespace VrachMedcentr
             {
                 InternetConnection = "З'єднання втрачено";
             }
-            InternetConnection = "З'єднання встановлено";
+          
             return temp;
         }
 
@@ -1417,6 +1417,7 @@ namespace VrachMedcentr
 
             try
             {
+                InternetConnection = "З'єднання встановлено";
                 con.Open();
                 cmd.CommandText = "SELECT * FROM enx4w_ttfsp  WHERE idspec = @docId AND dttime = @date";//',9,'
                 cmd.Parameters.AddWithValue("@docId", docId);
@@ -1457,7 +1458,7 @@ namespace VrachMedcentr
             {
                 InternetConnection = "З'єднання втрачено";
             }
-            InternetConnection = "З'єднання встановлено";
+           
             return temp;
 
 
@@ -1546,6 +1547,7 @@ namespace VrachMedcentr
 
             try
             {
+                InternetConnection = "З'єднання встановлено";
                 con.Open();
                 cmd.CommandText = "SELECT EXISTS (SELECT * FROM enx4w_ttfsp_sprtime WHERE id = @docId)";//',9,'
                 cmd.Parameters.AddWithValue("@docId", _doctimeid);
@@ -1567,7 +1569,7 @@ namespace VrachMedcentr
             {
                 InternetConnection = "З'єднання втрачено";
             }
-            InternetConnection = "З'єднання встановлено";
+            
 
             return temp;
         }
@@ -1590,7 +1592,7 @@ namespace VrachMedcentr
             try
             {
 
-
+                InternetConnection = "З'єднання встановлено";
                 con.Open();
                 //Recording publick times to base
                 cmd.CommandText = "UPDATE enx4w_ttfsp_sprtime SET timehm=@publickTime WHERE id = @docId";//',9,'
@@ -1609,7 +1611,7 @@ namespace VrachMedcentr
             {
                 InternetConnection = "З'єднання втрачено";
             }
-            InternetConnection = "З'єднання встановлено";
+          
 
             //synhronyze.SynhronyzeTable("enx4w_ttfsp_sprtime", 2);
 
@@ -1639,6 +1641,7 @@ namespace VrachMedcentr
             // List<Times> temp = new List<Times>();
             try
             {
+                InternetConnection = "З'єднання встановлено";
                 con.Open();
                 cmd.CommandText = "SELECT * FROM enx4w_ttfsp_dop WHERE id_specialist = @docId AND date=@dateDB AND hours=@Hours AND minutes=@Mins";//',9,'
                 cmd.Parameters.AddWithValue("@docId", docId);
@@ -1664,7 +1667,7 @@ namespace VrachMedcentr
             {
                 InternetConnection = "З'єднання втрачено";
             }
-            InternetConnection = "З'єднання встановлено";
+           
 
 
 
@@ -1695,6 +1698,7 @@ namespace VrachMedcentr
 
             try
             {
+                InternetConnection = "З'єднання встановлено";
                 con.Open();
                 cmd.CommandText = "SELECT dttime FROM enx4w_ttfsp WHERE idspec = @DocID";
                 cmd.Parameters.AddWithValue("@DocID", _docId);
@@ -1719,7 +1723,7 @@ namespace VrachMedcentr
             {
                 InternetConnection = "З'єднання втрачено";
             }
-            InternetConnection = "З'єднання встановлено";
+           
             return temp;
 
         }
@@ -1746,6 +1750,7 @@ namespace VrachMedcentr
 
             try
             {
+                InternetConnection = "З'єднання встановлено";
                 con.Open();
                 cmd.CommandText = "INSERT INTO enx4w_ttfsp(id, idspec,iduser,reception, published, dttime,hrtime,mntime,ordering,checked_out,ttime)" +
                     " VALUES(@ID,@idSpec,@idUser,@reception,@published,@dttime,@hrtime,@mntime,@ordering,@checked_out,@ttime)";
@@ -1769,7 +1774,7 @@ namespace VrachMedcentr
             {
                 InternetConnection = "З'єднання втрачено";
             }
-            InternetConnection = "З'єднання встановлено";
+          
 
             //synhronyze.SynhronyzeTable("enx4w_ttfsp", 2);
         }
@@ -1790,6 +1795,8 @@ namespace VrachMedcentr
 
             try
             {
+                InternetConnection = "З'єднання встановлено";
+
                 con.Open();
                 cmd.CommandText = "DELETE FROM enx4w_ttfsp WHERE idspec =@idSpec AND dttime=@dttime";
                 cmd.Parameters.AddWithValue("@idSpec", idSpec);
@@ -1803,8 +1810,7 @@ namespace VrachMedcentr
             {
                 InternetConnection = "З'єднання втрачено";
             }
-            InternetConnection = "З'єднання встановлено";
-
+            
             //synhronyze.SynhronyzeTable("ekfgq_ttfsp", 2);
         }
         public void RemTimeInWorkDay(string idSpec, DateTime dttime, string _hrtime, string _mntime)
@@ -1823,6 +1829,7 @@ namespace VrachMedcentr
 
             try
             {
+                InternetConnection = "З'єднання встановлено";
                 con.Open();
                 cmd.CommandText = "DELETE FROM enx4w_ttfsp WHERE idspec =@idSpec AND dttime=@dttime AND hrtime=@hrtime AND mntime=@mntime";
                 cmd.Parameters.AddWithValue("@idSpec", idSpec);
@@ -1837,7 +1844,7 @@ namespace VrachMedcentr
             {
                 InternetConnection = "З'єднання втрачено";
             }
-            InternetConnection = "З'єднання встановлено";
+           
 
             //synhronyze.SynhronyzeTable("enx4w_ttfsp", 2);
         }
@@ -1901,6 +1908,7 @@ namespace VrachMedcentr
 
                     try
                     {
+                        InternetConnection = "З'єднання встановлено";
                         con.Open();
                         cmd.CommandType = CommandType.Text;
                         cmd.CommandText =
@@ -1941,7 +1949,7 @@ namespace VrachMedcentr
                     {
                         InternetConnection = "З'єднання втрачено";
                     }
-                    InternetConnection = "З'єднання встановлено";
+                   
 
                 }
             }
@@ -1974,6 +1982,7 @@ namespace VrachMedcentr
 
                     try
                     {
+                        InternetConnection = "З'єднання встановлено";
                         con.Open();
                         cmd.CommandType = CommandType.Text;
                         cmd.CommandText = "UPDATE enx4w_ttfsp SET iduser=@iduser, reception='1', rfio=@rfio, rphone=@rphone, info=@info, ipuser=@ipuser, rmail=@rmail" +
@@ -2001,7 +2010,7 @@ namespace VrachMedcentr
                     {
                         InternetConnection = "З'єднання втрачено";
                     }
-                    InternetConnection = "З'єднання встановлено";
+                   
 
 
 
@@ -2032,6 +2041,7 @@ namespace VrachMedcentr
 
             try
             {
+                InternetConnection = "З'єднання встановлено";
                 con.Open();
                 cmd.CommandText = "SELECT ordering FROM enx4w_ttfsp_dop WHERE ordering = (SELECT MAX(ordering) FROM  enx4w_ttfsp_dop )";
                 cmd.Connection = con;
@@ -2049,7 +2059,7 @@ namespace VrachMedcentr
             {
                 InternetConnection = "З'єднання втрачено";
             }
-            InternetConnection = "З'єднання встановлено";
+           
 
             return i + 1;
         }
@@ -2073,9 +2083,11 @@ namespace VrachMedcentr
             MySqlCommand cmd = new MySqlCommand();
 
             string temp = null;
-            con.Close();
+           
             try
             {
+                con.Close();
+                InternetConnection = "З'єднання встановлено";
                 con.Open();
                 cmd.CommandText = "SELECT number_order FROM enx4w_ttfsp_dop ORDER BY id DESC LIMIT @ILimit";
                 cmd.Parameters.AddWithValue("@ILimit", _ILimit);
@@ -2107,7 +2119,7 @@ namespace VrachMedcentr
             {
                 InternetConnection = "З'єднання втрачено";
             }
-            InternetConnection = "З'єднання встановлено";
+           
             return temp;
 
 
@@ -2137,9 +2149,8 @@ namespace VrachMedcentr
 
                     try
                     {
+                        InternetConnection = "З'єднання встановлено";
                         con.Open();
-
-
                         cmd.CommandType = CommandType.Text;
                         cmd.CommandText = "UPDATE talon_time SET parametr=@parametr" +
                             " WHERE doctor_id=@doctor_id ";
@@ -2160,7 +2171,7 @@ namespace VrachMedcentr
                     {
                         InternetConnection = "З'єднання втрачено";
                     }
-                    InternetConnection = "З'єднання встановлено";
+                   
 
 
 

@@ -132,6 +132,13 @@ namespace VrachMedcentr
                               Times temp = obj as Times;
                               string[] parTime = temp.Time.Split(new char[] { ':' });
                               con.RemTimeInWorkDay(docSelected.docID, a, parTime[0], parTime[1]);
+                              docTimes = new ObservableCollection<Times>();
+                              List < Times > temp1 = new List<Times>();
+                              temp1 = con.getDocTimes(docSelected.docID, selectedDays);
+                              foreach (var a1 in temp1)
+                              {
+                                  docTimes.Add(new Times { Time = a1.Time, Label = a1.Label, Status = a1.Status });
+                              }
 
                           }
 

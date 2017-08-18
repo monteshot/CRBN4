@@ -56,30 +56,37 @@ namespace VrachMedcentr
 
             //CheckConnection();
             //synhronyze.SynhronyzeAll();
-            synhronyze.conLocal = con;
-            DateDoctorAcepting = DateTime.Today;
-            ListOfSpecf = con.GetDocSpecification();
-            ListOfUsers = con.GetUsers();
-
-            Users = OneTimeUsers;
-
-            synhronyze.SynhronyzeTable("talon_time", 1);
-
-
-
-            // MessageBox.Show(con.getHash().ToString());
-            foreach (var a in ListOfUsers)
+            if (synhronyze.CheckConnection())
             {
-                OneTimeUsers.Add(a.userFIO);
+                synhronyze.conLocal = con;
+                DateDoctorAcepting = DateTime.Today;
+                ListOfSpecf = con.GetDocSpecification();
+                ListOfUsers = con.GetUsers();
+
+                Users = OneTimeUsers;
+
+                //synhronyze.SynhronyzeTable("talon_time", 1);
+
+
+
+                // MessageBox.Show(con.getHash().ToString());
+                foreach (var a in ListOfUsers)
+                {
+                    OneTimeUsers.Add(a.userFIO);
+                }
+                DoctorTimes = new List<Times>();
+                //try
+                //{
+                //    DoctorTimes = con.getDocTimes(SelectedDocNames.docID, SelectedDocNames.docTimeId, DateDoctorAcepting);
+                //    OneTimeDoctorTimes = DoctorTimes;
+                //}
+                //catch { }
+                //  localDB.save2("473", "SUG+", "AL+", "Inf+");
             }
-            DoctorTimes = new List<Times>();
-            //try
-            //{
-            //    DoctorTimes = con.getDocTimes(SelectedDocNames.docID, SelectedDocNames.docTimeId, DateDoctorAcepting);
-            //    OneTimeDoctorTimes = DoctorTimes;
-            //}
-            //catch { }
-            //  localDB.save2("473", "SUG+", "AL+", "Inf+");
+            else
+            {
+                MessageBox.Show("Проблеми з інтернет з'єднанням.\nСпробуйте будьласка пізніше.");
+            }
 
         }
 
@@ -809,12 +816,23 @@ namespace VrachMedcentr
             ConfirmUser _ConfirmUser = new ConfirmUser();
 
 
-            ConfirmUserViewModel vmConfirmUserViewModel = new ConfirmUserViewModel();
-            _ConfirmUser.DataContext = vmConfirmUserViewModel;
+           
+            _ConfirmUser.DataContext = new ConfirmUserViewModel();
 
 
 
-            try { _ConfirmUser.ShowDialog(); }
+            try
+
+            {
+                _ConfirmUser.ShowDialog();
+                Users.Clear();
+                ListOfUsers = con.GetUsers();
+                Users = OneTimeUsers;
+                foreach (var a in ListOfUsers)
+                {
+                    OneTimeUsers.Add(a.userFIO);
+                }
+            }
             catch { }
 
         }

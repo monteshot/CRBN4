@@ -23,7 +23,7 @@ namespace VrachMedcentr.View
         public ConfirmUser()
         {
             InitializeComponent();
-            ConfUser.DataContext = new ConfirmUserViewModel();
+           // ConfUser.DataContext = new ConfirmUserViewModel();
             var currVer = Assembly.GetExecutingAssembly().GetName().Version;
             Title += " Версія: " + currVer;
         }
