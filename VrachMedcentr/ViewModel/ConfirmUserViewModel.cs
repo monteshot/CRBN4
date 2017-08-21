@@ -40,8 +40,8 @@ namespace VrachMedcentr
                            try
                            {
                                //confUserRealization(obj);
-                               //var selUser = obj as Users;
-                               var selUser = SelectedUser;
+                               var selUser = obj as Users;
+                               //var selUser = SelectedUser;
                                con.ConfirmUser(selUser.userId);
                                allUsers = new ObservableCollection<Users>();
                                allUsers = con.GetUnConfirmedUsers();

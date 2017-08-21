@@ -8,7 +8,7 @@
         xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms" 
         xmlns:local="clr-namespace:VrachMedcentr"
         mc:Ignorable="d"
-        Title="Редагування розкладу" MinHeight="500" Height="500" Width="500" MinWidth="500" WindowStartupLocation="CenterScreen" >
+        Title="Редагування розкладу - ЦРЛ №4" MinHeight="500" Height="500" Width="500" MinWidth="500" WindowStartupLocation="CenterScreen" >
     <Grid Background="LightGray">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.2*"></RowDefinition>

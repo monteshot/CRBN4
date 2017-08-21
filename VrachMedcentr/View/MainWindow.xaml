@@ -15,7 +15,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     xmlns:local2="clr-namespace:WaterMarkTextBoxDemo" x:Class="WPF_Hospital.MainWindow"
         mc:Ignorable="d"
-        Title="Клієнт для роботи з реєстратурою та лікарем - Нова Медицина"  Height="900" Width="1280"  WindowStyle="SingleBorderWindow" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+        Title="Клієнт для роботи з реєстратурою та лікарем - ЦРЛ №4"  Height="900" Width="1280"  WindowStyle="SingleBorderWindow" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <Window.Resources>
 
         <SolidColorBrush x:Key="brushWatermarkBackground" Color="White" />
@@ -213,7 +213,7 @@
                     <ColumnDefinition Width="0.4*"/>
                     <ColumnDefinition Width="0.4*"/>
                     <ColumnDefinition Width="0.3*"/>
-                    <ColumnDefinition Width="0.3*"/>
+                    <!--<ColumnDefinition Width="0.3*"/>-->
 
 
                 </Grid.ColumnDefinitions>
