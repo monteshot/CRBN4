@@ -15,7 +15,7 @@ namespace VrachMedcentr
 {
     class update : INotifyPropertyChanged
     {
-        string updateString = "http://localhost/MED/Medcentr_Setup.msi";
+        string updateString = "http://localhost/MED/Medicine_Setup.msi";
         string verString = "http://localhost/MED/ver.txt";
         string batString = "http://localhost/MED/update.bat";
         string vbsString = "http://localhost/MED/start.vbs";

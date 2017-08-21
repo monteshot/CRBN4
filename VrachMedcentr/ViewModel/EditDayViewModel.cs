@@ -223,7 +223,7 @@ namespace VrachMedcentr
                                       {
                                           string[] parTime = t.Time.Split(new char[] { ':' });
 
-                                          con.addWorkDays(docSelected.docID, "0", false, true, a, parTime[0], parTime[1], "0", "0");
+                                          con.addWorkDays(docSelected.docID, "0", false, t.PublickPrivate, a, parTime[0], parTime[1], "0", "0");
                                       }
                                   }
                                   datestring = "";
@@ -238,7 +238,7 @@ namespace VrachMedcentr
                                       {
                                           string[] parTime = t.Time.Split(new char[] { ':' });
 
-                                          con.addWorkDays(docSelected.docID, "0", false, true, a, parTime[0], parTime[1], "0", "0");
+                                          con.addWorkDays(docSelected.docID, "0", false, t.PublickPrivate, a, parTime[0], parTime[1], "0", "0");
                                       }
 
                                   }
@@ -256,12 +256,12 @@ namespace VrachMedcentr
                                   {
                                       string[] parTime = t.Time.Split(new char[] { ':' });
 
-                                      con.addWorkDays(docSelected.docID, "0", false, true, a, parTime[0], parTime[1], "0", "0");
+                                      con.addWorkDays(docSelected.docID, "0", false, t.PublickPrivate, a, parTime[0], parTime[1], "0", "0");
                                   }
 
                               }
                           }
-
+                          
 
                           WorkDays = con.GetListOfWorkingDays(Convert.ToInt32(docSelected.docID));
                       }

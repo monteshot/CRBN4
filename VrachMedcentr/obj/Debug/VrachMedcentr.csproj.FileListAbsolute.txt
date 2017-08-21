@@ -191,3 +191,4 @@ D:\GDrive\BIBLIOTEKA\CRBN4\VrachMedcentr\obj\Debug\View\ConfirmUser.g.cs
 D:\GDrive\BIBLIOTEKA\CRBN4\VrachMedcentr\obj\Debug\View\ConfirmUser.baml
 C:\Users\sysoe\Source\Repos\CRBN4\VrachMedcentr\obj\Debug\View\ConfirmUser.g.cs
 C:\Users\sysoe\Source\Repos\CRBN4\VrachMedcentr\obj\Debug\View\ConfirmUser.baml
+D:\GDrive\BIBLIOTEKA\CRBN4\VrachMedcentr\obj\Debug\VrachMedcentr.csproj.CoreCompileInputs.cache
