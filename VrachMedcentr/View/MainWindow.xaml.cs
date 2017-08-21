@@ -18,6 +18,8 @@ using VrachMedcentr;
 using System.Collections;
 using System.Reflection;
 using System.Diagnostics;
+using VrachMedcentr.View;
+
 
 namespace WPF_Hospital
 {
@@ -61,8 +63,10 @@ namespace WPF_Hospital
             var currVer = Assembly.GetExecutingAssembly().GetName().Version;
             Title += " Версія: " + currVer; //не выпиливать! дает версию в заголовке аппы
             update updater = new update();
-            
-            ProgressBar1.ValueChanged += ProgressBar1_ValueChanged;
+            UpdateView _UpdateView = new UpdateView();
+            _UpdateView.DataContext = updater;
+
+            // ProgressBar1.ValueChanged += ProgressBar1_ValueChanged;
             //   datatable.DataContext = con.getHash();
 
             //CardPages CP = new CardPages();
@@ -120,7 +124,7 @@ namespace WPF_Hospital
 
         private void ProgressBar1_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            MessageBox.Show(String.Format("Прогресс {0}",e.ToString()));
+            MessageBox.Show(String.Format("Прогресс {0}", e.ToString()));
         }
 
 

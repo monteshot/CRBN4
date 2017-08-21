@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using VrachMedcentr.View;
 
 namespace VrachMedcentr
 {
@@ -24,6 +25,7 @@ namespace VrachMedcentr
         Version currVer;
         public int progressBarValue = 0;
         public int progressBarValueProp { get; set; }
+        public string NameFile { get; set; }
         string executionDirectory = Environment.CurrentDirectory;// Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
         WebClient web = new WebClient();
 
@@ -86,13 +88,17 @@ namespace VrachMedcentr
             catch { }
         }
 
-
+        UpdateView updateView = new UpdateView();
+        //static update upd= this;
         public async void GetInstaller()
         {
             try
             {
+                updateView.DataContext = this;
+                updateView.Show();
                 web.DownloadProgressChanged += Web_DownloadProgressChanged;
                 web.DownloadFileCompleted += Web_DownloadFileCompleted;
+             
                 await web.DownloadFileTaskAsync(new Uri(vbsString), executionDirectory + "\\start.vbs");
                 await web.DownloadFileTaskAsync(new Uri(batString), executionDirectory + "\\update.bat");
                 await web.DownloadFileTaskAsync(new Uri(updateString), executionDirectory + "\\Medicine_Setup.msi");
@@ -111,10 +117,17 @@ namespace VrachMedcentr
 
         }
 
+        private void Web_OpenReadCompleted(object sender, OpenReadCompletedEventArgs e)
+        {
+        //' NameFile=   e.Result.ToString();
+            Thread.Sleep(2000);
+        }
+
         private void Web_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
-            // MessageBox.Show("Download Completed");
-          //  MessageBox.Show(progressBarValueProp.ToString());
+
+            //  NameFile = e.UserState.ToString();
+            Thread.Sleep(2000);
         }
 
         private void Web_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
@@ -122,10 +135,10 @@ namespace VrachMedcentr
             double bytesIn = double.Parse(e.BytesReceived.ToString());
             double totalBytes = double.Parse(e.TotalBytesToReceive.ToString());
             double percentage = bytesIn / totalBytes * 100;
-          
+
             progressBarValueProp = int.Parse(Math.Truncate(percentage).ToString());
             progressBarValue = progressBarValueProp;
-            
+
         }
 
 
