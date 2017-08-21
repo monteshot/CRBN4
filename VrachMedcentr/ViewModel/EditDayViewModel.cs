@@ -133,7 +133,7 @@ namespace VrachMedcentr
                               string[] parTime = temp.Time.Split(new char[] { ':' });
                               con.RemTimeInWorkDay(docSelected.docID, a, parTime[0], parTime[1]);
                               //docTimes = new ObservableCollection<Times>();
-                              ////List < Times > temp1 = new List<Times>();
+                              //List < Times > temp1 = new List<Times>();
                               //temp1 = con.getDocTimes(docSelected.docID, selectedDays);
                               //foreach (var a1 in temp1)
                               //{
@@ -213,7 +213,7 @@ namespace VrachMedcentr
                           //если среди выбраных дней есть робочие выводим сообщение с опрос пользователя о дальнейших действиях
                           if (datestring != "")
                           {
-                              var result = MessageBox.Show("На обрану  дату(и): " + datestring + " вже існує розклад.\nПерезаписати розклад на ці дні?", "Повідомлення", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                              var result = MessageBox.Show("На обрану дати: " + datestring + " вже існує розклад.\nПерезаписати розклад на ці дні?", "Повідомлення", MessageBoxButton.YesNo, MessageBoxImage.Question);
                               if (result == MessageBoxResult.Yes)
                               {
                                   foreach (var a in tempSelected as SelectedDatesCollection)
