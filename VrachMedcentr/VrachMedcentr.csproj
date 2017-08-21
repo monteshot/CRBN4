@@ -165,6 +165,9 @@
     <Compile Include="ViewModel\EditTimesViewModel.cs" />
     <Compile Include="ViewModel\regViewModel.cs" />
     <Compile Include="ViewModel\update.cs" />
+    <Compile Include="View\UpdateView.xaml.cs">
+      <DependentUpon>UpdateView.xaml</DependentUpon>
+    </Compile>
     <Page Include="View\ConfirmUser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -196,6 +199,10 @@
     <Page Include="Theme\MoonUICore.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\UpdateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

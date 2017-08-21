@@ -49,7 +49,7 @@ namespace VrachMedcentr
                         List<Times> temp = con.getDocTimes(docSelected.docID, value);
                         foreach (var a in temp)
                         {
-                            docTimes.Add(new Times { Time = a.Time, Label = a.Label, Status = a.Status });
+                            docTimes.Add(new Times { Time = a.Time, Label = a.Label, Status = a.Status, PublickPrivate=a.PublickPrivate });
                         }
                         //docTimes = docTimes.OrderBy(p => p.Time) as ObservableCollection<Times>;
 
