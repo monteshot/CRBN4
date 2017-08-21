@@ -1542,7 +1542,8 @@ namespace VrachMedcentr
                                 //вкинуть в класс одну из переменных
                                 Time = dr.GetString("hrtime") + ":" + dr.GetString("mntime"),
                                 Label = dr.GetString("hrtime") + ":" + dr.GetString("mntime"),
-                                Status = result
+                                Status = result,
+                                PublickPrivate = dr.GetBoolean("published")
 
                             });
 
