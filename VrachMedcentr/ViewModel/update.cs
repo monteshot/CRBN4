@@ -22,13 +22,15 @@ namespace VrachMedcentr
         bool newVerAvailble;
         string remoteVer;
         Version currVer;
-        string executionDirectory =  Environment.CurrentDirectory;// Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+        public int progressBarValue = 0;
+        public int progressBarValueProp { get; set; }
+        string executionDirectory = Environment.CurrentDirectory;// Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
         WebClient web = new WebClient();
 
         public update()
         {
             getVersion();
-            
+
         }
         private RelayCommand _downloadPacket;
         public RelayCommand downloadPacket
@@ -66,7 +68,7 @@ namespace VrachMedcentr
                 currVer = Assembly.GetExecutingAssembly().GetName().Version;
                 remoteVer = await web.DownloadStringTaskAsync(verString);
                 if (remoteVer != currVer.ToString())
-                { 
+                {
                     newVerAvailble = true;
                     var result = MessageBox.Show("Завантажити оновлення програмного пакету?", "Доступне оновлення програми", MessageBoxButton.YesNo, MessageBoxImage.Question);
                     if (result == MessageBoxResult.No) { }
@@ -83,16 +85,17 @@ namespace VrachMedcentr
             }
             catch { }
         }
-     
-       
+
+
         public async void GetInstaller()
         {
             try
             {
+                web.DownloadProgressChanged += Web_DownloadProgressChanged;
+                web.DownloadFileCompleted += Web_DownloadFileCompleted;
                 await web.DownloadFileTaskAsync(new Uri(vbsString), executionDirectory + "\\start.vbs");
                 await web.DownloadFileTaskAsync(new Uri(batString), executionDirectory + "\\update.bat");
-                await web.DownloadFileTaskAsync(new Uri(updateString), executionDirectory + "\\Medcentr_Setup.msi");
-
+                await web.DownloadFileTaskAsync(new Uri(updateString), executionDirectory + "\\Medicine_Setup.msi");
 
             }
             catch (Exception e)
@@ -106,6 +109,23 @@ namespace VrachMedcentr
                 Environment.Exit(0);
             }
 
+        }
+
+        private void Web_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+            // MessageBox.Show("Download Completed");
+          //  MessageBox.Show(progressBarValueProp.ToString());
+        }
+
+        private void Web_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        {
+            double bytesIn = double.Parse(e.BytesReceived.ToString());
+            double totalBytes = double.Parse(e.TotalBytesToReceive.ToString());
+            double percentage = bytesIn / totalBytes * 100;
+          
+            progressBarValueProp = int.Parse(Math.Truncate(percentage).ToString());
+            progressBarValue = progressBarValueProp;
+            
         }
 
 

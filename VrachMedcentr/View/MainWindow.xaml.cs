@@ -60,8 +60,10 @@ namespace WPF_Hospital
             Registratyra.DataContext = new regViewModel();
             var currVer = Assembly.GetExecutingAssembly().GetName().Version;
             Title += " Версія: " + currVer; //не выпиливать! дает версию в заголовке аппы
-
-         //   datatable.DataContext = con.getHash();
+            update updater = new update();
+            
+            ProgressBar1.ValueChanged += ProgressBar1_ValueChanged;
+            //   datatable.DataContext = con.getHash();
 
             //CardPages CP = new CardPages();
 
@@ -77,7 +79,7 @@ namespace WPF_Hospital
 
             //Testersitem.DataContext = new DiagnosesViewModel();
             // Update.DataContext = new update();
-            update updater = new update();
+
             //upd.GetVersion();
 
 
@@ -114,6 +116,11 @@ namespace WPF_Hospital
             //TestGrid.DataContext = dt;
 
 
+        }
+
+        private void ProgressBar1_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            MessageBox.Show(String.Format("Прогресс {0}",e.ToString()));
         }
 
 
