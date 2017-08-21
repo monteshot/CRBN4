@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-D:\GDrive\BIBLIOTEKA\CRBN4\VrachMedcentr\obj\Debug\
+C:\Users\sysoe\Source\Repos\CRBN4\VrachMedcentr\obj\Debug\
 VrachMedcentr
 none
 false
 DEBUG;TRACE
-D:\GDrive\BIBLIOTEKA\CRBN4\VrachMedcentr\App.xaml
+C:\Users\sysoe\Source\Repos\CRBN4\VrachMedcentr\App.xaml
 6932813047
 
-291360803160
-81-527082793
+29109620797
+811726614783
 View\ConfirmUser.xaml;View\editDays.xaml;View\EditTime.xaml;View\MainWindow.xaml;Theme\MyCalendar.xaml;Theme\MoonUICore.xaml;
 
 True
