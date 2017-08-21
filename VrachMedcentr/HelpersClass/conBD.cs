@@ -1106,6 +1106,7 @@ namespace VrachMedcentr
             {
                 InternetConnection = "З'єднання втрачено";
             }
+
             
             return temp;
         }

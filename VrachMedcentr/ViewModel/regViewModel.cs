@@ -725,7 +725,7 @@ namespace VrachMedcentr
                                   Appointments = con.GetAppointments(SelectedDocNames.docID, DateDoctorAcepting);
                                   DoctorTimes = con.getDocTimes(SelectedDocNames.docID, DateDoctorAcepting);
                                   OneTimeDoctorTimes = DoctorTimes;
-                                  SelectedUser = new Users();
+                                  //SelectedUser = new Users();
 
 
                               }

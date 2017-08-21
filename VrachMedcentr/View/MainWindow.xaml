@@ -42,7 +42,7 @@
 
 
         <Grid Grid.Column="0">
-          
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.05*"/>
                 <RowDefinition Height="0.65*"/>
@@ -224,7 +224,7 @@
                         <RowDefinition/>
                         <RowDefinition/>
 
-                            </Grid.RowDefinitions>
+                    </Grid.RowDefinitions>
                     <!--<Button Command="{Binding Test}" >
                         <Button.Template>
                             <ControlTemplate>
@@ -241,7 +241,7 @@
                     <Button Visibility="Hidden" Margin="15,5,15,0" Padding="5" Grid.Row="0" UseLayoutRounding="True"  Style="{DynamicResource ButtonGreen}" Command="{Binding ElementName=Registratyra,Path=DataContext.confUser}" CommandParameter="{Binding}"  FontSize="14"  Content="Підтвердження користувачів"  />
 
                     <TextBlock Grid.Row="3" FontSize="15" VerticalAlignment="Center" TextAlignment="Center" Text="{Binding InternetConnection}" ></TextBlock>
-                            <!--<TextBlock FontSize="15" TextAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Text="Підсумковий результат:" FontWeight="Bold"/>
+                    <!--<TextBlock FontSize="15" TextAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Text="Підсумковий результат:" FontWeight="Bold"/>
                             <StackPanel Grid.Row="1" Orientation="Vertical">
                                 <TextBlock FontSize="15" TextAlignment="Left" VerticalAlignment="Center" Text="Лікар:" />
                                 <TextBlock FontSize="15" TextAlignment="Center" VerticalAlignment="Center" Text="{Binding SelectedDocNames.docName}" />
@@ -277,14 +277,14 @@
 
                     <ListBox Grid.Row="0" ItemsSource="{Binding DoctorTimes , UpdateSourceTrigger=PropertyChanged}" Margin="0,5,0,5"
                  SelectedItem="{Binding SelectedTime}">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition></ColumnDefinition>                                                
-                                            </Grid.ColumnDefinitions>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="0" Foreground="{Binding Status}"  FontSize="18" Text="{Binding Label, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
-                                            <!--<TextBlock Grid.Column="1" FontSize="18" Text="{Binding TimeProperties, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>-->
+                                    <!--<TextBlock Grid.Column="1" FontSize="18" Text="{Binding TimeProperties, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>-->
 
                                 </Grid>
                                 <!--<StackPanel Margin="5" Orientation="Horizontal" HorizontalAlignment="Center">
@@ -342,7 +342,7 @@
                     </StackPanel>
 
                 </Grid>
-                
+
 
             </Grid>
             <ListBox Grid.Row="1" Margin="0,5,5,0"  SelectedItem="{Binding SSelectedUser,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  ItemsSource="{Binding Appointments, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
@@ -354,7 +354,7 @@
                                     <ColumnDefinition Width="0.1*"></ColumnDefinition>
                                     <ColumnDefinition Width="0.7*"></ColumnDefinition>
                                     <ColumnDefinition Width="0.15*"></ColumnDefinition>
-                                    <ColumnDefinition Width="0.3*"></ColumnDefinition>                                    
+                                    <ColumnDefinition Width="0.3*"></ColumnDefinition>
                                     <ColumnDefinition Width="0.1*"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Margin="10,0,0,0" FontSize="20" Background="#8FC1E5" Foreground="White" VerticalAlignment="Center" Grid.Column="0">№</TextBlock>
@@ -363,7 +363,7 @@
                                 <TextBlock  Margin="10,0,0,0" FontSize="20" Background="#8FC1E5" Foreground="White" VerticalAlignment="Center" Grid.Column="3">Коментар</TextBlock>
                                 <TextBlock  Margin="10,0,0,0" FontSize="20" Background="#8FC1E5" Foreground="White" VerticalAlignment="Center" Grid.Column="4">Не прийшов</TextBlock>
                                 <TextBlock  Margin="10,0,0,0" FontSize="20" Background="#8FC1E5" Foreground="White" VerticalAlignment="Center" Grid.Column="5">Друк</TextBlock>
-                               
+
                             </Grid>
 
                             <ItemsPresenter></ItemsPresenter>
@@ -371,12 +371,8 @@
                     </ControlTemplate>
                 </ListBox.Template>
                 <ListBox.ItemTemplate>
-
-
                     <DataTemplate>
-
                         <Grid>
-
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="0.1*"></ColumnDefinition>
                                 <ColumnDefinition Width="0.7*"></ColumnDefinition>
@@ -386,13 +382,13 @@
                             </Grid.ColumnDefinitions>
 
                             <!--<TextBlock Grid.Column="0" FontSize="20" Text="№"/>-->
-                            <TextBlock Margin="10,0,0,0" Grid.Column="0" FontSize="20" Text="{Binding NumberZP}"/>
+                            <TextBlock   Margin="10,0,0,0" Grid.Column="0" FontSize="20" Text="{Binding NumberZP}"/>
                             <!--<TextBlock Grid.Column="1" FontSize="20" Text=" | ПІБ: "/>-->
-                            <TextBlock Margin="10,0,0,0" Grid.Column="1" FontSize="20" Text="{Binding Pacient}"/>
+                            <TextBlock  Margin="10,0,0,0" Grid.Column="1" FontSize="20" Text="{Binding Pacient}"/>
                             <!--<TextBlock Grid.Column="2" FontSize="20" Text=" | Час: "/>-->
-                            <TextBlock Margin="10,0,0,0" Grid.Column="2" FontSize="20" Text="{Binding TimeAppomination}"/>
+                            <TextBlock  Margin="10,0,0,0" Grid.Column="2" FontSize="20" Text="{Binding TimeAppomination}"/>
                             <!--<TextBlock Grid.Column="3" FontSize="20" Text=" | Коментар: "/>-->
-                            <TextBlock Margin="10,0,0,0" Grid.Column="3" FontSize="20" Text="{Binding Comment}"/>
+                            <TextBlock  Margin="10,0,0,0" Grid.Column="3" FontSize="20" Text="{Binding Comment}"/>
                             <!--<TextBlock Grid.Column="4" FontSize="20" Text=" | Не прийшов: "/>-->
                             <!--<CheckBox Grid.Column="4" FontSize="20" IsChecked="{Binding NotComing}"/>-->
                             <!--<TextBlock Grid.Column="5" FontSize="20" Text=" | uID: "/>-->
