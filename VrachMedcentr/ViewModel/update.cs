@@ -10,25 +10,31 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using VrachMedcentr.View;
 
 namespace VrachMedcentr
 {
     class update : INotifyPropertyChanged
     {
-        string updateString = "http://localhost/MED/Medcentr_Setup.msi";
-        string verString = "http://localhost/MED/ver.txt";
-        string batString = "http://localhost/MED/update.bat";
-        string vbsString = "http://localhost/MED/start.vbs";
+
+        string updateString = "http://skusch.16mb.com/MED/Medicine_Setup.msi";
+        string verString = "http://skusch.16mb.com/MED/ver.txt";
+        string batString = "http://skusch.16mb.com/MED/update.txt";
+        string vbsString = "http://skusch.16mb.com/MED/start.txt";
+
         bool newVerAvailble;
         string remoteVer;
         Version currVer;
-        string executionDirectory =  Environment.CurrentDirectory;// Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+        public int progressBarValue = 0;
+        public int progressBarValueProp { get; set; }
+        public string NameFile { get; set; }
+        string executionDirectory = Environment.CurrentDirectory;// Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
         WebClient web = new WebClient();
 
         public update()
         {
             getVersion();
-            
+
         }
         private RelayCommand _downloadPacket;
         public RelayCommand downloadPacket
@@ -58,6 +64,7 @@ namespace VrachMedcentr
             }
         }
 
+        bool becomeUpdate = false;
         public async void getVersion()
         {
 
@@ -65,8 +72,21 @@ namespace VrachMedcentr
             {
                 currVer = Assembly.GetExecutingAssembly().GetName().Version;
                 remoteVer = await web.DownloadStringTaskAsync(verString);
+                //string[] remoteVerParsed = remoteVer.Split(new char[] { '.' });
+                //string[] currVerParsed = currVer.ToString().Split(new char[] { '.' });
+                //for (int i = 0; i < remoteVerParsed.Length - 1; i++)
+                //{
+                //    if (remoteVerParsed[i] != currVerParsed[i])
+                //    {
+                //        becomeUpdate = true;
+                //    }
+                //    else
+                //    {
+                //        becomeUpdate = false;
+                //    }
+                //}
                 if (remoteVer != currVer.ToString())
-                { 
+                {
                     newVerAvailble = true;
                     var result = MessageBox.Show("Завантажити оновлення програмного пакету?", "Доступне оновлення програми", MessageBoxButton.YesNo, MessageBoxImage.Question);
                     if (result == MessageBoxResult.No) { }
@@ -83,16 +103,35 @@ namespace VrachMedcentr
             }
             catch { }
         }
-     
-       
+
+        string FileNameCuter(string inString)
+        {
+            string[] outString = inString.Split(new char[] { '/' });
+            return outString[4];
+        }
+
+        string fileName = "";
+        UpdateView updateView = new UpdateView();
+        //static update upd= this;
         public async void GetInstaller()
         {
             try
             {
-                await web.DownloadFileTaskAsync(new Uri(vbsString), executionDirectory + "\\start.vbs");
-                await web.DownloadFileTaskAsync(new Uri(batString), executionDirectory + "\\update.bat");
-                await web.DownloadFileTaskAsync(new Uri(updateString), executionDirectory + "\\Medcentr_Setup.msi");
+                updateView.DataContext = this;
+                updateView.Show();
+           //     updateView.TitleString = remoteVer;
+                NameFile = "Завантаження, зачекайте...";
+                web.DownloadProgressChanged += Web_DownloadProgressChanged;
+                web.DownloadFileCompleted += Web_DownloadFileCompleted;
 
+
+
+                NameFile = String.Format("Завантаження: {0}", FileNameCuter(vbsString));
+                await web.DownloadFileTaskAsync(new Uri(vbsString), executionDirectory + "\\start.vbs");
+                NameFile = String.Format("Завантаження: {0}", FileNameCuter(batString));
+                await web.DownloadFileTaskAsync(new Uri(batString), executionDirectory + "\\update.bat");
+                NameFile = String.Format("Завантаження: {0}", FileNameCuter(updateString));
+                await web.DownloadFileTaskAsync(new Uri(updateString), executionDirectory + "\\Medicine_Setup.msi");
 
             }
             catch (Exception e)
@@ -105,6 +144,28 @@ namespace VrachMedcentr
                 Process.Start(executionDirectory + "\\start.vbs");
                 Environment.Exit(0);
             }
+
+        }
+
+        private void Web_OpenReadCompleted(object sender, OpenReadCompletedEventArgs e)
+        {
+
+        }
+
+        private void Web_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+
+
+        }
+
+        private void Web_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        {
+            double bytesIn = double.Parse(e.BytesReceived.ToString());
+            double totalBytes = double.Parse(e.TotalBytesToReceive.ToString());
+            double percentage = bytesIn / totalBytes * 100;
+
+            progressBarValueProp = int.Parse(Math.Truncate(percentage).ToString());
+            progressBarValue = progressBarValueProp;
 
         }
 

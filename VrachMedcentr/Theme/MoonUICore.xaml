@@ -52,6 +52,9 @@
     <Color x:Key="Text_dark">#FF515151</Color>
     <Brush x:Key="Text_dark_">#FF515151</Brush>
 
+    <Color x:Key="Text_Combobox">#FFffffff</Color>
+    <Brush x:Key="Text_Combobox_">#FFffffff</Brush>
+    
     <Color x:Key="Text_Waterm">#FF7c7b7b</Color>
     <Brush x:Key="Text_Waterm_">#FF7c7b7b</Brush>
     
@@ -1002,7 +1005,7 @@
     </ControlTemplate>
 
     <Style TargetType="{x:Type ComboBox}">
-        <Setter Property="Foreground" Value="{DynamicResource Text_dark_}" />
+        <Setter Property="Foreground" Value="{DynamicResource Text_Combobox_}" />
         <Setter Property="Validation.ErrorTemplate" Value="{x:Null}" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="OverridesDefaultStyle" Value="true" />

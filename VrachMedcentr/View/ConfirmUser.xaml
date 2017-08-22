@@ -5,9 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VrachMedcentr"
         mc:Ignorable="d"
-        Title="Підтверждення користувачів - Нова Медицина" Height="600" Background="#FFE5E5E5" Width="800" WindowStartupLocation="CenterScreen">
-    <Grid x:Name="ConfUser">
-        <ListBox  ItemsSource="{Binding allUsers, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, IsAsync=True}" >
+        Title="Підтверждення користувачів - ЦРЛ № 4" Height="600" Background="#FFE5E5E5" Width="800" WindowStartupLocation="CenterScreen">
+    <Grid x:Name="ConfUser" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"></RowDefinition>
+            <!--<RowDefinition Height="0.15*"></RowDefinition>-->
+        </Grid.RowDefinitions>
+        <ListBox   ItemsSource="{Binding allUsers, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedUser}" >
             <ListBox.Template>
                 <ControlTemplate>
                     <DockPanel LastChildFill="True"  >
@@ -47,6 +51,8 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        <!--<Button Grid.Row="1" Margin="5" Style="{DynamicResource ButtonGreen}"  Command="{Binding confUserCommand}" CommandParameter="{Binding}">Підтвердження</Button>-->
+
 
     </Grid>
 </Window>

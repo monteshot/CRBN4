@@ -56,30 +56,37 @@ namespace VrachMedcentr
 
             //CheckConnection();
             //synhronyze.SynhronyzeAll();
-            synhronyze.conLocal = con;
-            DateDoctorAcepting = DateTime.Today;
-            ListOfSpecf = con.GetDocSpecification();
-            ListOfUsers = con.GetUsers();
-
-            Users = OneTimeUsers;
-
-            synhronyze.SynhronyzeTable("talon_time", 1);
-
-
-
-            // MessageBox.Show(con.getHash().ToString());
-            foreach (var a in ListOfUsers)
+            if (synhronyze.CheckConnection())
             {
-                OneTimeUsers.Add(a.userFIO);
+                synhronyze.conLocal = con;
+                DateDoctorAcepting = DateTime.Today;
+                ListOfSpecf = con.GetDocSpecification();
+                ListOfUsers = con.GetUsers();
+
+                Users = OneTimeUsers;
+
+                //synhronyze.SynhronyzeTable("talon_time", 1);
+
+
+
+                // MessageBox.Show(con.getHash().ToString());
+                foreach (var a in ListOfUsers)
+                {
+                    OneTimeUsers.Add(a.userFIO);
+                }
+                DoctorTimes = new List<Times>();
+                //try
+                //{
+                //    DoctorTimes = con.getDocTimes(SelectedDocNames.docID, SelectedDocNames.docTimeId, DateDoctorAcepting);
+                //    OneTimeDoctorTimes = DoctorTimes;
+                //}
+                //catch { }
+                //  localDB.save2("473", "SUG+", "AL+", "Inf+");
             }
-            DoctorTimes = new List<Times>();
-            //try
-            //{
-            //    DoctorTimes = con.getDocTimes(SelectedDocNames.docID, SelectedDocNames.docTimeId, DateDoctorAcepting);
-            //    OneTimeDoctorTimes = DoctorTimes;
-            //}
-            //catch { }
-            //  localDB.save2("473", "SUG+", "AL+", "Inf+");
+            else
+            {
+                MessageBox.Show("Проблеми з інтернет з'єднанням.\nСпробуйте будь-ласка пізніше.");
+            }
 
         }
 
@@ -396,7 +403,14 @@ namespace VrachMedcentr
                     Users = temps;
                     if (!Users.Contains(value))
                     {
-                        SelectedUser = new Users { userFIO = value, userId = "007", userMail = "registratura@coworking.com", userPhone = "8-800-555-35-35" };
+                        //if (value.Length > 0)
+                        //{
+                            SelectedUser = new Users { userFIO = value, userId = "007", userMail = "registratura@coworking.com", userPhone = "8-800-555-35-35" };
+                        //}
+                        //else
+                        //{
+                        //    SelectedUser = new Users { userFIO = "Регістратура", userId = "007", userMail = "registratura@coworking.com", userPhone = "8-800-555-35-35" };
+                        //}
                     }
 
 
@@ -406,6 +420,7 @@ namespace VrachMedcentr
                     comboboxtext = value;
                     //ComboBoxDropDown = false;
                     // IsTextSearchEnabled = false;
+                    SelectedUser = new Users { userFIO = "Регістратура", userId = "007", userMail = "registratura@coworking.com", userPhone = "8-800-555-35-35" };
                     Users = OneTimeUsers;
                 }
             }
@@ -422,16 +437,25 @@ namespace VrachMedcentr
             }
             set
             {
-                selectedFIO = value;
-                comboboxtext = value;
-                //Возможно нужна проверка на полное совпадение если таково бредусмотрено базой
-                foreach (var a in ListOfUsers)
+                if (value != "")
                 {
-                    if (a.userFIO == value)
+                    selectedFIO = value;
+                    comboboxtext = value;
+                    //Возможно нужна проверка на полное совпадение если таково бредусмотрено базой
+                    foreach (var a in ListOfUsers)
                     {
-                        SelectedUser = a;
+                        if (a.userFIO == value)
+                        {
+                            SelectedUser = a;
+                        }
                     }
                 }
+                else
+                {
+                    SelectedUser = new Users { userFIO = "Регістратура", userId = "007", userMail = "registratura@coworking.com", userPhone = "8-800-555-35-35" };
+
+                }
+              
 
 
 
@@ -682,6 +706,13 @@ namespace VrachMedcentr
                   {
                       try
                       {
+
+                          if (SelectedUser == null)
+                          {
+                             
+                                  SelectedUser = new Users { userFIO = "Регістратура", userId = "007", userMail = "registratura@coworking.com", userPhone = "8-800-555-35-35" };
+                             
+                          }
                           string mess = "Ви дійсно хочете записати на прийом пацієнта " + SelectedUser.userFIO + " до лікаря " + SelectedDocNames.docName;
                           string capt = "Запис на прийом до лікаря " + SelectedDocNames.docName;
 
@@ -696,12 +727,14 @@ namespace VrachMedcentr
 
                                   string temp1 = ComboboxText;
                                   string[] temp = SelectedTime.Time.Split(new char[] { ':' });
+                                  
 
                                   con.INsertTheApointment(SelectedUser.userId, Convert.ToInt32(SelectedDocNames.docID), SelectedUser.userFIO, SelectedUser.userPhone, SelectedUser.userMail,
                                       SelectedSpecf.specf, SelectedDocNames.docName, SelectedDocNames.docEmail, DateDoctorAcepting, temp[0], temp[1], SelectedDocNames.docCab);
                                   Appointments = con.GetAppointments(SelectedDocNames.docID, DateDoctorAcepting);
                                   DoctorTimes = con.getDocTimes(SelectedDocNames.docID, DateDoctorAcepting);
                                   OneTimeDoctorTimes = DoctorTimes;
+                                  //SelectedUser = new Users();
 
 
                               }
@@ -716,8 +749,8 @@ namespace VrachMedcentr
                       }
                       catch (Exception e)
                       {
-                          //  MessageBox.Show(e.ToString());
-                          //MessageBox.Show("Перевірте правильність введення данних");
+                         //   MessageBox.Show(e.ToString());
+                          MessageBox.Show("Перевірте правильність введення данних:\nВибране ПІБ пацієнта\nВибрані дата та час прийому", "Неправильні дані",MessageBoxButton.OK,MessageBoxImage.Hand);
                       }
 
                   }));
@@ -809,12 +842,23 @@ namespace VrachMedcentr
             ConfirmUser _ConfirmUser = new ConfirmUser();
 
 
-            ConfirmUserViewModel vmConfirmUserViewModel = new ConfirmUserViewModel();
-            _ConfirmUser.DataContext = vmConfirmUserViewModel;
+           
+            _ConfirmUser.DataContext = new ConfirmUserViewModel();
 
 
 
-            try { _ConfirmUser.ShowDialog(); }
+            try
+
+            {
+                _ConfirmUser.ShowDialog();
+                Users.Clear();
+                ListOfUsers = con.GetUsers();
+                Users = OneTimeUsers;
+                foreach (var a in ListOfUsers)
+                {
+                    OneTimeUsers.Add(a.userFIO);
+                }
+            }
             catch { }
 
         }
