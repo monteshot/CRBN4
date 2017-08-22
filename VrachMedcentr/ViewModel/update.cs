@@ -16,10 +16,12 @@ namespace VrachMedcentr
 {
     class update : INotifyPropertyChanged
     {
-        string updateString = "http://localhost/MED/Medicine_Setup.msi";
-        string verString = "http://localhost/MED/ver.txt";
-        string batString = "http://localhost/MED/update.bat";
-        string vbsString = "http://localhost/MED/start.vbs";
+
+        string updateString = "http://skusch.16mb.com/MED/Medicine_Setup.msi";
+        string verString = "http://skusch.16mb.com/MED/ver.txt";
+        string batString = "http://skusch.16mb.com/MED/update.txt";
+        string vbsString = "http://skusch.16mb.com/MED/start.txt";
+
         bool newVerAvailble;
         string remoteVer;
         Version currVer;
@@ -62,6 +64,7 @@ namespace VrachMedcentr
             }
         }
 
+        bool becomeUpdate = false;
         public async void getVersion()
         {
 
@@ -69,6 +72,19 @@ namespace VrachMedcentr
             {
                 currVer = Assembly.GetExecutingAssembly().GetName().Version;
                 remoteVer = await web.DownloadStringTaskAsync(verString);
+                //string[] remoteVerParsed = remoteVer.Split(new char[] { '.' });
+                //string[] currVerParsed = currVer.ToString().Split(new char[] { '.' });
+                //for (int i = 0; i < remoteVerParsed.Length - 1; i++)
+                //{
+                //    if (remoteVerParsed[i] != currVerParsed[i])
+                //    {
+                //        becomeUpdate = true;
+                //    }
+                //    else
+                //    {
+                //        becomeUpdate = false;
+                //    }
+                //}
                 if (remoteVer != currVer.ToString())
                 {
                     newVerAvailble = true;
@@ -88,6 +104,13 @@ namespace VrachMedcentr
             catch { }
         }
 
+        string FileNameCuter(string inString)
+        {
+            string[] outString = inString.Split(new char[] { '/' });
+            return outString[4];
+        }
+
+        string fileName = "";
         UpdateView updateView = new UpdateView();
         //static update upd= this;
         public async void GetInstaller()
@@ -96,11 +119,18 @@ namespace VrachMedcentr
             {
                 updateView.DataContext = this;
                 updateView.Show();
+           //     updateView.TitleString = remoteVer;
+                NameFile = "Завантаження, зачекайте...";
                 web.DownloadProgressChanged += Web_DownloadProgressChanged;
                 web.DownloadFileCompleted += Web_DownloadFileCompleted;
-             
+
+
+
+                NameFile = String.Format("Завантаження: {0}", FileNameCuter(vbsString));
                 await web.DownloadFileTaskAsync(new Uri(vbsString), executionDirectory + "\\start.vbs");
+                NameFile = String.Format("Завантаження: {0}", FileNameCuter(batString));
                 await web.DownloadFileTaskAsync(new Uri(batString), executionDirectory + "\\update.bat");
+                NameFile = String.Format("Завантаження: {0}", FileNameCuter(updateString));
                 await web.DownloadFileTaskAsync(new Uri(updateString), executionDirectory + "\\Medicine_Setup.msi");
 
             }
@@ -119,15 +149,13 @@ namespace VrachMedcentr
 
         private void Web_OpenReadCompleted(object sender, OpenReadCompletedEventArgs e)
         {
-        //' NameFile=   e.Result.ToString();
-            Thread.Sleep(2000);
+
         }
 
         private void Web_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
 
-            //  NameFile = e.UserState.ToString();
-            Thread.Sleep(2000);
+
         }
 
         private void Web_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)

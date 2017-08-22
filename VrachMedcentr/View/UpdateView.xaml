@@ -11,7 +11,7 @@
             <RowDefinition Height="0.5*"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TextBlock Text="{Binding NameFile}"></TextBlock>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding NameFile}"></TextBlock>
         <ProgressBar x:Name="ProgressBar" Value="{Binding progressBarValueProp}" Height="Auto"   Margin="5" Grid.Row="1">
             
         </ProgressBar>
