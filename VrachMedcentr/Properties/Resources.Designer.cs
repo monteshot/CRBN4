@@ -63,6 +63,26 @@ namespace VrachMedcentr.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ConnectionFalse {
+            get {
+                object obj = ResourceManager.GetObject("ConnectionFalse", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ConnectionTrue {
+            get {
+                object obj = ResourceManager.GetObject("ConnectionTrue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Hospital {
             get {
                 object obj = ResourceManager.GetObject("Hospital", resourceCulture);

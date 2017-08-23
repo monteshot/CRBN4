@@ -214,33 +214,22 @@
                     <ColumnDefinition Width="0.2*"/>
                     <ColumnDefinition Width="0.3*"/>
                     <!--<ColumnDefinition Width="0.3*"/>-->
-
-
                 </Grid.ColumnDefinitions>
-                <Grid Margin="5,0,0,0" Grid.Column="2" Grid.Row="1" DataContext ="{Binding con}" >
+                <Grid Margin="5,0,0,0" Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" DataContext ="{Binding con}" >
                     <Grid.RowDefinitions>
-                        <RowDefinition/>
+                        <RowDefinition Height="0.6*"/>
                         <RowDefinition/>
                         <RowDefinition/>
                         <RowDefinition/>
 
                     </Grid.RowDefinitions>
-                    <!--<Button Command="{Binding Test}" >
-                        <Button.Template>
-                            <ControlTemplate>
-                                <Grid x:Name="controlLayout">
-                                    <Ellipse x:Name="buttonSurface" Fill="LightBlue" Stroke="Black" StrokeThickness="2">                                       
-                                    </Ellipse>
-                                    <Label x:Name="buttonCaption" VerticalAlignment="Center"
-						       HorizontalAlignment="Center"
-							   FontWeight="Bold" FontSize="20" Content="{Binding InternetConnectionStatus}"></Label>
-                                </Grid>
-                            </ControlTemplate>
-                        </Button.Template>
-                    </Button>-->
-                    <Button Visibility="Hidden" Margin="15,5,15,0" Padding="5" Grid.Row="0" UseLayoutRounding="True"  Style="{DynamicResource ButtonGreen}" Command="{Binding ElementName=Registratyra,Path=DataContext.confUser}" CommandParameter="{Binding}"  FontSize="14"  Content="Підтвердження користувачів"  />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Image  Source="{Binding ConnectionImage}" >                            
+                        </Image>
+                    </StackPanel>
+                    <!--<Button Visibility="Hidden" Margin="15,5,15,0" Padding="5" Grid.Row="0" UseLayoutRounding="True"  Style="{DynamicResource ButtonGreen}" Command="{Binding ElementName=Registratyra,Path=DataContext.confUser}" CommandParameter="{Binding}"  FontSize="14"  Content="Підтвердження користувачів"  />
 
-                    <TextBlock Grid.Row="3" FontSize="15" VerticalAlignment="Center" TextAlignment="Center" Text="{Binding InternetConnection}" ></TextBlock>
+                    <TextBlock Grid.Row="3" FontSize="15" VerticalAlignment="Center" TextAlignment="Center" Text="{Binding InternetConnection}" ></TextBlock>-->
                     <!--<TextBlock FontSize="15" TextAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Text="Підсумковий результат:" FontWeight="Bold"/>
                             <StackPanel Grid.Row="1" Orientation="Vertical">
                                 <TextBlock FontSize="15" TextAlignment="Left" VerticalAlignment="Center" Text="Лікар:" />

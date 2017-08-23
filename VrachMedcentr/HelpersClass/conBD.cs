@@ -6,12 +6,15 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using WpfControls;
 
 namespace VrachMedcentr
@@ -26,6 +29,7 @@ namespace VrachMedcentr
 
         private string stat;
         public string InternetConnection { get; set; } = "З'єднання втрачено";
+        public string ConnectionImage { get; set; } = @"\Resources\ConnectionTrue.png";
 
         //  MySqlConnection con = new MySqlConnection();
         static SynhronyzeClass synhronyze = new SynhronyzeClass();
@@ -42,6 +46,8 @@ namespace VrachMedcentr
             //database = "shostka_medcen";
             //UserID = "shostka_medcen";
             //Password = "n5t7jzqv";
+            
+
         }
 
         public conBD(string _server, string _database, string _UserID, string _Password)
@@ -1411,6 +1417,7 @@ namespace VrachMedcentr
             if (status == IPStatus.Success)
             {
                 InternetConnection = "З'єднання встановлено";
+                ConnectionImage = @"\Resources\ConnectionTrue.png";
                 return true;
                 
                 //MessageBox.Show("Сервер работает");
@@ -1418,6 +1425,7 @@ namespace VrachMedcentr
             else
             {
                 InternetConnection = "З'єднання втрачено";
+                ConnectionImage = @"\Resources\ConnectionFalse.png";
                 return false;
                 //MessageBox.Show("Сервер временно недоступен!");
             }
