@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
@@ -1947,6 +1948,7 @@ namespace VrachMedcentr
                 mysqlCSB.Database = database;
                 mysqlCSB.UserID = UserID;
                 mysqlCSB.Password = Password;
+                mysqlCSB.AllowZeroDateTime = true;
 
                 mysqlCSB.DefaultCommandTimeout = 3;
                 string Id = null;
@@ -1954,34 +1956,52 @@ namespace VrachMedcentr
                 con.ConnectionString = mysqlCSB.ConnectionString;
                 MySqlCommand cmd = new MySqlCommand();
 
-                StringBuilder MegaCom = new StringBuilder("INSERT INTO enx4w_ttfsp(id, idspec, iduser, reception, published, dttime, hrtime, mntime, ordering, checked_out, ttime) VALUES ");
+                StringBuilder MegaCom = new StringBuilder("INSERT INTO enx4w_ttfsp(idspec, iduser, reception, published, dttime, hrtime, mntime, ordering, checked_out, ttime) VALUES ");
                 List <string> Rw = new List<string>();
                 foreach(var a in dttime )
                 {
                     var ttime = ConvertToUnixTime(a);
+                    //string temp = a.ToString("yyyy/MM/dd");
+                    //var date = DateTime.ParseExact(temp, "yyyy/MM/dd", CultureInfo.InvariantCulture);
                     foreach (var time in doctime)
                     {
-                        string fg = $"(";
+                       // string fg = $"(";
                         string[] parTime = time.Time.Split(new char[] { ':' });
 
-                        fg = fg + "'" + Id + "','" + idSpec + "','" + idUser + "','" + recetion.ToString() + "','" + a.ToString()+"','"+parTime[0]+"','"+parTime[1]+"','"+ordering+"','"+checked_out+"'";
+                        //  fg = fg + "'" + Id + "','" + idSpec + "','" + idUser + "','" + recetion.ToString() + "','"+time.PublickPrivate.ToString()+"','"+ a.ToString()+"','"+parTime[0]+"','"+parTime[1]+"','"+ordering+"','"+checked_out+"','"+ttime.ToString()+"'";
 
-                        fg = fg + "),";
-                        Rw.Add(fg);
-                        fg = "";
+                        // fg = fg + ")";
+                        Rw.Add($"('{MySqlHelper.EscapeString(idSpec)}'," +
+                    $"'{MySqlHelper.EscapeString(idUser)}','{MySqlHelper.EscapeString(recetion.ToString())}','{MySqlHelper.EscapeString(time.PublickPrivate.ToString())}'," +
+                    $"'{MySqlHelper.EscapeString(a.ToString("yyyy/MM/dd"))}','{MySqlHelper.EscapeString(parTime[0])}','{MySqlHelper.EscapeString(parTime[1])}'," +
+                    $"'{MySqlHelper.EscapeString(ordering)}','{MySqlHelper.EscapeString(checked_out)}','{MySqlHelper.EscapeString(ttime.ToString())}')");
+                        // fg = "";
 
 
                     }
                 }
+                MegaCom.Append(string.Join(",", Rw));
+                MegaCom.Append(";");
 
 
                 try
                 {
-                    InternetConnection = "З'єднання встановлено";
+
+                    con.Close();
                     con.Open();
-                    cmd.CommandText =
-                        "INSERT INTO enx4w_ttfsp(id, idspec,iduser,reception, published, dttime,hrtime,mntime,ordering,checked_out,ttime)" +
-                        " VALUES(@ID,@idSpec,@idUser,@reception,@published,@dttime,@hrtime,@mntime,@ordering,@checked_out,@ttime)";
+                    cmd.Connection = con;
+                    // con.OpenAsync();
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = MegaCom.ToString();
+                    cmd.ExecuteNonQuery();
+                    cmd.Parameters.Clear();
+                    con.Close();
+
+                    //InternetConnection = "З'єднання встановлено";
+                    //con.Open();
+                    //cmd.CommandText =
+                    //    "INSERT INTO enx4w_ttfsp(id, idspec,iduser,reception, published, dttime,hrtime,mntime,ordering,checked_out,ttime)" +
+                    //    " VALUES(@ID,@idSpec,@idUser,@reception,@published,@dttime,@hrtime,@mntime,@ordering,@checked_out,@ttime)";
                     //var ttime = ConvertToUnixTime(dttime);
                     //cmd.Parameters.AddWithValue("@ID", Id);
                     //cmd.Parameters.AddWithValue("@idSpec", idSpec);
@@ -1999,8 +2019,9 @@ namespace VrachMedcentr
                     //con.Close();
 
                 }
-                catch
+                catch(Exception e)
                 {
+                    MessageBox.Show(e.ToString());
                     InternetConnection = "З'єднання втрачено";
                 }
             }

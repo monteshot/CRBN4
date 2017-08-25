@@ -49,7 +49,7 @@ namespace VrachMedcentr
                         List<Times> temp = con.getDocTimes(docSelected.docID, value);
                         foreach (var a in temp)
                         {
-                            docTimes.Add(new Times { Time = a.Time, Label = a.Label, Status = a.Status, PublickPrivate=a.PublickPrivate });
+                            docTimes.Add(new Times { Time = a.Time, Label = a.Label, Status = a.Status, PublickPrivate = a.PublickPrivate });
                         }
                         //docTimes = docTimes.OrderBy(p => p.Time) as ObservableCollection<Times>;
 
@@ -67,8 +67,8 @@ namespace VrachMedcentr
                 }
                 catch (Exception e)
                 {
-                   // MessageBox.Show(e.Message.ToString());
-                   
+                    // MessageBox.Show(e.Message.ToString());
+
                 }
 
             }
@@ -173,7 +173,7 @@ namespace VrachMedcentr
             }
 
         }
-       
+
 
         private RelayCommand _checkDays;
 
@@ -320,32 +320,22 @@ namespace VrachMedcentr
                               var result = MessageBox.Show("На обрану дати: " + datestring + " вже існує розклад.\nПерезаписати розклад на ці дні?", "Повідомлення", MessageBoxButton.YesNo, MessageBoxImage.Question);
                               if (result == MessageBoxResult.Yes)
                               {
-                                 
-                                     // con.remWorkDays(docSelected.docID, a);
-                                      //foreach (var t in docTimes)
-                                      //{
-                                      //    string[] parTime = t.Time.Split(new char[] { ':' });
+                                  foreach (var a in tempSelected as SelectedDatesCollection)
+                                  {
+                                      con.remWorkDays(docSelected.docID, a);
+                                  }
 
-                                          con.addWorkDays(docSelected.docID, "0", false, DateWithWorkingDays, docTimes, "0", "0");
-                                      //}
-                                  //}
+                                  con.addWorkDays(docSelected.docID, "0", false, DateWithWorkingDays, docTimes, "0", "0");
+
                                   datestring = "";
                                   DateWithoutWorkingDays = new List<DateTime>();
                                   DateWithWorkingDays = new List<DateTime>();
                               }
                               if (result == MessageBoxResult.No)
                               {
-                                  //foreach (var a in DateWithoutWorkingDays)
-                                  //{
 
-                                  //    foreach (var t in docTimes)
-                                  //    {
-                                  //        string[] parTime = t.Time.Split(new char[] { ':' });
-
-                                      con.addWorkDays(docSelected.docID, "0", false, DateWithoutWorkingDays, docTimes, "0", "0");
-                                  //}
-
-                                  //}
+                                  con.addWorkDays(docSelected.docID, "0", false, DateWithoutWorkingDays, docTimes, "0", "0");
+                                 
                                   datestring = "";
                                   DateWithoutWorkingDays = new List<DateTime>();
                                   DateWithWorkingDays = new List<DateTime>();
@@ -354,16 +344,7 @@ namespace VrachMedcentr
                           //если нет просто публикуем росписание
                           else
                           {
-                              foreach (var a in tempSelected as SelectedDatesCollection)
-                              {
-                                  DateWithoutWorkingDays.Add(a);
-                                  //foreach (var t in docTimes)
-                                  //{
-                                  //    string[] parTime = t.Time.Split(new char[] { ':' });
 
-                                  //}
-
-                              }
                               con.addWorkDays(docSelected.docID, "0", false, DateWithoutWorkingDays, docTimes, "0", "0");
                               DateWithoutWorkingDays = new List<DateTime>();
                               DateWithWorkingDays = new List<DateTime>();
@@ -375,7 +356,7 @@ namespace VrachMedcentr
                       }
                       catch (Exception e)
                       {
-                          //    MessageBox.Show(e.ToString());
+                          MessageBox.Show(e.ToString());
                       }
 
                       //editDays edDays = new editDays();
