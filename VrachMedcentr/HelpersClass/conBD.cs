@@ -1966,7 +1966,7 @@ namespace VrachMedcentr
 
                         fg = fg + "'" + Id + "','" + idSpec + "','" + idUser + "','" + recetion.ToString() + "','" + a.ToString()+"','"+parTime[0]+"','"+parTime[1]+"','"+ordering+"','"+checked_out+"'";
 
-                        fg = fg + ")";
+                        fg = fg + "),";
                         Rw.Add(fg);
                         fg = "";
 
