@@ -1958,12 +1958,13 @@ namespace VrachMedcentr
                 List <string> Rw = new List<string>();
                 foreach(var a in dttime )
                 {
-                    foreach(var time in doctime)
+                    var ttime = ConvertToUnixTime(a);
+                    foreach (var time in doctime)
                     {
                         string fg = $"(";
                         string[] parTime = time.Time.Split(new char[] { ':' });
 
-                        fg=fg+"'"+
+                        fg = fg + "'" + Id + "','" + idSpec + "','" + idUser + "','" + recetion.ToString() + "','" + a.ToString()+"','"+parTime[0]+"','"+parTime[1]+"','"+ordering+"','"+checked_out+"'";
 
                         fg = fg + ")";
                         Rw.Add(fg);
@@ -1981,7 +1982,22 @@ namespace VrachMedcentr
                     cmd.CommandText =
                         "INSERT INTO enx4w_ttfsp(id, idspec,iduser,reception, published, dttime,hrtime,mntime,ordering,checked_out,ttime)" +
                         " VALUES(@ID,@idSpec,@idUser,@reception,@published,@dttime,@hrtime,@mntime,@ordering,@checked_out,@ttime)";
-                
+                    //var ttime = ConvertToUnixTime(dttime);
+                    //cmd.Parameters.AddWithValue("@ID", Id);
+                    //cmd.Parameters.AddWithValue("@idSpec", idSpec);
+                    //cmd.Parameters.AddWithValue("@idUser", idUser);
+                    //cmd.Parameters.AddWithValue("@reception", recetion);
+                    //cmd.Parameters.AddWithValue("@published", published);
+                    //cmd.Parameters.AddWithValue("@dttime", dttime);
+                    //cmd.Parameters.AddWithValue("@hrtime", hrtime);
+                    //cmd.Parameters.AddWithValue("@mntime", mntime);
+                    //cmd.Parameters.AddWithValue("@ordering", ordering);
+                    //cmd.Parameters.AddWithValue("@checked_out", checked_out);
+                    //cmd.Parameters.AddWithValue("@ttime", ttime);
+                    //cmd.Connection = con;
+                    //cmd.ExecuteNonQuery();
+                    //con.Close();
+
                 }
                 catch
                 {
