@@ -1864,7 +1864,80 @@ namespace VrachMedcentr
 
             return (long)(datetime - sTime).TotalSeconds;
         }
-        public void addWorkDays(string idSpec, string idUser, bool recetion, bool published, DateTime dttime, string hrtime, string mntime, string ordering, string checked_out)
+        public void insert_ekfgq_ttfsp_dop(DataTable DT)
+        {
+
+            MySqlConnectionStringBuilder mysqlCSB;
+            mysqlCSB = new MySqlConnectionStringBuilder();
+            mysqlCSB.Server = server;
+            mysqlCSB.Database = database;
+            mysqlCSB.UserID = UserID;
+            mysqlCSB.Password = Password;
+
+            mysqlCSB.AllowZeroDateTime = true;
+
+            MySqlConnection con = new MySqlConnection();
+            con.ConnectionString = mysqlCSB.ConnectionString;
+            MySqlCommand cmd = new MySqlCommand();
+
+            // cmd.Parameters.Add("", MySqlDbType.VarChar);
+            //cmd.CommandText = "INSERT INTO ekfgq_ttfsp_dop(id,idrec,iduser,id_specialist,publshed,ordering,checked_out,checked_out_time,rfio,rphone,info,ipuser,rmail,summa,payment_status,number_order,cdate,date,hours,minutes,office_name,specializations_name) VALUES()";
+
+
+            //   string tempOrder = GetNumberOrder();
+            //string[] tempArray = tempOrder.Split(new char[] { '-' });
+            //tempOrder = tempArray[0];
+
+            StringBuilder MegaCom = new StringBuilder("INSERT INTO ekfgq_ttfsp_dop(idrec, iduser, id_specialist, published, ordering,checked_out, checked_out_time, rfio, rphone, info, ipuser, rmail, summa,payment_status, " +
+                "number_order, cdate, date, hours, minutes, office_name, specializations_name, specialist_name, specialist_email,specialist_phone, order_password,office_desc, office_address, number_cabinet) VALUES ");
+            List<string> Rw = new List<string>();
+            List<string> Rw1 = new List<string>();
+
+            foreach (DataRow z in DT.Rows)
+            {
+                //дороботать
+                string fg = $"(";
+                for (int i = 1; i <= 29; i++)
+                {
+                    if (i == 29)
+                    {
+                        fg = fg + "'" + MySqlHelper.EscapeString(z[i].ToString()) + "'";
+                    }
+                    else
+                    {
+                        fg = fg + "'" + MySqlHelper.EscapeString(z[i].ToString()) + "',";
+                    }
+
+                }
+                fg = fg + ")";
+                Rw1.Add(fg);
+                fg = "";
+                //Rw.Add($"('{MySqlHelper.EscapeString(z[1].ToString())}','{MySqlHelper.EscapeString(z[2].ToString())}'," +
+                //    $"'{MySqlHelper.EscapeString(z[3].ToString())}','{MySqlHelper.EscapeString(z[4].ToString())}','{MySqlHelper.EscapeString(z[5].ToString())}'," +
+                //    $"'{MySqlHelper.EscapeString(z[6].ToString())}','{MySqlHelper.EscapeString(z[7].ToString())}','{MySqlHelper.EscapeString(z[8].ToString())}'," +
+                //    $"'{MySqlHelper.EscapeString(z[9].ToString())}','{MySqlHelper.EscapeString(z[10].ToString())}','{MySqlHelper.EscapeString(z[11].ToString())}'," +
+                //    $"'{MySqlHelper.EscapeString(z[12].ToString())}','{MySqlHelper.EscapeString(z[13].ToString())}','{MySqlHelper.EscapeString(z[14].ToString())}'," +
+                //    $"'{MySqlHelper.EscapeString(z[15].ToString())}','{MySqlHelper.EscapeString(z[16].ToString())}','{MySqlHelper.EscapeString(z[17].ToString())}'," +
+                //    $"'{MySqlHelper.EscapeString(z[18].ToString())}','{MySqlHelper.EscapeString(z[19].ToString())}','{MySqlHelper.EscapeString(z[20].ToString())}'," +
+                //    $"'{MySqlHelper.EscapeString(z[21].ToString())}','{MySqlHelper.EscapeString(z[22].ToString())}','{MySqlHelper.EscapeString(z[23].ToString())}'," +
+                //    $"'{MySqlHelper.EscapeString(z[24].ToString())}','{MySqlHelper.EscapeString(z[25].ToString())}','{MySqlHelper.EscapeString(z[26].ToString())}'," +
+                //    $"'{MySqlHelper.EscapeString(z[27].ToString())}','{MySqlHelper.EscapeString(z[28].ToString())}','{MySqlHelper.EscapeString(z[29].ToString())}')");
+            }
+
+            MegaCom.Append(string.Join(",", Rw1));
+            MegaCom.Append(";");
+
+            con.Close();
+            con.Open();
+            cmd.Connection = con;
+            // con.OpenAsync();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = MegaCom.ToString();
+            cmd.ExecuteNonQuery();
+            cmd.Parameters.Clear();
+            con.Close();
+        }
+            public void addWorkDays(string idSpec, string idUser, bool recetion, List<DateTime> dttime, ObservableCollection<Times> doctime, string ordering, string checked_out)
         {
             if (CheckConnection())
             {
@@ -1881,6 +1954,26 @@ namespace VrachMedcentr
                 con.ConnectionString = mysqlCSB.ConnectionString;
                 MySqlCommand cmd = new MySqlCommand();
 
+                StringBuilder MegaCom = new StringBuilder("INSERT INTO enx4w_ttfsp(id, idspec, iduser, reception, published, dttime, hrtime, mntime, ordering, checked_out, ttime) VALUES ");
+                List <string> Rw = new List<string>();
+                foreach(var a in dttime )
+                {
+                    foreach(var time in doctime)
+                    {
+                        string fg = $"(";
+                        string[] parTime = time.Time.Split(new char[] { ':' });
+
+                        fg=fg+"'"+
+
+                        fg = fg + ")";
+                        Rw.Add(fg);
+                        fg = "";
+
+
+                    }
+                }
+
+
                 try
                 {
                     InternetConnection = "З'єднання встановлено";
@@ -1888,21 +1981,7 @@ namespace VrachMedcentr
                     cmd.CommandText =
                         "INSERT INTO enx4w_ttfsp(id, idspec,iduser,reception, published, dttime,hrtime,mntime,ordering,checked_out,ttime)" +
                         " VALUES(@ID,@idSpec,@idUser,@reception,@published,@dttime,@hrtime,@mntime,@ordering,@checked_out,@ttime)";
-                    var ttime = ConvertToUnixTime(dttime);
-                    cmd.Parameters.AddWithValue("@ID", Id);
-                    cmd.Parameters.AddWithValue("@idSpec", idSpec);
-                    cmd.Parameters.AddWithValue("@idUser", idUser);
-                    cmd.Parameters.AddWithValue("@reception", recetion);
-                    cmd.Parameters.AddWithValue("@published", published);
-                    cmd.Parameters.AddWithValue("@dttime", dttime);
-                    cmd.Parameters.AddWithValue("@hrtime", hrtime);
-                    cmd.Parameters.AddWithValue("@mntime", mntime);
-                    cmd.Parameters.AddWithValue("@ordering", ordering);
-                    cmd.Parameters.AddWithValue("@checked_out", checked_out);
-                    cmd.Parameters.AddWithValue("@ttime", ttime);
-                    cmd.Connection = con;
-                    cmd.ExecuteNonQuery();
-                    con.Close();
+                
                 }
                 catch
                 {
