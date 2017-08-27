@@ -6,12 +6,16 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
+using System.Drawing;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using WpfControls;
 
 namespace VrachMedcentr
@@ -26,6 +30,7 @@ namespace VrachMedcentr
 
         private string stat;
         public string InternetConnection { get; set; } = "З'єднання втрачено";
+        public string ConnectionImage { get; set; } = @"\Resources\ConnectionTrue.png";
 
         //  MySqlConnection con = new MySqlConnection();
         static SynhronyzeClass synhronyze = new SynhronyzeClass();
@@ -42,6 +47,8 @@ namespace VrachMedcentr
             //database = "shostka_medcen";
             //UserID = "shostka_medcen";
             //Password = "n5t7jzqv";
+            
+
         }
 
         public conBD(string _server, string _database, string _UserID, string _Password)
@@ -1411,6 +1418,7 @@ namespace VrachMedcentr
             if (status == IPStatus.Success)
             {
                 InternetConnection = "З'єднання встановлено";
+                ConnectionImage = @"\Resources\ConnectionTrue.png";
                 return true;
                 
                 //MessageBox.Show("Сервер работает");
@@ -1418,6 +1426,7 @@ namespace VrachMedcentr
             else
             {
                 InternetConnection = "З'єднання втрачено";
+                ConnectionImage = @"\Resources\ConnectionFalse.png";
                 return false;
                 //MessageBox.Show("Сервер временно недоступен!");
             }
@@ -1856,7 +1865,8 @@ namespace VrachMedcentr
 
             return (long)(datetime - sTime).TotalSeconds;
         }
-        public void addWorkDays(string idSpec, string idUser, bool recetion, bool published, DateTime dttime, string hrtime, string mntime, string ordering, string checked_out)
+       
+            public void addWorkDays(string idSpec, string idUser, bool recetion, List<DateTime> dttime, ObservableCollection<Times> doctime, string ordering, string checked_out)
         {
             if (CheckConnection())
             {
@@ -1866,6 +1876,7 @@ namespace VrachMedcentr
                 mysqlCSB.Database = database;
                 mysqlCSB.UserID = UserID;
                 mysqlCSB.Password = Password;
+                mysqlCSB.AllowZeroDateTime = true;
 
                 mysqlCSB.DefaultCommandTimeout = 3;
                 string Id = null;
@@ -1873,31 +1884,52 @@ namespace VrachMedcentr
                 con.ConnectionString = mysqlCSB.ConnectionString;
                 MySqlCommand cmd = new MySqlCommand();
 
+                StringBuilder MegaCom = new StringBuilder("INSERT INTO enx4w_ttfsp(idspec, iduser, reception, published, dttime, hrtime, mntime, ordering, checked_out, ttime) VALUES ");
+                List <string> Rw = new List<string>();
+                foreach(var a in dttime )
+                {
+                    var ttime = ConvertToUnixTime(a);
+                    //string temp = a.ToString("yyyy/MM/dd");
+                    //var date = DateTime.ParseExact(temp, "yyyy/MM/dd", CultureInfo.InvariantCulture);
+                    foreach (var time in doctime)
+                    {
+                       // string fg = $"(";
+                        string[] parTime = time.Time.Split(new char[] { ':' });
+
+                        //  fg = fg + "'" + Id + "','" + idSpec + "','" + idUser + "','" + recetion.ToString() + "','"+time.PublickPrivate.ToString()+"','"+ a.ToString()+"','"+parTime[0]+"','"+parTime[1]+"','"+ordering+"','"+checked_out+"','"+ttime.ToString()+"'";
+
+                        // fg = fg + ")";
+                        Rw.Add($"('{MySqlHelper.EscapeString(idSpec)}'," +
+                    $"'{MySqlHelper.EscapeString(idUser)}','{MySqlHelper.EscapeString(recetion.ToString())}','{MySqlHelper.EscapeString(time.PublickPrivate.ToString())}'," +
+                    $"'{MySqlHelper.EscapeString(a.ToString("yyyy/MM/dd"))}','{MySqlHelper.EscapeString(parTime[0])}','{MySqlHelper.EscapeString(parTime[1])}'," +
+                    $"'{MySqlHelper.EscapeString(ordering)}','{MySqlHelper.EscapeString(checked_out)}','{MySqlHelper.EscapeString(ttime.ToString())}')");
+                        // fg = "";
+
+
+                    }
+                }
+                MegaCom.Append(string.Join(",", Rw));
+                MegaCom.Append(";");
+
+
                 try
                 {
-                    InternetConnection = "З'єднання встановлено";
-                    con.Open();
-                    cmd.CommandText =
-                        "INSERT INTO enx4w_ttfsp(id, idspec,iduser,reception, published, dttime,hrtime,mntime,ordering,checked_out,ttime)" +
-                        " VALUES(@ID,@idSpec,@idUser,@reception,@published,@dttime,@hrtime,@mntime,@ordering,@checked_out,@ttime)";
-                    var ttime = ConvertToUnixTime(dttime);
-                    cmd.Parameters.AddWithValue("@ID", Id);
-                    cmd.Parameters.AddWithValue("@idSpec", idSpec);
-                    cmd.Parameters.AddWithValue("@idUser", idUser);
-                    cmd.Parameters.AddWithValue("@reception", recetion);
-                    cmd.Parameters.AddWithValue("@published", published);
-                    cmd.Parameters.AddWithValue("@dttime", dttime);
-                    cmd.Parameters.AddWithValue("@hrtime", hrtime);
-                    cmd.Parameters.AddWithValue("@mntime", mntime);
-                    cmd.Parameters.AddWithValue("@ordering", ordering);
-                    cmd.Parameters.AddWithValue("@checked_out", checked_out);
-                    cmd.Parameters.AddWithValue("@ttime", ttime);
-                    cmd.Connection = con;
-                    cmd.ExecuteNonQuery();
+
                     con.Close();
+                    con.Open();
+                    cmd.Connection = con;
+                    // con.OpenAsync();
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = MegaCom.ToString();
+                    cmd.ExecuteNonQuery();
+                    cmd.Parameters.Clear();
+                    con.Close();
+
+
                 }
-                catch
+                catch(Exception e)
                 {
+                   // MessageBox.Show(e.ToString());
                     InternetConnection = "З'єднання втрачено";
                 }
             }

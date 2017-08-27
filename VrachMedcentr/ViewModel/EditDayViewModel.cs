@@ -49,7 +49,7 @@ namespace VrachMedcentr
                         List<Times> temp = con.getDocTimes(docSelected.docID, value);
                         foreach (var a in temp)
                         {
-                            docTimes.Add(new Times { Time = a.Time, Label = a.Label, Status = a.Status, PublickPrivate=a.PublickPrivate });
+                            docTimes.Add(new Times { Time = a.Time, Label = a.Label, Status = a.Status, PublickPrivate = a.PublickPrivate });
                         }
                         //docTimes = docTimes.OrderBy(p => p.Time) as ObservableCollection<Times>;
 
@@ -67,8 +67,8 @@ namespace VrachMedcentr
                 }
                 catch (Exception e)
                 {
-                   // MessageBox.Show(e.Message.ToString());
-                   
+                    // MessageBox.Show(e.Message.ToString());
+
                 }
 
             }
@@ -173,10 +173,112 @@ namespace VrachMedcentr
             }
 
         }
-       
+
 
         private RelayCommand _checkDays;
 
+        //public RelayCommand checkDays
+        //{
+        //    get
+        //    {
+
+        //        return _checkDays ??
+        //          (_checkDays = new RelayCommand(obj =>
+        //          {
+
+
+        //              string datestring = "";
+        //              List<DateTime> DateWithoutWorkingDays = new List<DateTime>();
+        //              try
+        //              {
+        //                  //создаем стирнг из дат которіе пересекаються с робочими днями, не робочие дни добавляем в отдельный лист
+        //                  foreach (var a in tempSelected )
+        //                  {
+        //                      if (WorkDays.Contains(a) == true)
+        //                      {
+        //                          datestring = datestring + a.ToShortDateString() + ", ";
+        //                      }
+        //                      else
+        //                      {
+        //                          DateWithoutWorkingDays.Add(a);
+        //                      }
+        //                  }
+
+        //                  if (datestring != "")
+        //                  {
+        //                      datestring = datestring.Remove(datestring.Length - 2);
+        //                  }
+
+
+        //                  //если среди выбраных дней есть робочие выводим сообщение с опрос пользователя о дальнейших действиях
+        //                  if (datestring != "")
+        //                  {
+        //                      var result = MessageBox.Show("На обрану дати: " + datestring + " вже існує розклад.\nПерезаписати розклад на ці дні?", "Повідомлення", MessageBoxButton.YesNo, MessageBoxImage.Question);
+        //                      if (result == MessageBoxResult.Yes)
+        //                      {
+        //                          foreach (var a in tempSelected as SelectedDatesCollection)
+        //                          {
+        //                              con.remWorkDays(docSelected.docID, a);
+        //                              foreach (var t in docTimes)
+        //                              {
+        //                                  string[] parTime = t.Time.Split(new char[] { ':' });
+
+        //                                  con.addWorkDays(docSelected.docID, "0", false, t.PublickPrivate, a, parTime[0], parTime[1], "0", "0");
+        //                              }
+        //                          }
+        //                          datestring = "";
+        //                          DateWithoutWorkingDays = new List<DateTime>();
+        //                      }
+        //                      if (result == MessageBoxResult.No)
+        //                      {
+        //                          foreach (var a in DateWithoutWorkingDays)
+        //                          {
+
+        //                              foreach (var t in docTimes)
+        //                              {
+        //                                  string[] parTime = t.Time.Split(new char[] { ':' });
+
+        //                                  con.addWorkDays(docSelected.docID, "0", false, t.PublickPrivate, a, parTime[0], parTime[1], "0", "0");
+        //                              }
+
+        //                          }
+        //                          datestring = "";
+        //                          DateWithoutWorkingDays = new List<DateTime>();
+        //                      }
+        //                  }
+        //                  //если нет просто публикуем росписание
+        //                  else
+        //                  {
+        //                      foreach (var a in tempSelected as SelectedDatesCollection)
+        //                      {
+
+        //                          foreach (var t in docTimes)
+        //                          {
+        //                              string[] parTime = t.Time.Split(new char[] { ':' });
+
+        //                              con.addWorkDays(docSelected.docID, "0", false, t.PublickPrivate, a, parTime[0], parTime[1], "0", "0");
+        //                          }
+
+        //                      }
+        //                  }
+
+
+        //                  WorkDays = con.GetListOfWorkingDays(Convert.ToInt32(docSelected.docID));
+        //              }
+        //              catch (Exception e)
+        //              {
+        //              //    MessageBox.Show(e.ToString());
+        //              }
+
+        //              //editDays edDays = new editDays();
+        //              // sync.SynhronyzeTable("enx4w_ttfsp", 2);
+
+        //              // edDays.Close();
+
+        //          }));
+        //    }
+
+        //}
         public RelayCommand checkDays
         {
             get
@@ -189,14 +291,16 @@ namespace VrachMedcentr
 
                       string datestring = "";
                       List<DateTime> DateWithoutWorkingDays = new List<DateTime>();
+                      List<DateTime> DateWithWorkingDays = new List<DateTime>();
                       try
                       {
                           //создаем стирнг из дат которіе пересекаються с робочими днями, не робочие дни добавляем в отдельный лист
-                          foreach (var a in tempSelected )
+                          foreach (var a in tempSelected)
                           {
                               if (WorkDays.Contains(a) == true)
                               {
                                   datestring = datestring + a.ToShortDateString() + ", ";
+                                  DateWithWorkingDays.Add(a);
                               }
                               else
                               {
@@ -208,7 +312,7 @@ namespace VrachMedcentr
                           {
                               datestring = datestring.Remove(datestring.Length - 2);
                           }
-                          
+
 
                           //если среди выбраных дней есть робочие выводим сообщение с опрос пользователя о дальнейших действиях
                           if (datestring != "")
@@ -219,55 +323,40 @@ namespace VrachMedcentr
                                   foreach (var a in tempSelected as SelectedDatesCollection)
                                   {
                                       con.remWorkDays(docSelected.docID, a);
-                                      foreach (var t in docTimes)
-                                      {
-                                          string[] parTime = t.Time.Split(new char[] { ':' });
-
-                                          con.addWorkDays(docSelected.docID, "0", false, t.PublickPrivate, a, parTime[0], parTime[1], "0", "0");
-                                      }
                                   }
+
+                                  con.addWorkDays(docSelected.docID, "0", false, DateWithWorkingDays, docTimes, "0", "0");
+
                                   datestring = "";
                                   DateWithoutWorkingDays = new List<DateTime>();
+                                  DateWithWorkingDays = new List<DateTime>();
                               }
                               if (result == MessageBoxResult.No)
                               {
-                                  foreach (var a in DateWithoutWorkingDays)
-                                  {
 
-                                      foreach (var t in docTimes)
-                                      {
-                                          string[] parTime = t.Time.Split(new char[] { ':' });
-
-                                          con.addWorkDays(docSelected.docID, "0", false, t.PublickPrivate, a, parTime[0], parTime[1], "0", "0");
-                                      }
-
-                                  }
+                                  con.addWorkDays(docSelected.docID, "0", false, DateWithoutWorkingDays, docTimes, "0", "0");
+                                 
                                   datestring = "";
                                   DateWithoutWorkingDays = new List<DateTime>();
+                                  DateWithWorkingDays = new List<DateTime>();
                               }
                           }
                           //если нет просто публикуем росписание
                           else
                           {
-                              foreach (var a in tempSelected as SelectedDatesCollection)
-                              {
 
-                                  foreach (var t in docTimes)
-                                  {
-                                      string[] parTime = t.Time.Split(new char[] { ':' });
+                              con.addWorkDays(docSelected.docID, "0", false, DateWithoutWorkingDays, docTimes, "0", "0");
+                              DateWithoutWorkingDays = new List<DateTime>();
+                              DateWithWorkingDays = new List<DateTime>();
 
-                                      con.addWorkDays(docSelected.docID, "0", false, t.PublickPrivate, a, parTime[0], parTime[1], "0", "0");
-                                  }
-
-                              }
                           }
-                          
+
 
                           WorkDays = con.GetListOfWorkingDays(Convert.ToInt32(docSelected.docID));
                       }
                       catch (Exception e)
                       {
-                      //    MessageBox.Show(e.ToString());
+                         // MessageBox.Show(e.ToString());
                       }
 
                       //editDays edDays = new editDays();

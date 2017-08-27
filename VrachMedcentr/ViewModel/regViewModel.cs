@@ -806,7 +806,11 @@ namespace VrachMedcentr
 
 
 
-                try { daysEditing.ShowDialog(); }
+                try
+                {
+                    daysEditing.ShowDialog();
+                    RefreshDocTimes();
+                }
                 catch { }
             }
             else

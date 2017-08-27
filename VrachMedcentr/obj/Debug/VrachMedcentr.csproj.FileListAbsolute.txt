@@ -192,6 +192,5 @@ D:\GDrive\BIBLIOTEKA\CRBN4\VrachMedcentr\obj\Debug\View\ConfirmUser.baml
 C:\Users\sysoe\Source\Repos\CRBN4\VrachMedcentr\obj\Debug\View\ConfirmUser.g.cs
 C:\Users\sysoe\Source\Repos\CRBN4\VrachMedcentr\obj\Debug\View\ConfirmUser.baml
 C:\Users\sysoe\Source\Repos\CRBN4\VrachMedcentr\obj\Debug\VrachMedcentr.csproj.CoreCompileInputs.cache
-D:\GDrive\BIBLIOTEKA\CRBN4\VrachMedcentr\obj\Debug\VrachMedcentr.csproj.CoreCompileInputs.cache
-D:\GDrive\BIBLIOTEKA\CRBN4\VrachMedcentr\obj\Debug\View\UpdateView.g.cs
-D:\GDrive\BIBLIOTEKA\CRBN4\VrachMedcentr\obj\Debug\View\UpdateView.baml
+C:\Users\sysoe\Source\Repos\CRBN4\VrachMedcentr\obj\Debug\View\UpdateView.g.cs
+C:\Users\sysoe\Source\Repos\CRBN4\VrachMedcentr\obj\Debug\View\UpdateView.baml
